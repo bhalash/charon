@@ -77,28 +77,26 @@
 /**
  * Social Images and Colours
  * -------------------------
+ * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
+ * icons. So:
+ * 
+ * 1. This uses a SVG spritesheet and is tuned to interact with it.
+ * 1a. If you ever alter the spritesheet then you will also need to alter
+ *     the given background-posiiton rules in the array.
+ * 2. This will generate square icons of arbitrary size. These aren't 
+ *    responsive, because that requires a great deal of of CSS or JS. It
+ *    just isn't possible to use truly dynamic sizes with a stylesheet in
+ *    CSS without using JS to resize everything.
+ * 3. Social media icons are /usually/ small and fixed in size, so #3 isn't
+ *    a big problem for me. 
+ * 4. Pick a size of at least 35 pixels and then externally decide what 
+ *    content should display at different sizes.
+ * 
+ * You can find the connected SVG spritesheet on GitHub at he following
+ * URL: https://gist.github.com/bhalash/6bad337ac7445054d3a9#file-gistfile2-svg
  */
 
 @mixin generate-social-links($element, $size, $sprites, $service: null) {
-    /**
-     * Generate social Links
-     * ---------------------
-     * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
-     * icons. So:
-     * 
-     * 1. This uses a SVG spritesheet and is tuned to interact with it.
-     * 1a. If you ever alter the spritesheet then you will also need to alter
-     *     the given background-posiiton rules in the array.
-     * 2. This will generate square icons of arbitrary size. These aren't 
-     *    responsive, because that requires a great deal of of CSS or JS. It
-     *    just isn't possible to use truly dynamic sizes with a stylesheet in
-     *    CSS without using JS to resize everything.
-     * 3. Social media icons are /usually/ small and fixed in size, so #3 isn't
-     *    a big problem for me. 
-     * 4. Pick a size of at least 35 pixels and then externally decide what 
-     *    content should display at different sizes.
-     */
-
     $columns: 6;
     $rows: 3;
 
@@ -151,43 +149,63 @@
 }
 
 /**
- * Flexbox and Flexible Sizes
- * --------------------------
+ * Flexbox
+ * -------
+ * See https://css-tricks.com/snippets/css/a-guide-to-flexbox/ for a primer on
+ * CSS flexbox. If you have come this far you should have an understanding of
+ * how, why and where you would use flexbox.
+ * 
+ * These two mixins generate rules for parent and child elements respectively.
+ * By default, the parent will be a row and the child will have a flex value of 
+ * 1.
+ * 
+ * As of April 2015 cross-browser support for flexbox isn't complete; there are
+ * major issues with vertical alignment in Internet Explorer and all versions
+ * of Safari (desktop and mobile) require properfies and values to be prefixed
+ * with -webkit-foo.
  */
 
-@mixin flex($direction: row, $justify: null, $wrap: null, $align: null) {
-    @include prefix_value(display, flex);
-    @include prefix(flex-direction, $direction);
+@mixin flex($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
+    @include prefix_value(display, flex, webkit);
+    @include prefix(flex-direction, $direction, webkit);
 
-    @if ($justify) {
-        @include prefix(justify-content, $justify);
+    @if ($justify-content) {
+        @include prefix(justify-content, $justify-content, webkit);
     }
 
     @if ($wrap) {
-        @include prefix(flex-wrap, $wrap);
+        @include prefix(flex-wrap, $wrap, webkit);
     }
 
-    @if ($align) {
-        @include prefix(align-items, $align);
+    @if ($align-items) {
+        @include prefix(align-items, $align-items, webkit);
     }
 }
 
-@mixin flex-child($flex: 1, $align: null, $order: null) {
-    @include prefix(flex, $flex);
+@mixin flex-child($flex: 1, $align-self: null, $order: null) {
+    @include prefix(flex, $flex, webkit);
 
-    @if ($align) {
-        @include prefix(align-self, $align);
+    @if ($align-self) {
+        @include prefix(align-self, $align-self, webkit);
     }
 
     @if ($order) {
-        @include prefix(order, $order);
+        @include prefix(order, $order, webkit);
     }
 }
 
+/**
+ * Flexible Square Boxes
+ * ---------------------
+ * Generate a box whose height is equal to the given ratio of the width.
+ * Width can be of any size.
+ * Ratio should be between 0 and foo.
+ * 
+ * See: http://stackoverflow.com/a/13625843/1433400
+ * See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
+ */
+
 @mixin square-flex($width: 100%, $ratio: 1) {
-    // Ratio should be between 0 and foo.
-    // See: http://stackoverflow.com/a/13625843/1433400
-    // See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
     height: 0;
     padding-bottom: $width * $ratio;
     width: $width;
@@ -218,6 +236,19 @@
     @include prefix(column-gap, $gap);
 }
 
+/**
+ * Placeholder Styles
+ * ------------------
+ * Generate styles for input placeholders in Internet Explorer, Firefox and 
+ * Webkit browsers. Use as follows:
+ * 
+ *  input {
+ *      @include placeholder-style() {
+ *          foo: bar;
+ *      }
+ *  }
+ */
+
 @mixin placeholder-style() {
     &::-webkit-input-placeholder {
        @content;
@@ -242,10 +273,12 @@
     }
 }
 
-@mixin light-mask($opacity) {
-    background-color: rgba(255,255,255,$opacity);
-}
+/**
+ * Background Coloured Mask
+ * ------------------------
+ * Useful for when you have to layer text above a background image.
+ */
 
-@mixin dark-mask($opacity) {
-    background-color: rgba(0,0,0,$opacity);
+@mixin mask($red: 255, $green: 255, $blue: 255, $opacity: 1) {
+    background-color: rgba($red, $green, $blue, $opacity);
 }
