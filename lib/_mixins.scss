@@ -1,0 +1,251 @@
+/**
+ * Useful Sass Mixins
+ * ------------------
+ * @category   Stylesheet
+ * @package    Scss Helpers
+ * @author     Mark Grealish <mark@bhalash.com>
+ * @copyright  Copyright (c) 2015, Mark Grealish
+ * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version    2.0
+ * @link       https://github.com/bhalash/scss-helpers
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * Vendor Property and Value Prefixes
+ * ----------------------------------
+ * Automatically vendor prefixes to CSS properties and values.
+ * For the most part I only need to prefix for webkit, so that is the default
+ * set.
+ */
+
+@mixin prefix($property, $value, $prefixes: webkit) {
+    @each $prefix in $prefixes {
+        #{'-' + $prefix + '-' + $property}: $value;
+    }
+
+    #{$property}: #{$value};
+}
+
+@mixin prefix-value($property, $value, $prefixes: webkit) {
+    @each $prefix in $prefixes {
+        #{$property}: #{'-' + $prefix + '-' + $value};
+    }
+
+    #{$property}: #{$value};
+}
+
+/**
+ * Font Sizes and Line Heights
+ * ---------------------------
+ * You will see decidedly odd results from using this mixin if the font-size of 
+ * the <html> element isn't set to 100%. Ware ye!
+ * 
+ * In http://snook.ca/archives/html_and_css/font-size-with-rem the author gives
+ * the body a 65.5% font-size for rem units, but in reality most CSS reset files
+ * start with a 100% font-size. Because of this I instead multiply the given rem
+ * unit by 0.625 to reach the same result.
+ */
+
+@mixin font-size($size: 1) {
+    font-size: #{$size * 10}px;
+    font-size: #{$size * 0.625}rem;
+}
+
+@mixin line-height($size: 1) {
+    line-height: #{$size * 10}px;
+    line-height: #{$size * 0.625}rem;
+}
+
+/**
+ * Social Images and Colours
+ * -------------------------
+ */
+
+@mixin generate-social-links($element, $size, $sprites, $service: null) {
+    /**
+     * Generate social Links
+     * ---------------------
+     * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
+     * icons. So:
+     * 
+     * 1. This uses a SVG spritesheet and is tuned to interact with it.
+     * 1a. If you ever alter the spritesheet then you will also need to alter
+     *     the given background-posiiton rules in the array.
+     * 2. This will generate square icons of arbitrary size. These aren't 
+     *    responsive, because that requires a great deal of of CSS or JS. It
+     *    just isn't possible to use truly dynamic sizes with a stylesheet in
+     *    CSS without using JS to resize everything.
+     * 3. Social media icons are /usually/ small and fixed in size, so #3 isn't
+     *    a big problem for me. 
+     * 4. Pick a size of at least 35 pixels and then externally decide what 
+     *    content should display at different sizes.
+     */
+
+    $columns: 6;
+    $rows: 3;
+
+    $social-styles: (
+        beard: (#343537, 0, 0),
+        discuss: (#b9dfbc, 20%, 0),
+        email: (#f5756c, 40%, 0),
+        facebook: (#3B5998, 60%, 0),
+        flickr: (#ff0084, 80%, 0),
+        github: (#666666, 100%, 0),
+        google: (#dd4b39, 0, 50%),
+        instagram: (#3f729b, 20%, 50%),
+        linkedin: (#0976b4, 40%, 50%),
+        pinterest: (#cc2127, 60%, 50%),
+        print: (#007aaf, 80%, 50%),
+        reddit: (#ff5700, 100%, 50%),
+        rss: (#ff6600, 0, 100%),
+        search: (#000, 20%, 100%),
+        share: (#000, 40%, 100%),
+        tumblr: (#35465c, 60%, 100%),
+        twitter: (#55acee, 80%, 100%),
+        youtube: (#b31217, 100%, 100%) 
+    );
+
+    /* Can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
+     * are all perfectly acceptable. */
+    #{$element} {
+        background-image: url($sprites);
+        background-size: #{$size * $columns} #{$size * $rows};
+        background-repeat: no-repeat;
+        display: block;
+        @include square-flex($size, 1);
+    }
+
+    @if ($service) {
+        // If you supply a service, just output link for that.
+        #{$element}.#{$service} {
+            background-color: nth(map-get($social-styles, $service), 1);
+            background-position: nth(map-get($social-styles, $service), 2) nth(map-get($social-styles, $service), 3);
+        }
+    } @else {
+        // Else iterate map-list to produce social links.
+        @each $map, $item in $social-styles {
+            #{$element}.#{$map} {
+                background-color: nth($item, 1);
+                background-position: nth($item, 2) nth($item, 3);
+            }
+        }
+    }
+}
+
+/**
+ * Flexbox and Flexible Sizes
+ * --------------------------
+ */
+
+@mixin flex($direction: row, $justify: null, $wrap: null, $align: null) {
+    @include prefix_value(display, flex);
+    @include prefix(flex-direction, $direction);
+
+    @if ($justify) {
+        @include prefix(justify-content, $justify);
+    }
+
+    @if ($wrap) {
+        @include prefix(flex-wrap, $wrap);
+    }
+
+    @if ($align) {
+        @include prefix(align-items, $align);
+    }
+}
+
+@mixin flex-child($flex: 1, $align: null, $order: null) {
+    @include prefix(flex, $flex);
+
+    @if ($align) {
+        @include prefix(align-self, $align);
+    }
+
+    @if ($order) {
+        @include prefix(order, $order);
+    }
+}
+
+@mixin square-flex($width: 100%, $ratio: 1) {
+    // Ratio should be between 0 and foo.
+    // See: http://stackoverflow.com/a/13625843/1433400
+    // See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
+    height: 0;
+    padding-bottom: $width * $ratio;
+    width: $width;
+}
+ 
+/**
+ * Miscellaneous Mixins
+ * --------------------
+ */
+
+@mixin vertical-center($amount) {
+    // Useful for vertically centering elements.
+    padding-bottom: $amount;
+    padding-top: $amount;
+}
+
+@function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
+    $red: 255 - $red;
+    $green: 255 - $green;
+    $blue: 255 - $blue;
+    $alpha: 1 - $alpha;
+
+    @return rgba($red, $green, $blue, $alpha);
+}
+
+@mixin columns($count, $gap) {
+    @include prefix(column-count, $count);
+    @include prefix(column-gap, $gap);
+}
+
+@mixin placeholder-style() {
+    &::-webkit-input-placeholder {
+       @content;
+    }
+
+    &::-webkit-input-placeholder {
+        @content;
+    }
+
+    &:-moz-placeholder {
+        @content;
+        opacity: 1;
+    }
+
+    &::-moz-placeholder {
+        @content;
+        opacity: 1;
+    }
+
+    &:-ms-input-placeholder {
+        @content;
+    }
+}
+
+@mixin light-mask($opacity) {
+    background-color: rgba(255,255,255,$opacity);
+}
+
+@mixin dark-mask($opacity) {
+    background-color: rgba(0,0,0,$opacity);
+}
