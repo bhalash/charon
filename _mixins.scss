@@ -116,7 +116,7 @@ $default-spritesheet: (
         /* Final icon is square. background-image size is:
          * width: icon size * number of rows in spritesheet
          * height: icon size * number of columns in spritesheet */
-        background-size: #{$size * $columns} #{$size * $rows};
+        background-size: #{$size * $rows} #{$size * $columns};
         background-repeat: no-repeat;
         display: block;
         @include square-flex($size, 1);
