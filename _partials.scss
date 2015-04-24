@@ -84,11 +84,11 @@
  */
 
 .flex-row, %flex-row {
-    @include flex(row);    
+    @include flex-p(row);    
 }
 
 .flex-col, %flex-col {
-    @include flex(column);    
+    @include flex-p(column);    
 }
 
 .square-flex, %square-flex {
@@ -96,7 +96,7 @@
 }
 
 .flex-child, %flex-child {
-    @include flex-child(1);
+    @include flex-c(1);
 }
 
 /**
