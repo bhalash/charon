@@ -165,7 +165,7 @@
  * with -webkit-foo.
  */
 
-@mixin flex($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
+@mixin flex-p($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
     // Generate flex parent rules.
     @include prefix_value(display, flex, webkit);
     @include prefix(flex-direction, $direction, webkit);
@@ -183,7 +183,7 @@
     }
 }
 
-@mixin flex-child($flex: 1, $align-self: null, $order: null) {
+@mixin flex-c($flex: 1, $align-self: null, $order: null) {
     // Generate flex children rules.
     @include prefix(flex, $flex, webkit);
 
