@@ -94,13 +94,18 @@
  * 
  * You can find the connected SVG spritesheet on GitHub at he following
  * URL: https://gist.github.com/bhalash/6bad337ac7445054d3a9#file-gistfile2-svg
+ * 
+ * Feel free to create and use your own spritesheet using the map below as a 
+ * template!  :)
  */
 
-@mixin generate-social-links($element, $size, $sprites, $service: null) {
-    $columns: 6;
-    $rows: 3;
-
-    $social-styles: (
+$social-spriteheet: (
+    url: 'assets/social-sprites.svg',
+    size: (
+        rows: 6,
+        columns: 3
+    ),
+    positions: (
         beard: (#343537, 0, 0),
         discuss: (#b9dfbc, 20%, 0),
         email: (#f5756c, 40%, 0),
@@ -119,12 +124,24 @@
         tumblr: (#35465c, 60%, 100%),
         twitter: (#55acee, 80%, 100%),
         youtube: (#b31217, 100%, 100%) 
-    );
+   )
+);
 
+@mixin generate-social-links($element, $size, $service: null, $spritesheet: $social-spritesheet) {
     /* Can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
+
+    $url: map-get($spritesheet, url);
+    $rows: nth(map-get($spritesheet, size), 1);
+    $columns: nth(map-get($spritesheet, size), 2);
+    $networks: map-get($spritesheet, positions);
+
     #{$element} {
-        background-image: url($sprites);
+        // Vector spritesheet is background-image.
+        background-image: url($url);
+        /* Final icon is square. background-image size is:
+         * width: icon size * number of rows in spritesheet
+         * height: icon size * number of columns in spritesheet */
         background-size: #{$size * $columns} #{$size * $rows};
         background-repeat: no-repeat;
         display: block;
@@ -134,15 +151,15 @@
     @if ($service) {
         // If you supply a service, just output link for that.
         #{$element}.#{$service} {
-            background-color: nth(map-get($social-styles, $service), 1);
-            background-position: nth(map-get($social-styles, $service), 2) nth(map-get($social-styles, $service), 3);
+            background-color: nth(map-get($networks, $service), 1);
+            background-position: nth(map-get($networks, $service), 2) nth(map-get($networks, $service), 3);
         }
     } @else {
         // Else iterate map-list to produce social links.
-        @each $map, $item in $social-styles {
+        @each $map, $network in $networks {
             #{$element}.#{$map} {
-                background-color: nth($item, 1);
-                background-position: nth($item, 2) nth($item, 3);
+                background-color: nth($network, 1);
+                background-position: nth($network, 2) nth($network, 3);
             }
         }
     }
