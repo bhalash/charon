@@ -153,6 +153,7 @@ $social-spriteheet: (
         #{$element}.#{$service} {
             background-color: nth(map-get($networks, $service), 1);
             background-position: nth(map-get($networks, $service), 2) nth(map-get($networks, $service), 3);
+            @content;
         }
     } @else {
         // Else iterate map-list to produce social links.
@@ -160,6 +161,7 @@ $social-spriteheet: (
             #{$element}.#{$map} {
                 background-color: nth($network, 1);
                 background-position: nth($network, 2) nth($network, 3);
+                @content;
             }
         }
     }
