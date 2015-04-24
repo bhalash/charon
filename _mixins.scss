@@ -53,28 +53,6 @@
 }
 
 /**
- * Font Sizes and Line Heights
- * ---------------------------
- * You will see decidedly odd results from using this mixin if the font-size of 
- * the <html> element isn't set to 100%. Ware ye!
- * 
- * In http://snook.ca/archives/html_and_css/font-size-with-rem the author gives
- * the body a 65.5% font-size for rem units, but in reality most CSS reset files
- * start with a 100% font-size. Because of this I instead multiply the given rem
- * unit by 0.625 to reach the same result.
- */
-
-@mixin font-size($size: 1) {
-    font-size: #{$size * 10}px;
-    font-size: #{$size * 0.625}rem;
-}
-
-@mixin line-height($size: 1) {
-    line-height: #{$size * 10}px;
-    line-height: #{$size * 0.625}rem;
-}
-
-/**
  * Social Images and Colours
  * -------------------------
  * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
@@ -100,7 +78,7 @@
  */
 
 $default-spritesheet: (
-    sprites: ('assets/social-sprites.svg', 6, 3),
+    sprites: ('sccs-helpers/images/social-sprites.svg', 6, 3),
     positions: (
         beard: (#343537, 0, 0),
         discuss: (#b9dfbc, 20%, 0),
@@ -188,7 +166,7 @@ $default-spritesheet: (
  * with -webkit-foo.
  */
 
-@mixin flex-p($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
+@mixin flex-parent($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
     // Generate flex parent rules.
     @include prefix_value(display, flex, webkit);
     @include prefix(flex-direction, $direction, webkit);
@@ -206,7 +184,7 @@ $default-spritesheet: (
     }
 }
 
-@mixin flex-c($flex: 1, $align-self: null, $order: null) {
+@mixin flex-child($flex: 1, $align-self: null, $order: null) {
     // Generate flex children rules.
     @include prefix(flex, $flex, webkit);
 
@@ -306,4 +284,97 @@ $default-spritesheet: (
 
 @mixin mask($red: 255, $green: 255, $blue: 255, $opacity: 1) {
     background-color: rgba($red, $green, $blue, $opacity);
+}
+
+/**
+ * Font Sizes and Line Heights
+ * ---------------------------
+ * You will see decidedly odd results from using this mixin if the font-size of 
+ * the <html> element isn't set to 100%. Ware ye!
+ * 
+ * In http://snook.ca/archives/html_and_css/font-size-with-rem the author gives
+ * the body a 65.5% font-size for rem units, but in reality most CSS reset files
+ * start with a 100% font-size. Because of this I instead multiply the given rem
+ * unit by 0.625 to reach the same result.
+ */
+
+@mixin font-size($size: 1) {
+    font-size: #{$size * 10}px;
+    font-size: #{$size * 0.625}rem;
+}
+
+@mixin line-height($size: 1) {
+    line-height: #{$size * 10}px;
+    line-height: #{$size * 0.625}rem;
+}
+
+/**
+ * @font-face Declaration
+ * ----------------------
+ * There are a bunch of Sass/Scss @font-face mixins available on the Internet, 
+ * but each of them is fundamentally inflexible. They variously:
+ * 
+ * 1. Require a fixed file path.
+ * 2. Fixed existence of files, by which I mean each and every possible type of 
+ *    file (eot, woff, etc).
+ * 3. Fixed order of declaration.
+ * 
+ * With font-face, I hopefully have provided something a little bit more 
+ * flexible: declare all of the attributes of your @font-face in a map, and then
+ * call the font-face mixin.
+ * 
+ * Weight and style are both optional.
+ *
+ * Example map:
+ *
+ *      $open-sans: (
+ *          family: 'font-name',
+ *          folder: '/path/to/folder/',
+ *          filename: 'FontName',
+ *          types: ('ttf', 'woff', 'eot'),
+ *          weight: 'normal',
+ *          style: 'normal'
+ *      );
+ *
+ * Then call with: 
+ * 
+ * @include font-face($open-sans);
+ */
+
+@mixin font-face($font, $default-weight: normal, $default-style: normal) { 
+    $family: map-get($font, family);
+    $folder: map-get($font, folder);
+    $filename: map-get($font, filename);
+    $types: map-get($font, types);
+    $src: '';
+    $i: 1;
+
+    @font-face {
+        font-family: $family;
+
+        @each $type in $types {
+            // Iterate to produce the path and type, and then set it.
+            $path: $folder + $filename + '.' + $type; 
+            $src: $src + 'url(' + $path + ') format("' + $type + '")';
+
+            @if ($i < length($types)) {
+                $src: $src + ', '; 
+                $i: $i + 1;
+            }
+        }
+
+        src: #{$src};
+
+        @if (map-has-key($font, weight)) {
+            font-weight: map-get($font, weight);    
+        } @else {
+            font-weight: $weight;
+        }
+
+        @if (map-has-key($font, style)) {
+            font-style: map-get($font, style);
+        } @else {
+            font-style: $default-style;
+        }
+    } 
 }
