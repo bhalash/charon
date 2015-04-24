@@ -102,7 +102,7 @@ $default-spritesheet: (
 );
 
 @mixin generate-social-links($element, $size, $service: null, $spritesheet: $default-spritesheet) {
-    /* Can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
+    /* Element can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
 
     $url: nth(map-get($spritesheet, sprites), 1);
@@ -323,7 +323,7 @@ $default-spritesheet: (
  * flexible: declare all of the attributes of your @font-face in a map, and then
  * call the font-face mixin.
  * 
- * Weight and style are both optional.
+ * Weight, stretch and style are all optional.
  *
  * Example map:
  *
@@ -333,7 +333,8 @@ $default-spritesheet: (
  *          filename: 'FontName',
  *          types: ('ttf', 'woff', 'eot'),
  *          weight: 'normal',
- *          style: 'normal'
+ *          style: 'normal',
+ *          stretch: 'condensed'
  *      );
  *
  * Then call with: 
@@ -341,7 +342,7 @@ $default-spritesheet: (
  * @include font-face($open-sans);
  */
 
-@mixin font-face($font, $default-weight: normal, $default-style: normal) { 
+@mixin font-face($font) { 
     $family: map-get($font, family);
     $folder: map-get($font, folder);
     $filename: map-get($font, filename);
@@ -365,16 +366,19 @@ $default-spritesheet: (
 
         src: #{$src};
 
+        // Optionally override CSS text defaults:
+
         @if (map-has-key($font, weight)) {
             font-weight: map-get($font, weight);    
-        } @else {
-            font-weight: $weight;
         }
 
         @if (map-has-key($font, style)) {
             font-style: map-get($font, style);
-        } @else {
-            font-style: $default-style;
+        }
+
+        @if (map-has-key($font, stretch)) {
+            // Not supported anywhere. Ware ye.
+            font-stretch: map-get($font, stretch);
         }
     } 
 }
