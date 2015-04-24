@@ -99,12 +99,8 @@
  * template!  :)
  */
 
-$social-spritesheet: (
-    url: 'assets/social-sprites.svg',
-    size: (
-        rows: 6,
-        columns: 3
-    ),
+$default-spritesheet: (
+    sprites: ('assets/social-sprites.svg', 6, 3),
     positions: (
         beard: (#343537, 0, 0),
         discuss: (#b9dfbc, 20%, 0),
@@ -127,13 +123,13 @@ $social-spritesheet: (
    )
 );
 
-@mixin generate-social-links($element, $size, $service: null, $spritesheet: $social-spritesheet) {
+@mixin generate-social-links($element, $size, $service: null, $spritesheet: $default-spritesheet) {
     /* Can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
 
-    $url: map-get($spritesheet, url);
-    $rows: nth(map-get($spritesheet, size), 1);
-    $columns: nth(map-get($spritesheet, size), 2);
+    $url: nth(map-get($spritesheet, sprites), 1);
+    $rows: nth(map-get($spritesheet, sprites), 2);
+    $columns: nth(map-get($spritesheet, sprites), 3);
     $networks: map-get($spritesheet, positions);
 
     #{$element} {
@@ -150,17 +146,25 @@ $social-spritesheet: (
 
     @if ($service) {
         // If you supply a service, just output link for that.
+        $color: nth(map-get($networks, $service), 1);
+        $position-x: nth(map-get($networks, $service), 2);
+        $position-y: nth(map-get($networks, $service), 3);
+
         #{$element}.#{$service} {
-            background-color: nth(map-get($networks, $service), 1);
-            background-position: nth(map-get($networks, $service), 2) nth(map-get($networks, $service), 3);
+            background-color: $color;
+            background-position: $posiiton-x $position-y;
             @content;
         }
     } @else {
         // Else iterate map-list to produce social links.
         @each $map, $network in $networks {
+            $color: nth($network, 1);
+            $position-x: nth($network, 2);
+            $position-y: nth($network, 3);
+
             #{$element}.#{$map} {
-                background-color: nth($network, 1);
-                background-position: nth($network, 2) nth($network, 3);
+                background-color: $color;
+                background-position:  $position-x $position-y;
                 @content;
             }
         }
