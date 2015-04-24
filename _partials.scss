@@ -84,19 +84,19 @@
  */
 
 .flex-row, %flex-row {
-    @include flex-p(row);    
+    @include flex-parent(row);    
 }
 
-.flex-col, %flex-col {
-    @include flex-p(column);    
+.flex-childol, %flex-childol {
+    @include flex-parent(column);    
 }
 
 .square-flex, %square-flex {
     @include square-flex(100%, 1);
 }
 
-.flex-child, %flex-child {
-    @include flex-c(1);
+.flex-childhild, %flex-childhild {
+    @include flex-child(1);
 }
 
 /**
