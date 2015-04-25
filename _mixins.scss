@@ -59,22 +59,19 @@
  * icons. So:
  * 
  * 1. This uses a SVG spritesheet and is tuned to interact with it.
- * 1a. If you ever alter the spritesheet then you will also need to alter
- *     the given background-posiiton rules in the array.
- * 2. This will generate square icons of arbitrary size. These aren't 
- *    responsive, because that requires a great deal of of CSS or JS. It
- *    just isn't possible to use truly dynamic sizes with a stylesheet in
- *    CSS without using JS to resize everything.
- * 3. Social media icons are /usually/ small and fixed in size, so #3 isn't
- *    a big problem for me. 
- * 4. Pick a size of at least 35 pixels and then externally decide what 
- *    content should display at different sizes.
+ * 2. If you ever alter the spritesheet then you will also need to alter
+ *    the given background-posiiton rules in the array.
+ * 2. Size can be arbitrary and defaults to:
+ *          a. Width equal to 100% of parent width.
+ *          b. Height equal to 100% of parent height.
+ * 3. Any given pixel size is treated identically-square.
+ * 4. If you need finer control anyhing, add it as content.
  * 
  * You can find the connected SVG spritesheet on GitHub at he following
  * URL: https://gist.github.com/bhalash/6bad337ac7445054d3a9#file-gistfile2-svg
  * 
  * Feel free to create and use your own spritesheet using the map below as a 
- * template!  :)
+ * template! :)
  */
 
 $default-spritesheet: (
@@ -101,7 +98,7 @@ $default-spritesheet: (
    )
 );
 
-@mixin generate-social-links($element, $size, $service: null, $spritesheet: $default-spritesheet) {
+@mixin generate-social-links($element, $size: 100%, $service: null, $spritesheet: $default-spritesheet) {
     /* Element can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
 
@@ -120,6 +117,7 @@ $default-spritesheet: (
         background-repeat: no-repeat;
         display: block;
         @include square-flex($size, 1);
+        @content;
     }
 
     @if ($service) {
@@ -131,7 +129,6 @@ $default-spritesheet: (
         #{$element}.#{$service} {
             background-color: $color;
             background-position: $posiiton-x $position-y;
-            @content;
         }
     } @else {
         // Else iterate map-list to produce social links.
@@ -143,7 +140,6 @@ $default-spritesheet: (
             #{$element}.#{$map} {
                 background-color: $color;
                 background-position:  $position-x $position-y;
-                @content;
             }
         }
     }
@@ -245,11 +241,11 @@ $default-spritesheet: (
  * Generate styles for input placeholders in Internet Explorer, Firefox and 
  * Webkit browsers. Use as follows:
  * 
- *  input {
- *      @include placeholder-style() {
- *          foo: bar;
+ *      input {
+ *          @include placeholder-style() {
+ *              foo: bar;
+ *          }
  *      }
- *  }
  */
 
 @mixin placeholder-style() {
@@ -339,7 +335,7 @@ $default-spritesheet: (
  *
  * Then call with: 
  * 
- * @include font-face($open-sans);
+ *      @include font-face($open-sans);
  */
 
 @mixin font-face($font) { 
@@ -380,5 +376,7 @@ $default-spritesheet: (
             // Not supported anywhere. Ware ye.
             font-stretch: map-get($font, stretch);
         }
+
+        @content;
     } 
 }
