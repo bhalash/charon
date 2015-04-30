@@ -99,16 +99,21 @@ $default-spritesheet: (
    )
 );
 
-@mixin generate-social-link($element, $service: null, $size: 100% 1, $spritesheet: $default-spritesheet) {
+@mixin generate-social-link($element, $size: 100% 1, $service: null, $spritesheet: $default-spritesheet) {
     /* Element can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
 
+    // Path to sprtesheet.
     $url: nth(map-get($spritesheet, sprites), 1);
+    // Columns/width.
     $columns: nth(map-get($spritesheet, sprites), 2);
+    // Rows/height.
     $rows: nth(map-get($spritesheet, sprites), 3);
+    // Positional information.
     $networks: map-get($spritesheet, positions);
-
+    // Pixel/percentage/rem/em/whatever size.
     $width: nth($size, 1);
+    // Ratio of height to width. See square-flex().
     $ratio: nth($size, 2);
 
     #{$element} {
