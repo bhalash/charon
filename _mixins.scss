@@ -126,6 +126,7 @@ $default-spritesheet: (
         background-repeat: no-repeat;
         display: block;
         @include square-flex($width, $ratio);
+        @content;
     }
 
     @if ($service) {
