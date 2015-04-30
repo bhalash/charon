@@ -92,7 +92,7 @@
 }
 
 .square-flex, %square-flex {
-    @include square-flex(100%, 1);
+    @include square-flex(100% 1);
 }
 
 .flex-childhild, %flex-childhild {
