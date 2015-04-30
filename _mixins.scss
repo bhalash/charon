@@ -29,6 +29,50 @@
  */
 
 /**
+ * Margin and Padding
+ * ------------------
+ * These two don't do too much except make life easier: Set margin or padding as
+ * a multiplier of the base margin and padding. 
+ */
+
+@function margin($multiplier: 1, $margin: $default-margin) {
+    @return $margin * $multiplier;
+}
+
+@function padding($multiplier: 1, $padding: $default-padding) {
+    @return $padding * $multiplier;
+}
+
+/**
+ * Fetch from Color Palette
+ * -----------------------------------------------------------------------------
+ * See: http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+ * 
+ * In short, the post advocates a mapped palette of colors and tones using a 
+ * set schema, and then using this function to return the colors. 
+ *
+ *      $_color-base-gray: rgb(229,231,234);
+ * 
+ *      $palettes: (
+ *          purple: (
+ *              base: rgb(42,40,80),
+ *              light: rgb(51,46,140),
+ *              dark: rgb(40,38,65)
+ *             ),
+ *          gray: (
+ *              base: $_color-base-gray,
+ *              light: lighten($_color-base-gray, 10%),
+ *              dark: darken($_color-base-gray, 10%)
+ *          )
+ *      );
+ *
+ */
+
+@function palette($color, $tone: 'base', $palette: $default-colors) {
+    @return map-get(map-get($palette, $color), $tone);
+}
+
+/**
  * Vendor Property and Value Prefixes
  * -----------------------------------------------------------------------------
  * Automatically vendor prefixes to CSS properties and values.
@@ -53,6 +97,33 @@
 }
 
 /**
+ * Font Sizes and Line Heights
+ * -----------------------------------------------------------------------------
+ * See: http://snook.ca/archives/html_and_css/font-size-with-rem 
+ * 
+ * You will see decidedly odd results from using this mixin if the font-size of 
+ * the <html> element isn't set to 100%. Ware ye!
+ * 
+ * In the linked article, the author gives the body a 65.5% font-size for rem 
+ * units, but in reality most CSS reset files start with a 100% font-size. 
+ * Because of this I instead multiply the given rem unit by 0.625 to reach the
+ * same result.
+ */
+
+@mixin rem($property, $size: 1, $rem-multiplier: $default-rem-multiplier, $px-multiplier: $default-px-multiplier) {
+    #{$property}: #{$size * $px-multiplier}px;
+    #{$property}: #{$size * $rem-multiplier}rem;
+}
+
+@mixin font-size($size: 1) {
+    @include rem(font-size, $size);
+}
+
+@mixin line-height($size: 1) {
+    @include rem(line-height, $size);
+}
+
+/**
  * Social Images and Colours
  * -----------------------------------------------------------------------------
  * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
@@ -74,32 +145,7 @@
  * template! :)
  */
 
-$default-spritesheet: (
-    sprites: ('scss-helpers/vectors/button-sprites-white.svg', 6, 4),
-    positions: (
-        beard: (#343537, 0, 0),
-        discuss: (#b9dfbc, 20%, 0),
-        email: (#f5756c, 40%, 0),
-        facebook: (#3B5998, 60%, 0),
-        flickr: (#ff0084, 80%, 0),
-        github: (#666666, 100%, 0),
-        google: (#dd4b39, 0, 33.33%),
-        instagram: (#3f729b, 20%, 33.33%),
-        linkedin: (#0976b4, 40%, 33.33%),
-        pinterest: (#cc2127, 60%, 33.33%),
-        print: (#007aaf, 80%, 33.33%),
-        reddit: (#ff5700, 100%, 33.33%),
-        rss: (#ff6600, 0, 66.6%),
-        search: (#000, 20%, 66.6%),
-        share: (#000, 40%, 66.6%),
-        tumblr: (#35465c, 60%, 66.6%),
-        twitter: (#55acee, 80%, 66.6%),
-        youtube: (#b31217, 100%, 66.6%),
-        menu: (#000, 0, 100%)
-   )
-);
-
-@mixin generate-social-link($element, $size: 100% 1, $service: null, $spritesheet: $default-spritesheet) {
+@mixin generate-social-link($element, $size: $default-button-size, $service: null, $spritesheet: $default-spritesheet) {
     /* Element can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
 
@@ -125,7 +171,7 @@ $default-spritesheet: (
         background-size: #{$width * $columns} #{$width * $rows};
         background-repeat: no-repeat;
         display: block;
-        @include square-flex($width, $ratio);
+        @include square-flex($width $ratio);
         @content;
     }
 
@@ -213,14 +259,17 @@ $default-spritesheet: (
  * See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
  */
 
-@mixin square-flex($width: 100%, $ratio: 1) {
+@mixin square-flex($default-button-size) {
+    $width: nth($default-button-size, 1);
+    $ratio: nth($default-button-size, 2);
+
     height: 0;
     padding-bottom: $width * $ratio;
     width: $width;
 }
  
 /**
- * Miscellaneous Mixins
+ * Miscellaneous Mixins and Functions
  * -----------------------------------------------------------------------------
  */
 
@@ -289,28 +338,6 @@ $default-spritesheet: (
 
 @mixin mask($red: 255, $green: 255, $blue: 255, $opacity: 1) {
     background-color: rgba($red, $green, $blue, $opacity);
-}
-
-/**
- * Font Sizes and Line Heights
- * -----------------------------------------------------------------------------
- * You will see decidedly odd results from using this mixin if the font-size of 
- * the <html> element isn't set to 100%. Ware ye!
- * 
- * In http://snook.ca/archives/html_and_css/font-size-with-rem the author gives
- * the body a 65.5% font-size for rem units, but in reality most CSS reset files
- * start with a 100% font-size. Because of this I instead multiply the given rem
- * unit by 0.625 to reach the same result.
- */
-
-@mixin font-size($size: 1) {
-    font-size: #{$size * 10}px;
-    font-size: #{$size * 0.625}rem;
-}
-
-@mixin line-height($size: 1) {
-    line-height: #{$size * 10}px;
-    line-height: #{$size * 0.625}rem;
 }
 
 /**
