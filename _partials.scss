@@ -1,9 +1,6 @@
 /**
  * Generic Rules, Button Rules and Other Useful Partials
  * -----------------------------------------------------------------------------
- * This file represents bits and pieces of code that I use across the site which
- * aren't attached to a given section of the site. 
- *
  * @category   Stylesheet
  * @package    Scss Helpers
  * @author     Mark Grealish <mark@bhalash.com>
@@ -29,11 +26,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
+ * This file represents bits and pieces of code that I use across the site which
+ * aren't attached to a given section of the site. 
  */
 
 /**
  * Self-clearing Floats 
- * --------------------
+ * -----------------------------------------------------------------------------
  */
 
 .clearfix, %clearfix {
@@ -53,7 +53,7 @@
 
 /**
  * Shadows and Gradients
- * ---------------------
+ * -----------------------------------------------------------------------------
  */
 
 .smooth-gradient, %smooth-gradient {
@@ -69,7 +69,7 @@
 
 /**
  * Assorted Helper Classes
- * -----------------------
+ * -----------------------------------------------------------------------------
  */
 
 .cover-picture, %cover-picture {
@@ -80,7 +80,7 @@
 
 /**
  * Flexbox and Flexible Size Rules
- * -------------------------------
+ * -----------------------------------------------------------------------------
  */
 
 .flex-row, %flex-row {
@@ -101,7 +101,7 @@
 
 /**
  * Text Element Columns
- * --------------------
+ * -----------------------------------------------------------------------------
  */
 
 .text-two, %text-two {
