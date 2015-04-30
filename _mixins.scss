@@ -173,7 +173,7 @@ $default-spritesheet: (
 
 @mixin flex-parent($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
     // Generate flex parent rules.
-    @include prefix_value(display, flex, webkit);
+    @include prefix-value(display, flex, webkit);
     @include prefix(flex-direction, $direction, webkit);
 
     @if ($justify-content) {
