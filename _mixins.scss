@@ -29,18 +29,15 @@
  */
 
 /**
- * Margin and Padding
- * ------------------
- * These two don't do too much except make life easier: Set margin or padding as
- * a multiplier of the base margin and padding. 
+ * Set Position of Fixed, Absolute or Relative Items
+ * -----------------------------------------------------------------------------
  */
 
-@function margin($multiplier: 1, $margin: $default-margin) {
-    @return $margin * $multiplier;
-}
-
-@function padding($multiplier: 1, $padding: $default-padding) {
-    @return $padding * $multiplier;
+@mixin position($top: auto, $right: auto, $bottom: auto, $left: auto) {
+    bottom: $bottom;
+    left: $left;
+    right: $right;
+    top: $top;
 }
 
 /**
@@ -97,30 +94,103 @@
 }
 
 /**
- * Font Sizes and Line Heights
+ * Decimal Unit to rem
  * -----------------------------------------------------------------------------
  * See: http://snook.ca/archives/html_and_css/font-size-with-rem 
  * 
- * You will see decidedly odd results from using this mixin if the font-size of 
- * the <html> element isn't set to 100%. Ware ye!
- * 
- * In the linked article, the author gives the body a 65.5% font-size for rem 
- * units, but in reality most CSS reset files start with a 100% font-size. 
- * Because of this I instead multiply the given rem unit by 0.625 to reach the
- * same result.
+ * @param   string  $unit               Input decimal unit (0.3, 1.7, etc);
+ * @param   float   $rem-multiplier     The multiplier value for the unit
+ * @return  int                         The given unit as an rem value.
  */
 
-@mixin rem($property, $size: 1, $rem-multiplier: $default-rem-multiplier, $px-multiplier: $default-px-multiplier) {
-    #{$property}: #{$size * $px-multiplier}px;
-    #{$property}: #{$size * $rem-multiplier}rem;
+@function rem($unit, $rem-multiplier: $default-rem-multiplier) {
+    @return #{$unit * $rem-multiplier}rem;
+}
+
+/**
+ * Decimal Unit to px
+ * -----------------------------------------------------------------------------
+ * @param   string  $unit               Input decimal unit (0.3, 1.7, etc);
+ * @param   float   $rem-multiplier     The multiplier value for the unit
+ * @return  int                         The given unit as a px value.
+ */
+
+@function pixel($unit, $px-multiplier: $default-px-multiplier) {
+    @return #{$unit * $px-multiplier}px;
+}
+
+/**
+ * Convert Decimal Unit to Given Output Unit
+ * -----------------------------------------------------------------------------
+ * Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
+ * output unit. Currently I support:
+ * 
+ * rem
+ * px
+ */
+
+@function convert-decimal-unit($units, $type: null) {
+    $return-units: '';
+    $i: 1;
+
+    @each $unit in $units {
+
+        $return-units: $return-units + #{$type}($unit);
+
+        @if ($i < length($units)) {
+            $return-units: $return-units + ' ';
+            $i: $i + 1;
+        }
+    }
+
+    @return $return-units;
+}
+
+/**
+ * rem Mixins 
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin rem-value($property, $unit) {
+    #{$property}: pixel($unit);
+    #{$property}: rem($unit);
 }
 
 @mixin font-size($size: 1) {
-    @include rem(font-size, $size);
+    // font-size in rem with px fallback.
+    @include rem-value(font-size, $size);
 }
 
 @mixin line-height($size: 1) {
-    @include rem(line-height, $size);
+    // line-height in rem with px fallback.
+    @include rem-value(line-height, $size);
+}
+
+/**
+ * Decimal Margin and Padding
+ * -----------------------------------------------------------------------------
+ * These two don't do too much except make life easier: Set margin or padding as
+ * a multiplier of the base margin and padding. The side can be appended through
+ * an optional operator. If you do set a side, every margin or padding except 
+ * the first passed will be silently discarded.
+ */
+
+@mixin margin($margin, $side: null) {
+    @if ($side) {
+        $margin: nth($margin, 1);
+    }
+
+    margin#{-$side}: convert-decimal-unit($margin, px);
+    margin#{-$side}: convert-decimal-unit($margin, rem);
+}
+
+@mixin padding($padding, $side: null) {
+    @if ($side) {
+        $padding: nth($padding, 1);
+    }
+
+    padding#{-$side}: convert-decimal-unit($padding, px);
+    padding#{-$side}: convert-decimal-unit($padding, rem);
 }
 
 /**
@@ -259,9 +329,9 @@
  * See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
  */
 
-@mixin square-flex($default-button-size) {
-    $width: nth($default-button-size, 1);
-    $ratio: nth($default-button-size, 2);
+@mixin square-flex($flex-size: 100% 1) {
+    $width: nth($flex-size, 1);
+    $ratio: nth($flex-size, 2);
 
     height: 0;
     padding-bottom: $width * $ratio;
