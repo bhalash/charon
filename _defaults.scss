@@ -54,8 +54,11 @@ $default-px-multiplier: 10 !default;
  * Gaps separate rows. Currently 6 columns by 4 rows in size.
  */
 
+$white-spritesheet: 'scss-helpers/vectors/button-sprites-white.svg';
+$black-spritesheet: 'scss-helpers/vectors/button-sprites-black.svg';
+
 $default-spritesheet: (
-    sprites: ('scss-helpers/vectors/button-sprites-white.svg', 6, 4),
+    sprites: ($white-spritesheet, 6, 4),
     positions: (
         beard:      (#343537, 0, 0),
         discuss:    (#b9dfbc, 20%, 0),
