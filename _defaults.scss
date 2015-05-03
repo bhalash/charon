@@ -49,15 +49,6 @@ $default-rem-multiplier: 0.625 !default;
 $default-px-multiplier: 10 !default;
 
 /**
- * Default Square Flex Button Size
- * -----------------------------------------------------------------------------
- * See: http://stackoverflow.com/a/13625843/1433400
- * See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
- */
-
-$default-button-size: (100%, 1) !default;
-
-/**
  * Default Vector Stylesheet
  * -----------------------------------------------------------------------------
  * Gaps separate rows. Currently 6 columns by 4 rows in size.
