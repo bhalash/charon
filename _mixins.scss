@@ -33,11 +33,56 @@
  * -----------------------------------------------------------------------------
  */
 
-@mixin position($top: auto, $right: auto, $bottom: auto, $left: auto) {
-    bottom: $bottom;
-    left: $left;
-    right: $right;
-    top: $top;
+@mixin position($position, $units) {
+    $properties: top right bottom left;
+    
+    position: $position;
+
+    @each $offset in $properties  {
+        $index: index($args, $offset);
+
+        @if $index {
+            @if $index == length($args) {
+                #{$offset}: 0;
+            } @else {
+                $next: nth($args, $index + 1);
+
+                @if is-valid-length($next) {
+                    #{$offset}: $next;
+                } @else if index($offsets, $next) {
+                    #{$offset}: 0;
+                } @else {
+                    @warn "Invalid value `#{$next}` for offset `#{$offset}`.";
+                }
+            }
+        }
+    }
+}
+
+@mixin absolute(absolute, $args) {
+    position: absolute;
+}
+
+@mixin fixed(fixed, $args) {
+    position: absolute;
+}
+
+@mixin relative(relative, $args) {
+    position: absolute;
+}
+
+/**
+ * Validate Unit
+ * -----------------------------------------------------------------------------
+ * Validate that a given length is a valid unit.
+ * See: http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+ * 
+ * @param   string     $value    The candidate value. Can be number or keyword.
+ * @return  bool                 Unit is valid true or false.
+ */
+
+@function valid-unit($value) {
+  @return (type-of($value) == "number" and not unitless($value)) or (index(auto initial inherit 0, $value) != false);
 }
 
 /**
@@ -449,8 +494,7 @@
     $folder: map-get($font, folder);
     $filename: map-get($font, filename);
     $types: map-get($font, types);
-    $src: '';
-    $i: 1;
+    $src: ();
 
     @font-face {
         font-family: $family;
@@ -458,12 +502,7 @@
         @each $type in $types {
             // Iterate to produce the path and type, and then set it.
             $path: $folder + $filename + '.' + $type; 
-            $src: $src + 'url(' + $path + ') format("' + $type + '")';
-
-            @if ($i < length($types)) {
-                $src: $src + ', '; 
-                $i: $i + 1;
-            }
+            $src: $append($src, 'url(' + $path + ') format("' + $type + '")');
         }
 
         src: #{$src};
