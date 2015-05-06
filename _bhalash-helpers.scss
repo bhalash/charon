@@ -30,7 +30,37 @@
  * Behold, as a wild ass in the desert, go I forth to my work.
  */
 
+/**
+ * Default Values for Mixins, Partials and Functions
+ * -----------------------------------------------------------------------------
+ */
+
 @import 'defaults';
+
+/**
+ * Mixins and Functions
+ * -----------------------------------------------------------------------------
+ */
+
 @import 'mixins';
-@import 'media';
+
+/**
+ * Partials Generate from Mixins and Functions
+ * -----------------------------------------------------------------------------
+ */
+
 @import 'partials';
+
+/**
+ * Decimal Unit Sizing
+ * -----------------------------------------------------------------------------
+ */
+
+@import 'decimal';
+
+/**
+ * Media Queries
+ * -----------------------------------------------------------------------------
+ */
+
+@import 'media';
