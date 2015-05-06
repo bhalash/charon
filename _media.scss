@@ -28,19 +28,31 @@
  * THE SOFTWARE.
  */
 
-@mixin media($type, $range-low: '', $range-high: '') {
+@mixin media($args) {
+    $type: nth($args, 1);
+    $start: null;
+    $end: null;
+
+    @if (length($args) == 2) {
+        $start: nth($args, 2);
+    }
+
+    @if (length($args) == 3) {
+        $end: nth($args, 3);
+    }
+
     /**
      * Cellphone and Tablet
      * --------------------
      */
-     
-    @if $type == smartphone {
+
+    @if ($type == smartphone) {
         @include smartphone() {
             @content;
         }
     }
 
-    @if $type == tablet {
+    @if ($type == tablet) {
         @include tablet() {
             @content;
         }
@@ -51,19 +63,19 @@
      * -----------------------------------
      */
 
-    @if $type == aspect {
-        @include aspect-ratio($range-low) {
+    @if ($type == aspect) {
+        @include aspect-ratio($start) {
             @content;
         }
     }
 
-    @if $type == portrait {
+    @if ($type == portrait) {
         @include orient-portrait() {
             @content;
         }
     }
 
-    @if $type == landscape {
+    @if ($type == landscape) {
         @include orient-landscape() {
             @content;
         }
@@ -74,14 +86,14 @@
      * ------------------------
      */
 
-    @if $type == min {
-        @include min($range-low) {
+    @if ($type == min) {
+        @include min($start) {
             @content;
         }
     }
 
-    @if $type == max {
-        @include max($range-low) {
+    @if ($type == max) {
+        @include max($start) {
             @content;
         }
     }
@@ -91,14 +103,14 @@
      * -------------------------
      */
 
-    @if $type == min-height {
-        @include min-height($range-low) {
+    @if ($type == min-height) {
+        @include min-height($start) {
             @content;
         }
     }
 
-    @if $type == max-height {
-        @include max-height($range-low) {
+    @if ($type == max-height) {
+        @include max-height($start) {
             @content;
         }
     }
@@ -108,14 +120,14 @@
      * ------------------------
      */
 
-    @if $type == min-device {
-        @include min-device($range-low) {
+    @if ($type == min-device) {
+        @include min-device($start) {
             @content;
         }
     }
 
-    @if $type == max-device {
-        @include max-device($range-low) {
+    @if ($type == max-device) {
+        @include max-device($start) {
             @content;
         }
     }
@@ -125,14 +137,14 @@
      * -------------------------
      */
 
-    @if $type == min-device-height {
-        @include min-device-height($range-low) {
+    @if ($type == min-device-height) {
+        @include min-device-height($start) {
             @content;
         }
     }
 
-    @if $type == max-device-height {
-        @include max-device-height($range-low) {
+    @if ($type == max-device-height) {
+        @include max-device-height($start) {
             @content;
         }
     }
@@ -142,14 +154,14 @@
      * -------------
      */
 
-    @if $type == range {
-        @include range($range-low, $range-high) {
+    @if ($type == range) {
+        @include range($start, $end) {
             @content;
         }
     }
 
-    @if $type == range-height {
-        @include range-height($range-low, $range-high) {
+    @if ($type == range-height) {
+        @include range-height($start, $end) {
             @content;
         }
     }
@@ -159,14 +171,14 @@
      * -------------
      */
 
-    @if $type == range-device {
-        @include range-device($range-low, $range-high) {
+    @if ($type == range-device) {
+        @include range-device($start, $end) {
             @content;
         }
     }
 
-    @if $type == range-device-height {
-        @include range-device-height($range-low, $range-high) {
+    @if ($type == range-device-height) {
+        @include range-device-height($start, $end) {
             @content;
         }
     }
@@ -176,13 +188,13 @@
      * ---------
      */
 
-    @if $type == density {
-        @include density($range-low) {
+    @if ($type == density) {
+        @include density($start) {
             @content;
         }
     }
 
-    @if $type == print {
+    @if ($type == print) {
         @include print() {
             @content;
         }
