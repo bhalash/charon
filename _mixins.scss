@@ -29,49 +29,6 @@
  */
 
 /**
- * Set Position of Fixed, Absolute or Relative Items
- * -----------------------------------------------------------------------------
- */
-
-@mixin position($position, $units) {
-    $properties: top right bottom left;
-    
-    position: $position;
-
-    @each $offset in $properties  {
-        $index: index($args, $offset);
-
-        @if $index {
-            @if $index == length($args) {
-                #{$offset}: 0;
-            } @else {
-                $next: nth($args, $index + 1);
-
-                @if is-valid-length($next) {
-                    #{$offset}: $next;
-                } @else if index($offsets, $next) {
-                    #{$offset}: 0;
-                } @else {
-                    @warn "Invalid value `#{$next}` for offset `#{$offset}`.";
-                }
-            }
-        }
-    }
-}
-
-@mixin absolute(absolute, $args) {
-    position: absolute;
-}
-
-@mixin fixed(fixed, $args) {
-    position: absolute;
-}
-
-@mixin relative(relative, $args) {
-    position: absolute;
-}
-
-/**
  * Validate Unit
  * -----------------------------------------------------------------------------
  * Validate that a given length is a valid unit.
@@ -82,7 +39,55 @@
  */
 
 @function valid-unit($value) {
-  @return (type-of($value) == "number" and not unitless($value)) or (index(auto initial inherit 0, $value) != false);
+  @return (type-of($value) == 'number' and not unitless($value)) or (index(auto initial inherit 0, $value) != false);
+}
+
+/**
+ * Set Position of Fixed, Absolute or Relative Items
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin position($position, $sides, $offsets: null) {
+    position: $position; 
+
+    @if (not $offsets) {
+        $offsets: top right bottom left;
+
+        @if (length($sides) == 2) {
+            $offsets: top left bottom right;
+            $sides: append($sides, nth($sides, 1));
+            $sides: append($sides, nth($sides, 2));
+        } @else if (length($sides) == 3) {
+            $offsets: top left bottom right;
+            $sides: append($sides, nth($sides, 2));
+        }
+    } @else {
+        @if (length($sides) != length($offsets)) {
+            @warn 'The same number of offset properties and offset values must be equal.';
+        }
+    }
+
+    @each $offset in $offsets {
+        $side: index($offsets, $offset);
+
+        @if (not valid-unit(nth($sides, $side))) {
+            @warn '"#{$side} is not a valid unit for this mixin.';
+        }
+
+        #{$offset}: nth($sides, $side);
+    }
+}
+
+@mixin absolute($values, $offsets: null) {
+    @include position(absolute, $values, $offsets);
+}
+
+@mixin fixed($values, $offsets: null) {
+    @include position(fixed, $values, $offsets);
+}
+
+@mixin relative($values, $offsets: null) {
+    @include position(relative, $values, $offsets);
 }
 
 /**
@@ -107,7 +112,6 @@
  *              dark: darken($_color-base-gray, 10%)
  *          )
  *      );
- *
  */
 
 @function palette($color, $tone: 'base', $palette: $default-colors) {
@@ -139,106 +143,6 @@
 }
 
 /**
- * Decimal Unit to rem
- * -----------------------------------------------------------------------------
- * See: http://snook.ca/archives/html_and_css/font-size-with-rem 
- * 
- * @param   string  $unit               Input decimal unit (0.3, 1.7, etc);
- * @param   float   $rem-multiplier     The multiplier value for the unit
- * @return  int                         The given unit as an rem value.
- */
-
-@function rem($unit, $rem-multiplier: $default-rem-multiplier) {
-    @return #{$unit * $rem-multiplier}rem;
-}
-
-/**
- * Decimal Unit to px
- * -----------------------------------------------------------------------------
- * @param   string  $unit               Input decimal unit (0.3, 1.7, etc);
- * @param   float   $rem-multiplier     The multiplier value for the unit
- * @return  int                         The given unit as a px value.
- */
-
-@function pixel($unit, $px-multiplier: $default-px-multiplier) {
-    @return #{$unit * $px-multiplier}px;
-}
-
-/**
- * Convert Decimal Unit to Given Output Unit
- * -----------------------------------------------------------------------------
- * Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
- * output unit. Currently I support:
- * 
- * rem
- * px
- */
-
-@function convert-decimal-unit($units, $type: null) {
-    $return-units: '';
-    $i: 1;
-
-    @each $unit in $units {
-
-        $return-units: $return-units + #{$type}($unit);
-
-        @if ($i < length($units)) {
-            $return-units: $return-units + ' ';
-            $i: $i + 1;
-        }
-    }
-
-    @return $return-units;
-}
-
-/**
- * rem Mixins 
- * -----------------------------------------------------------------------------
- */
-
-@mixin rem-value($property, $unit) {
-    #{$property}: pixel($unit);
-    #{$property}: rem($unit);
-}
-
-@mixin font-size($size: 1) {
-    // font-size in rem with px fallback.
-    @include rem-value(font-size, $size);
-}
-
-@mixin line-height($size: 1) {
-    // line-height in rem with px fallback.
-    @include rem-value(line-height, $size);
-}
-
-/**
- * Decimal Margin and Padding
- * -----------------------------------------------------------------------------
- * These two don't do too much except make life easier: Set margin or padding as
- * a multiplier of the base margin and padding. The side can be appended through
- * an optional operator. If you do set a side, every margin or padding except 
- * the first passed will be silently discarded.
- */
-
-@mixin margin($margin, $side: null) {
-    @if ($side) {
-        $margin: nth($margin, 1);
-    }
-
-    margin#{-$side}: convert-decimal-unit($margin, px);
-    margin#{-$side}: convert-decimal-unit($margin, rem);
-}
-
-@mixin padding($padding, $side: null) {
-    @if ($side) {
-        $padding: nth($padding, 1);
-    }
-
-    padding#{-$side}: convert-decimal-unit($padding, px);
-    padding#{-$side}: convert-decimal-unit($padding, rem);
-}
-
-/**
  * Social Images and Colours
  * -----------------------------------------------------------------------------
  * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
@@ -246,7 +150,7 @@
  * 
  * 1. This uses a SVG spritesheet and is tuned to interact with it.
  * 2. If you ever alter the spritesheet then you will also need to alter
- *    the given background-positon rules in the array.
+ *    the given background-position rules in the array.
  * 2. Size can be arbitrary and defaults to:
  *          a. Width equal to 100% of parent width.
  *          b. Height equal to 100% of parent height.
@@ -328,7 +232,7 @@
  * 
  * As of April 2015 cross-browser support for flexbox isn't complete; there are
  * major issues with vertical alignment in Internet Explorer and all versions
- * of Safari (desktop and mobile) require properfies and values to be prefixed
+ * of Safari (desktop and mobile) require properties and values to be prefixed
  * with -webkit-foo.
  */
 
@@ -374,9 +278,9 @@
  * See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
  */
 
-@mixin square-flex($flex-size: 100% 1) {
-    $width: nth($flex-size, 1);
-    $ratio: nth($flex-size, 2);
+@mixin square-flex($size: 100% 1) {
+    $width: nth($size, 1);
+    $ratio: nth($size, 2);
 
     height: 0;
     padding-bottom: $width * $ratio;
@@ -479,6 +383,7 @@
  *          folder: '/path/to/folder/',
  *          filename: 'FontName',
  *          types: ('ttf', 'woff', 'eot'),
+ *          // Below attributes are optional.
  *          weight: 'normal',
  *          style: 'normal',
  *          stretch: 'condensed'
@@ -502,7 +407,7 @@
         @each $type in $types {
             // Iterate to produce the path and type, and then set it.
             $path: $folder + $filename + '.' + $type; 
-            $src: $append($src, 'url(' + $path + ') format("' + $type + '")');
+            $src: append($src, 'url(' + $path + ') format("' + $type + '"),');
         }
 
         src: #{$src};

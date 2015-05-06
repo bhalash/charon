@@ -31,6 +31,16 @@
  */
 
 /**
+ * Media Query Default Table and Cellphone Screen Sizes
+ * -----------------------------------------------------------------------------
+ */
+
+$smartphone-min-width: 200px !default; 
+$smartphone-max-width: 599px !default;
+$tablet-min-width: 600px !default; 
+$tablet-max-width: 1024px !default;
+
+/**
  * Default Margins and Padding
  * -----------------------------------------------------------------------------
  */
@@ -45,8 +55,11 @@ $default-padding: 16px !default;
  * -----------------------------------------------------------------------------
  */
 
-$default-rem-multiplier: 0.625 !default;
-$default-px-multiplier: 10 !default;
+$default-multipliers: (
+    px: 10, 
+    rem: 0.625,
+    em: 0.625
+) !default;
 
 /**
  * Default Vector Stylesheet
