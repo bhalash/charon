@@ -28,13 +28,6 @@
  * THE SOFTWARE.
  */
 
-// Smartphone approximate min and max sizes. Held to be /good enough/.
-$smartphone-min-width: 200px; 
-$smartphone-max-width: 599px;
-// Tablet approximate min and max sizes. Held to be /good enough/.
-$tablet-min-width: 600px; 
-$tablet-max-width: 1024px;
-
 @mixin media($type, $range-low: '', $range-high: '') {
     /**
      * Cellphone and Tablet
