@@ -45,6 +45,23 @@
 /**
  * Set Position of Fixed, Absolute or Relative Items
  * -----------------------------------------------------------------------------
+ * See: http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+ * See: http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
+ * 
+ * I wanted a slightly different operation for my positon mixin: To be able to 
+ * use in a manner identical to margin or padding side shorthand:
+ * 
+ *      margin: 10px 20px 5px;
+ *      @include absolute(10px 20px 5px);
+ * 
+ * This will generate: 
+ * 
+ *      position: absolute;
+ *      top: 10px;
+ *      left: 20px;
+ *      right: 20px;
+ *      bottom: 5px;
+ *
  */
 
 @mixin position($position, $sides, $offsets: null) {
