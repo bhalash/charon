@@ -68,17 +68,21 @@
     position: $position; 
 
     @if (not $offsets) {
+        // 1. Default offsets list.
         $offsets: top right bottom left;
 
         @if (length($sides) == 1) {
             @for $i from 1 to 4 {
+                // 2. If only one side input, duplicate it for the other sides.
                 $sides: append($sides, nth($sides, 1));
             }
         } @else if (length($sides) == 2) {
+            // 3. Duplicate each value if two items provided.
             $offsets: top left bottom right;
             $sides: append($sides, nth($sides, 1));
             $sides: append($sides, nth($sides, 2));
         } @else if (length($sides) == 3) {
+            // 3. Add extra side if three values provided.
             $offsets: top left bottom right;
             $sides: append($sides, nth($sides, 2));
         }
@@ -87,7 +91,7 @@
             @warn 'The same number of offset properties and offset values must be equal.';
         }
     }
-    
+
     @each $offset in $offsets {
         $side: index($offsets, $offset);
 
@@ -98,6 +102,11 @@
         #{$offset}: nth($sides, $side);
     }
 }
+
+/**
+ * Position Shorthand Mixins
+ * -----------------------------------------------------------------------------
+ */
 
 @mixin absolute($values, $offsets: null) {
     @include position(absolute, $values, $offsets);
