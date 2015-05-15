@@ -194,7 +194,7 @@
  * template! :)
  */
 
-@mixin generate-social-link($element: null, $size: 100% 1, $service: null, $spritesheet: $default-spritesheet) {
+@mixin generate-social-link($element: null, $size: 100% 1, $service: null, $spritesheet: $spritesheet-white) {
     /* Element can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
      * are all perfectly acceptable. */
 

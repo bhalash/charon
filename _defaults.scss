@@ -94,8 +94,8 @@ $spritesheet-positions: (
 $black-sprites: (sprites: ('scss-helpers/vectors/button-sprites-black.svg', 6, 4)) !default;
 $white-sprites: (sprites: ('scss-helpers/vectors/button-sprites-white.svg', 6, 4)) !default;
 
-$bhal-spritesheet-black: map-merge($spritesheet-positions, $black-sprites) !default;
-$bhal-spritesheet-white: map-merge($spritesheet-positions, $white-sprites) !default;
+$spritesheet-black: map-merge($spritesheet-positions, $black-sprites) !default;
+$spritesheet-white: map-merge($spritesheet-positions, $white-sprites) !default;
 
 /**
  * Default Size Colours
