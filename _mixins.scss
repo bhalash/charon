@@ -221,7 +221,6 @@
         background-repeat: no-repeat;
         display: block;
         @include square-flex($width $ratio);
-        @content;
     }
 
     @if ($service) {
@@ -233,6 +232,7 @@
         #{$element}.#{$service} {
             background-color: $color;
             background-position: $position-x $position-y;
+            @content;
         }
     } @else {
         // Else iterate map-list to produce social links.
@@ -244,6 +244,7 @@
             #{$element}.#{$map} {
                 background-color: $color;
                 background-position:  $position-x $position-y;
+                @content;
             }
         }
     }
