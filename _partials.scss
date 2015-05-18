@@ -41,7 +41,6 @@
      * Bulletproof and Rock-Solid since I capitalized the words. There are very
      * rare instances were I might need to use a clearing element (such as 
      * splitting floating elements vertically). */
-
     overflow: auto;
 
     &:after {
@@ -52,15 +51,10 @@
 }
 
 /**
- * Shadows and Gradients
+ * Disable Text Selection
  * -----------------------------------------------------------------------------
+ * It was useful for some feature text on a site.
  */
-
-.smooth-gradient, %smooth-gradient {
-    // Gradient via http://www.colorzilla.com/gradient-editor/
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); 
-    @include prefix_value(background, inear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%));
-}
 
 .noselect, %noselect {
     cursor: default;
