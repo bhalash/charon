@@ -41,16 +41,6 @@ $tablet-min-width: 600px !default;
 $tablet-max-width: 1024px !default;
 
 /**
- * Default Margins and Padding
- * -----------------------------------------------------------------------------
- */
-
-// Default margin for @margin function.
-$default-margin: 16px !default;
-// Default padding for @padding function.
-$default-padding: 16px !default;
-
-/**
  * Default REM and PX Multipliers
  * -----------------------------------------------------------------------------
  */
@@ -110,7 +100,7 @@ $spritesheet-white: map-merge($spritesheet-positions, $white-sprites) !default;
  */
 
 $default-colors: (
-    gray: (
+    black: (
         x-dark: rgb(3,3,3),
         dark: rgb(39,39,39),
         mid-dark: rgb(75,75,75),
