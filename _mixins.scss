@@ -42,7 +42,7 @@
   @return (type-of($value) == 'number' and not unitless($value)) or (index(auto initial inherit 0, $value) != false);
 }
 
-@function is_decimal($value) {
+@function is-decimal($value) {
     @return (unitless($value) and $value != 0);
 }
 
