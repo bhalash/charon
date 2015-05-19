@@ -43,7 +43,7 @@
 }
 
 @function is_decimal($value) {
-    @return (unitless($value) and $value > 0);
+    @return (unitless($value) and $value != 0);
 }
 
 /**
