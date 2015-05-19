@@ -73,16 +73,16 @@
 
         @if (length($sides) == 1) {
             @for $i from 1 to 4 {
-                // 2. If only one side input, duplicate it for the other sides.
+                // 1 or 4 values. If only one side input, duplicate it for the other sides.
                 $sides: append($sides, nth($sides, 1));
             }
         } @else if (length($sides) == 2) {
-            // 3. Duplicate each value if two items provided.
+            // 2 values. Duplicate each value if two items provided.
             $offsets: top left bottom right;
             $sides: append($sides, nth($sides, 1));
             $sides: append($sides, nth($sides, 2));
         } @else if (length($sides) == 3) {
-            // 3. Add extra side if three values provided.
+            // 3 values. Add extra side if three values provided.
             $offsets: top left bottom right;
             $sides: append($sides, nth($sides, 2));
         }
