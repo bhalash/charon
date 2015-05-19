@@ -51,6 +51,18 @@
 }
 
 /**
+ * Freeze Content 
+ * -----------------------------------------------------------------------------
+ */
+
+.freeze, %freeze{
+    // Freeze an element to prevent it from scrolling.
+    overflow: hidden;
+    z-index: -1;
+    @include fixed(0);
+}
+
+/**
  * Disable Text Selection
  * -----------------------------------------------------------------------------
  * It was useful for some feature text on a site.
