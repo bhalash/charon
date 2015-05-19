@@ -42,6 +42,10 @@
   @return (type-of($value) == 'number' and not unitless($value)) or (index(auto initial inherit 0, $value) != false);
 }
 
+@function is_decimal($value) {
+    @return (unitless($value) and $value > 0);
+}
+
 /**
  * Set Position of Fixed, Absolute or Relative Items
  * -----------------------------------------------------------------------------
@@ -62,6 +66,8 @@
  *      right: 20px;
  *      bottom: 5px;
  *
+ * If values are unitless and greater than zero, it will assume they decimal
+ * values and generate rem dimensions.
  */
 
 @mixin position($position, $sides, $offsets: null) {
@@ -88,20 +94,28 @@
         }
     } @else {
         @if (length($sides) != length($offsets)) {
-            @warn 'The same number of offset properties and offset values must be equal.';
+            @warn 'The number of offset properties and offset values must be equal.';
         }
     }
 
     @each $offset in $offsets {
         $side: index($offsets, $offset);
+        $value: nth($sides, $side);
 
-        @if (not valid-unit(nth($sides, $side))) {
+        @if (not valid-unit($value)) {
             @warn '"#{$side} is not a valid unit for this mixin.';
+        } @else if (is-decimal($value)) {
+            @include rem(#{$offset}, $value);
+        } @else {
+            #{$offset}: $value;
         }
-
-        #{$offset}: nth($sides, $side);
     }
 }
+
+/**
+ * Min and Max 
+ *
+ */
 
 /**
  * Position Shorthand Mixins
