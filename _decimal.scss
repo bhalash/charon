@@ -155,3 +155,29 @@
 @mixin height($height, $sides: null) {
     @include box-size(height, $height);
 } 
+
+/**
+ * Quickly Set Padding and Height
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin size($sizes) {
+    @if (length($sizes) < 2) {
+        @warn 'Two values should be passed to this mixin!';
+    } @else {
+        $width: nth($sizes, 1);
+        $height: nth($sizes, 2);
+
+        @if (is-decimal($width)) {
+            @include width($width);
+        } @else {
+            width: $width;
+        }
+
+        @if (is-decimal($height)) {
+            @include height($height);
+        } @else {
+            height: $height;
+        }
+    }
+}
