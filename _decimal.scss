@@ -126,28 +126,32 @@
  * the first passed will be silently discarded.
  */
 
-@mixin margin($value, $side: null) {
+@mixin box-size($spacing, $values, $side: null) {
     @if ($side) {
+        // Discard all values but first if a side is provided.
         $side: '-' + nth($side, 1);
 
-        @if(length($value) > 1) {
-            $value: nth($value, 1);
+        @if(length($values) > 1) {
+            $value: nth($values, 1);
         }
     }
 
-    margin#{$side}: px($value);
-    margin#{$side}: rem($value);
+    #{$spacing}#{$side}: px($values);
+    #{$spacing}#{$side}: rem($values);
 }
 
-@mixin padding($value, $side: null) {
-    @if ($side) {
-        $side: '-' + $side;
-
-        @if(length($value) > 1) {
-            $value: nth($value, 1);
-        }
-    }
-
-    padding#{$side}: px($value);
-    padding#{$side}: rem($value);
+@mixin margin($margin, $side: null) {
+    @include box-size(margin, $margin, $side);
 }
+
+@mixin padding($padding, $side: null) {
+    @include box-size(padding, $padding, $side);
+}
+
+@mixin width($width, $sides: null) {
+    @include box-size(width, $width);
+} 
+
+@mixin height($height, $sides: null) {
+    @include box-size(height, $height);
+} 
