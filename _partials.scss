@@ -34,13 +34,13 @@
 /**
  * Self-clearing Floats 
  * -----------------------------------------------------------------------------
+ * Bulletproof and Rock-Solid self-clearing float. You can tell it is both
+ * Bulletproof and Rock-Solid since I capitalized the words. There are very rare
+ * instances were I might need to use a clearing element (such as splitting 
+ * floating elements vertically).
  */
 
 .clearfix, %clearfix {
-    /* Bulletproof and Rock-Solid self-clearing float. You can tell it is both
-     * Bulletproof and Rock-Solid since I capitalized the words. There are very
-     * rare instances were I might need to use a clearing element (such as 
-     * splitting floating elements vertically). */
     overflow: auto;
 
     &:after {
@@ -51,12 +51,34 @@
 }
 
 /**
- * Freeze Content 
+ * Modal Popover 
  * -----------------------------------------------------------------------------
+ * See: http://codepen.io/gschier/pen/HCoqh
+ * See: http://www.bhalash.com/archives/13544803981
+ * 
+ * Set the colours yourself. With CSS3's :target pseudoclass, you can style the
+ * target of a link.
  */
 
-.freeze, %freeze{
-    // Freeze an element to prevent it from scrolling.
+.pop-modal, %pop-modal {
+    display: none;
+    @include fixed(0);
+
+    &:target {
+        display: block;
+        outline: 0;
+        z-index: 4;
+    }
+}
+
+/**
+ * Freeze Content 
+ * ----------------------------------------------------------------------------- 
+ * Freeze an element to prevent it from scrolling. This is intended to be used
+ * in conjunction with modal boxes
+ */
+
+.freeze, %freeze {
     overflow: hidden;
     z-index: -1;
     @include fixed(0);
