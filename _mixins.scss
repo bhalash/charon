@@ -278,7 +278,7 @@
     padding-right: $padding;
 
     @each $break in $media-arr {
-        @include media(max, $break) {
+        @include media($break) {
             padding-left: $padding * $padding-mod;
             padding-right: $padding * $padding-mod;
         }
