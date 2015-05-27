@@ -113,11 +113,6 @@
 }
 
 /**
- * Min and Max 
- *
- */
-
-/**
  * Position Shorthand Mixins
  * -----------------------------------------------------------------------------
  */
@@ -428,8 +423,37 @@
  * Useful for when you have to layer text above a background image.
  */
 
-@mixin mask($red: 255, $green: 255, $blue: 255, $opacity: 1) {
-    background-color: rgba($red, $green, $blue, $opacity);
+%background-mask {
+    position: relative;
+
+    > * {
+        /* Specific workaround for Mobile Safari: without this #interior content
+         * will scroll behind the header. */
+        -webkit-backface-visibility: hidden;
+        // Child content must be raised owing to the background gradient.
+        z-index: 2;
+    }
+
+    &:after {
+        content: ' ';
+        @include absolute(0);
+    }
+}
+
+@mixin solid-mask($red: 255, $green: 255, $blue: 255, $opacity: 1) {
+    @extend %background-mask;
+
+    &:after {
+        background-color: rgba($red, $green, $blue, $opacity);
+    }
+}
+
+@mixin gradient-mask ($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
+    @extend %background-mask;
+
+    &:after {
+        background: linear-gradient(to bottom, $start 0%, $end 100%);
+    }
 }
 
 /**
