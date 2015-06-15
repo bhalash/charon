@@ -4,12 +4,12 @@ These files are a small set of helper functions, mixins and partials that I reus
 ## Files
 
 ### \_media.scss
-A responsive media query framework
+[\_media.scss](/_media.scss) is a library of @mixins to easily manage virtually and CSS @media rule.
 
 * * *
 
 ### \_mixins.scss
-File contains a combination of useful mixins and functions for use in Scss projects:
+[\_mixins.scss](/_mixins.scss) contains a combination of useful mixins and functions for use in Scss projects:
 
 ##### @position
 Quickly set absolute, relative and fixed positions for elements, along with offsets. Three mixins serve as wrappers for @position:
@@ -54,12 +54,12 @@ Generate CSS @font-face rules in a neat manner using a map.
 * * *
 
 ### \_decimal.scss
-Decial 
+[\_decimal.scss](/_decimal.scss)
 
 * * *
 
 ### \_partials.scss
-A collection of miscellaneous Scss partials derived from mixins and functions in [\_decimal.scss](/_decimal.scss) and [\_mixins.scss](/_mixins.scss).
+[\_partials.scss](/_partials.scss) is a collection of miscellaneous Scss partials derived from mixins and functions in [\_decimal.scss](/_decimal.scss) and [\_mixins.scss](/_mixins.scss).
 
 ## License and Copyright
 The MIT License (MIT)
