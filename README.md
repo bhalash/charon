@@ -19,34 +19,34 @@ Quickly set absolute, relative and fixed positions for elements, along with offs
 ##### @palette
 Return the specified from your theme's palette of colours.
 
-#### @prefix, @prefix-value
+##### @prefix, @prefix-value
 Add arbitrary vendor prefixes to properties and values.
 
-#### @generate-social-link
+##### @generate-social-link
 Generate dynamically-resizable social media icons from the supplied vector stylesheets. Both white icons and black icons are available to use.
 
-#### @cntent-padding
+##### @content-padding
 Set side padding for the main content based on the contents of a mapof @media breakpoints.
 
-#### @flex-parent, @flex-child
+##### @flex-parent, @flex-child
 Generate [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) CSS rules for both parent and child flex elements, along with necessary vendor prefixes.
 
-#### @square-flex
+##### @square-flex
 Generate square (or any aspect ratio) boxes using percentage sizes alone.
 
-#### @vertical-center
+##### @vertical-center
 Wrap element with equal padding above and below.
 
-#### @rgba-opposite
+##### @rgba-opposite
 Invert RGBA values.
 
-#### @placeholder-styles
+##### @placeholder-styles
 Style input placeholder text.
 
-#### @solid-mask, @gradient-mask 
+##### @solid-mask, @gradient-mask 
 Extends %background-mask. Put a coloured mask behind an elements content.
 
-#### @font-face
+##### @font-face
 Generate CSS @font-face rules in a neat manner using a map.
 
 
