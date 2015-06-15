@@ -115,7 +115,7 @@
     @include flex-parent(row);    
 }
 
-.flex-childol, %flex-childol {
+.flex-parent, %flex-parent {
     @include flex-parent(column);    
 }
 
@@ -123,7 +123,7 @@
     @include square-flex(100% 1);
 }
 
-.flex-childhild, %flex-childhild {
+.flex-child, %flex-child {
     @include flex-child(1);
 }
 
