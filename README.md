@@ -54,7 +54,7 @@ Generate CSS @font-face rules in a neat manner using a map.
 * * *
 
 ### \_decimal.scss
-[\_decimal.scss](/_decimal.scss)
+[\_decimal.scss](/_decimal.scss) is a suite of tools to manage margins, paddings, offsets, font-sizes and any other CSS unit with a numerical value using base 10 decimal units. These decimal units are then compiled to [rem](https://css-tricks.com/rems-ems/) units with a pixel value fallback.
 
 * * *
 
