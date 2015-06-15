@@ -6,6 +6,8 @@ These files are a small set of helper functions, mixins and partials that I reus
 ### \_media.scss
 A responsive media query framework
 
+* * *
+
 ### \_mixins.scss
 File contains a combination of useful mixins and functions for use in Scss projects:
 
@@ -49,9 +51,12 @@ Extends %background-mask. Put a coloured mask behind an elements content.
 ##### @font-face
 Generate CSS @font-face rules in a neat manner using a map.
 
+* * *
 
 ### \_decimal.scss
 Decial 
+
+* * *
 
 ### \_partials.scss
 A collection of miscellaneous Scss partials derived from mixins and functions in [\_decimal.scss](/_decimal.scss) and [\_mixins.scss](/_mixins.scss).
