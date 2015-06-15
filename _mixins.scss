@@ -32,10 +32,10 @@
  * Validate Unit
  * -----------------------------------------------------------------------------
  * Validate that a given length is a valid unit.
- * See: http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
  * 
  * @param   string     $value    The candidate value. Can be number or keyword.
  * @return  bool                 Unit is valid true or false.
+ * @link    http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
  */
 
 @function valid-unit($value) {
@@ -49,8 +49,8 @@
 /**
  * Set Position of Fixed, Absolute or Relative Items
  * -----------------------------------------------------------------------------
- * See: http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
- * See: http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
+ * @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+ * @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
  * 
  * I wanted a slightly different operation for my position mixin: To be able to 
  * use in a manner identical to margin or padding side shorthand:
@@ -132,8 +132,6 @@
 /**
  * Fetch from Color Palette
  * -----------------------------------------------------------------------------
- * See: http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
- * 
  * In short, the post advocates a mapped palette of colors and tones using a 
  * set schema, and then using this function to return the colors. 
  *
@@ -151,6 +149,9 @@
  *              dark: darken($_color-base-gray, 10%)
  *          )
  *      );
+ * 
+ * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+ * 
  */
 
 @function palette($color, $tone: 'base', $palette: $default-colors) {
@@ -342,8 +343,8 @@
  * Width can be of any size.
  * Ratio should be between 0 and foo.
  * 
- * See: http://stackoverflow.com/a/13625843/1433400
- * See: http://alistapart.com/article/creating-intrinsic-ratios-for-video
+ * @link http://stackoverflow.com/a/13625843/1433400
+ * @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
  */
 
 @mixin square-flex($size: 100% 1) {

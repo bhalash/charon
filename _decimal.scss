@@ -36,7 +36,7 @@
  * focus is on screen appearance. The W3C themselves discourage the use of units
  * except rem, em, px, vw, vh, vmin and vmax for screens:
  * 
- * http://www.w3.org/Style/Examples/007/units.en.html#units
+ * @link http://www.w3.org/Style/Examples/007/units.en.html#units
  */
 
 @function from-decimal($values, $type: null, $multipliers: $default-multipliers) {
