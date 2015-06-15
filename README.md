@@ -6,13 +6,57 @@ These files are a small set of helper functions, mixins and partials that I reus
 ### \_media.scss
 A responsive media query framework
 
-### \_partials.scss
-Ready-to-use partials derived from mixins and functions in \_mixins.scss.
-
 ### \_mixins.scss
-A collection of useful mixins for font size, SVG spriteshets, flexbox, flexible sizing...and more!
+File contains a combination of useful mixins and functions for use in Scss projects:
 
-## License
+##### @position
+Quickly set absolute, relative and fixed positions for elements, along with offsets. Three mixins serve as wrappers for @position:
+
+    * @absolute
+    * @fixed
+    * @relative
+
+##### @palette
+Return the specified from your theme's palette of colours.
+
+#### @prefix, @prefix-value
+Add arbitrary vendor prefixes to properties and values.
+
+#### @generate-social-link
+Generate dynamically-resizable social media icons from the supplied vector stylesheets. Both white icons and black icons are available to use.
+
+#### @cntent-padding
+Set side padding for the main content based on the contents of a mapof @media breakpoints.
+
+#### @flex-parent, @flex-child
+Generate [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) CSS rules for both parent and child flex elements, along with necessary vendor prefixes.
+
+#### @square-flex
+Generate square (or any aspect ratio) boxes using percentage sizes alone.
+
+#### @vertical-center
+Wrap element with equal padding above and below.
+
+#### @rgba-opposite
+Invert RGBA values.
+
+#### @placeholder-styles
+Style input placeholder text.
+
+#### @solid-mask, @gradient-mask 
+Extends %background-mask. Put a coloured mask behind an elements content.
+
+#### @font-face
+Generate CSS @font-face rules in a neat manner using a map.
+
+
+### \_decimal.scss
+Decial 
+
+### \_partials.scss
+A collection of miscellaneous Scss partials derived from mixins and functions in [\_decimal.scss](/_decimal.scss) and [\_mixins.scss](/_mixins.scss).
+
+## License and Copyright
 The MIT License (MIT)
 
 Copyright (c) 2015 Mark Grealish
