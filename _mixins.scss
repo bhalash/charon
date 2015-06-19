@@ -229,7 +229,7 @@
          * height: icon size * number of columns in spritesheet */
         background-size: #{$width * $columns} #{$width * $rows};
         background-repeat: no-repeat;
-        display: block;
+        display: inline-block;
         @include square-flex($width $ratio);
     }
 
