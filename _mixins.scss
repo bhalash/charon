@@ -307,32 +307,33 @@
 
 @mixin flex-parent($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
     // Generate flex parent rules.
-    @include prefix-value(display, flex, webkit);
-    @include prefix(flex-direction, $direction, webkit);
+
+    disiplay: flex;
+    flext-direction: $direction;
 
     @if ($justify-content) {
-        @include prefix(justify-content, $justify-content, webkit);
+        justify-content: $justify-content;
     }
 
     @if ($wrap) {
-        @include prefix(flex-wrap, $wrap, webkit);
+        flex-wrap: $wrap;
     }
 
     @if ($align-items) {
-        @include prefix(align-items, $align-items, webkit);
+        align-items: $align-items;
     }
 }
 
 @mixin flex-child($flex: 1, $align-self: null, $order: null) {
     // Generate flex children rules.
-    @include prefix(flex, $flex, webkit);
+    flex: $flex;
 
     @if ($align-self) {
-        @include prefix(align-self, $align-self, webkit);
+        align-self: align-self;
     }
 
     @if ($order) {
-        @include prefix(order, $order, webkit);
+        order: $order;
     }
 }
 
@@ -377,8 +378,8 @@
 }
 
 @mixin columns($count, $gap) {
-    @include prefix(column-count, $count);
-    @include prefix(column-gap, $gap);
+    column-count: $count;
+    column-gap: $gap;
 }
 
 /**

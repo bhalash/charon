@@ -92,7 +92,7 @@
 
 .noselect, %noselect {
     cursor: default;
-    @include prefix(user-select, none);
+    user-select: none;
 }
 
 /**
