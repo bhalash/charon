@@ -329,7 +329,7 @@
     flex: $flex;
 
     @if ($align-self) {
-        align-self: align-self;
+        align-self: $align-self;
     }
 
     @if ($order) {
