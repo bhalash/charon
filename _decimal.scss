@@ -124,20 +124,25 @@
  * a multiplier of the base margin and padding. The side can be appended through
  * an optional operator. If you do set a side, every margin or padding except 
  * the first passed will be silently discarded.
+ * 
+ * @param   string      $attribute      Atrt
  */
 
-@mixin box-size($spacing, $values, $side: null) {
-    @if ($side) {
-        // Discard all values but first if a side is provided.
-        $side: '-' + nth($side, 1);
-
+@mixin box-size($attribute, $values, $sides: null) {
+    @if ($sides) {
         @if(length($values) > 1) {
+            // Discard all values but the first if explicit sides are provided.
             $value: nth($values, 1);
         }
-    }
 
-    #{$spacing}#{$side}: px($values);
-    #{$spacing}#{$side}: rem($values);
+        @each $side in $sides {
+            #{$attribute + '-' + $side}: px($values);
+            #{$attribute + '-' + $side}: rem($values);
+        }
+    } @else {
+        #{$attribute}: px($values);
+        #{$attribute}: rem($values);
+    }
 }
 
 @mixin margin($margin, $side: null) {
