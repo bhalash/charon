@@ -308,8 +308,8 @@
 @mixin flex-parent($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
     // Generate flex parent rules.
 
-    disiplay: flex;
-    flext-direction: $direction;
+    display: flex;
+    flex-direction: $direction;
 
     @if ($justify-content) {
         justify-content: $justify-content;
