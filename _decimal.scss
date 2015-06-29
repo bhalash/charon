@@ -132,7 +132,7 @@
     @if ($sides) {
         @if(length($values) > 1) {
             // Discard all values but the first if explicit sides are provided.
-            $value: nth($values, 1);
+            $values: nth($values, 1);
         }
 
         @each $side in $sides {
