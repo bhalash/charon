@@ -311,33 +311,16 @@
  */
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
-    $ie-justify: '';
-
-    // display: box;
     display: flex;
 
     // No 2009 equivalent.
     flex-direction: $direction;
 
     @if ($justify) {
-        @if ($justify == 'flex-start') {
-            $ie-justify: start;
-        } @else if ($justify == 'flex-end') {
-            $ie-justify: end;
-        } @else if ($justify == 'center') {
-            $ie-justify: center;
-        } @else if ($justify == 'space-between') {
-            $ie-justify: ie-justify;
-        } @else if ($justify == 'space-around') {
-            $ie-justify: distribute;
-        }
-
-        flex-pack: $ie-justify;
         justify: $justify;
     }
 
     @if ($wrap) {
-        // No 2009 equivalent.
         flex-wrap: $wrap;
     }
 
@@ -355,7 +338,6 @@
  */
 
 @mixin flex-child($flex: 1, $align: null, $order: null) {
-    box-flex: $flex;
     flex: $flex;
 
     @if ($align) {
@@ -363,7 +345,6 @@
     }
 
     @if ($order) {
-        flex-order: $order;
         order: $order;
     }
 }
