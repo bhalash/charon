@@ -311,8 +311,12 @@
  */
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
+    $ie-justify: '';
+
     display: box;
     display: flex;
+
+    // No 2009 equivalent.
     flex-direction: $direction;
 
     @if ($justify) {
@@ -333,7 +337,7 @@
     }
 
     @if ($wrap) {
-        // No 2012 equivalent.
+        // No 2009 equivalent.
         flex-wrap: $wrap;
     }
 
