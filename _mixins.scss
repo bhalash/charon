@@ -206,9 +206,9 @@
     background-image: url(map-get($sprites, svg));
 
     // Icon size * number of rows in spritesheet.
-    $w: nth($size, 1) * map-get($sprites, columns);
+    $w: nth($size, 1) * map-get($sprites, rows);
     // Icon size * number of columns in spritesheet.
-    $h: nth($size, 1) * map-get($sprites, rows);
+    $h: nth($size, 1) * map-get($sprites, columns);
 
     background-size: $w $h;
     background-repeat: no-repeat;
