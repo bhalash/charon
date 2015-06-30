@@ -49,9 +49,6 @@
 /**
  * Set Position of Fixed, Absolute or Relative Items
  * -----------------------------------------------------------------------------
- * @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
- * @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
- * 
  * I wanted a slightly different operation for my position mixin: To be able to 
  * use in a manner identical to margin or padding side shorthand:
  * 
@@ -68,39 +65,45 @@
  *
  * If values are unitless and greater than zero, it will assume they decimal
  * values and generate rem dimensions.
+ * 
+ * @param   string      $position           Type of position (absolute, fixed, relative).
+ * @param   map         $values             Values to be applied.
+ * @param   map         $offsets            Sides for values (top, right, etc.).
+ * @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+ * @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
  */
 
-@mixin position($position, $sides, $offsets: null) {
+@mixin position($position, $values, $offsets: null) {
     position: $position; 
 
     @if (not $offsets) {
         // 1. Default offsets list.
         $offsets: top right bottom left;
 
-        @if (length($sides) == 1) {
+        @if (length($values) == 1) {
             @for $i from 1 to 4 {
                 // 1 or 4 values. If only one side input, duplicate it for the other sides.
-                $sides: append($sides, nth($sides, 1));
+                $values: append($values, nth($values, 1));
             }
-        } @else if (length($sides) == 2) {
+        } @else if (length($values) == 2) {
             // 2 values. Duplicate each value if two items provided.
             $offsets: top left bottom right;
-            $sides: append($sides, nth($sides, 1));
-            $sides: append($sides, nth($sides, 2));
-        } @else if (length($sides) == 3) {
+            $values: append($values, nth($values, 1));
+            $values: append($values, nth($values, 2));
+        } @else if (length($values) == 3) {
             // 3 values. Add extra side if three values provided.
             $offsets: top left bottom right;
-            $sides: append($sides, nth($sides, 2));
+            $values: append($values, nth($values, 2));
         }
     } @else {
-        @if (length($sides) != length($offsets)) {
+        @if (length($values) != length($offsets)) {
             @warn 'The number of offset properties and offset values must be equal.';
         }
     }
 
     @each $offset in $offsets {
         $side: index($offsets, $offset);
-        $value: nth($sides, $side);
+        $value: nth($values, $side);
 
         @if (not valid-unit($value)) {
             @warn '"#{$side} is not a valid unit for this mixin.';
@@ -115,6 +118,8 @@
 /**
  * Position Shorthand Mixins
  * -----------------------------------------------------------------------------
+ * @param   map     $values         Values to be applied.
+ * @param   map     $offsets        Sides for values (top, right, etc.).
  */
 
 @mixin absolute($values, $offsets: null) {
@@ -150,8 +155,11 @@
  *          )
  *      );
  * 
+ * @param   string      $color          Colour to be used from map.
+ * @param   string      $tone           Default tone to be used.
+ * @param   map         $palette        Palette of colours.
+ * @return  string                      Colour chen from map.
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
- * 
  */
 
 @function palette($color, $tone: 'base', $palette: $default-colors) {
@@ -159,43 +167,55 @@
 }
 
 /**
- * Vendor Property and Value Prefixes
+ * Prefix Attribute
  * -----------------------------------------------------------------------------
- * Automatically vendor prefixes to CSS properties and values.
- * For the most part I only need to prefix for webkit, so that is the default
- * set.
+ * Automatically vendor prefixes to CSS properties. You should use autoprefixer! 
+ * 
+ * @param   string      $attribute       CSS attribute to be prefixed.
+ * @param   string      $value           CSS value. 
+ * @param   map         $prefixes        Map of prefixes to be applied.
  */
 
-@mixin prefix($property, $value, $prefixes: webkit) {
+@mixin prefix($attribute, $value, $prefixes: webkit) {
     @each $prefix in $prefixes {
-        #{'-' + $prefix + '-' + $property}: $value;
+        #{'-' + $prefix + '-' + $attribute}: $value;
     }
 
-    #{$property}: #{$value};
+    #{$attribute}: #{$value};
 }
 
-@mixin prefix-value($property, $value, $prefixes: webkit) {
+/**
+ * Prefix Value
+ * -----------------------------------------------------------------------------
+ * Automatically vendor prefixes to CSS values. You should use autoprefixer! 
+ * 
+ * @param   string      $attribute       CSS attribute.
+ * @param   string      $value           CSS value to be prefixed.
+ * @param   map         $prefixes        Map of prefixes to be applied.
+ */
+
+@mixin prefix-value($attribute, $value, $prefixes: webkit) {
     @each $prefix in $prefixes {
-        #{$property}: #{'-' + $prefix + '-' + $value};
+        #{$attribute}: #{'-' + $prefix + '-' + $value};
     }
 
-    #{$property}: #{$value};
+    #{$attribute}: #{$value};
 }
 
 /**
  * Social Images and Colours
  * -----------------------------------------------------------------------------
  * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
- * icons. So:
+ * icons. This mixin generates uses an SVG spritemap with PNG fallback to 
+ * generate social icons for popular networks. Have a look at _defaults.scss to
+ * see the list of currently supported services, as well as the format used. 
  * 
- * 1. This uses a SVG spritesheet and is tuned to interact with it.
- * 2. If you ever alter the spritesheet then you will also need to alter
- *    the given background-position rules in the array.
- * 2. Size can be arbitrary and defaults to:
- *          a. Width equal to 100% of parent width.
- *          b. Height equal to 100% of parent height.
- * 3. Any given pixel size is treated identically-square.
- * 4. If you need finer control anyhing, add it as content.
+ * I have included black and white minimal icons; the background colours of the
+ * element will be that for the relevant network.
+ * 
+ * @param   map     $size           Percentage width and height ratio for square-flex().
+ * @param   map     $service        Service to be selectively output.
+ * @param   map     $spritesheet    Map with information for spritesheet. 
  */
 
 @mixin social-link($size: 100% 1, $service: null, $spritesheet: $spritesheet-white) {
@@ -245,15 +265,18 @@
  * -----------------------------------------------------------------------------
  * Responsive padding for sections without having to list it all by hand. 
  * $padding, $padding * 0.8, $padding * 0.6, etc...
+ * 
+ * @param   int     $padding            Initial padding value.
+ * @param   map     $media              Map of responsive @media breakpoints.
  */
 
-@mixin content-padding($padding, $media-arr) {
+@mixin content-padding($padding, $media) {
     $padding-mod: 1; 
 
     padding-left: $padding;
     padding-right: $padding;
 
-    @each $break in $media-arr {
+    @each $break in $media {
         @include media($break) {
             padding-left: $padding * $padding-mod;
             padding-right: $padding * $padding-mod;
@@ -269,12 +292,19 @@
 }
 
 /**
- * Flexbox
+ * Flexbox Parent
  * -----------------------------------------------------------------------------
  * If you have come this far you should have an understanding of how, why and 
  * where you would use flexbox. These mixins generate unprefixed CSS flexbox
  * rules, with a fallback generated for IE8 for use through Flexie.
+ * 
+ * Two safe defaults are assumes for flex-direction and flex, but otherwise I 
+ * leave browser defaults be.
  *
+ * @param   string      $direction          Direction of flexbox. Column or row.
+ * @param   string      $justify-content    Alignment of content along main axis.
+ * @param   string      $wrap               Whether or not to wrap content.
+ * @param   string      $align-items        Alignment of content along secondary axis.
  * @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
  * @link http://flexiejs.com/
  */
@@ -296,6 +326,14 @@
     }
 }
 
+/**
+ * Flexbox Child
+ * -----------------------------------------------------------------------------
+ * @param   list      $flex         Default flex arguments.
+ * @param   string    $align-self   Self-alignment position.
+ * @param   int       $order        Order for self in flex parent.
+ */
+
 @mixin flex-child($flex: 1, $align-self: null, $order: null) {
     flex: $flex;
 
@@ -315,6 +353,7 @@
  * Width can be of any size.
  * Ratio should be between 0 and foo.
  * 
+ * @param   map     $size           Horizontal width and height ratio.
  * @link http://stackoverflow.com/a/13625843/1433400
  * @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
  */
@@ -329,8 +368,9 @@
 }
  
 /**
- * Miscellaneous Mixins and Functions
+ * Vertical Center
  * -----------------------------------------------------------------------------
+ * @param   int     $amount         Amount of top and bottom padding.
  */
 
 @mixin vertical-center($amount) {
@@ -338,6 +378,16 @@
     padding-bottom: $amount;
     padding-top: $amount;
 }
+
+/**
+ * Invert RGBA
+ * -----------------------------------------------------------------------------
+ * @param   int     $red            Red value. 
+ * @param   int     $green          Green value.
+ * @param   int     $blue           Blue value. 
+ * @param   int     $alpha          Alpha value. 
+ @ @return  map                     Inverted RGBA.
+ */
 
 @function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
     $red: 255 - $red;
@@ -347,6 +397,13 @@
 
     @return rgba($red, $green, $blue, $alpha);
 }
+
+/**
+ * Split Paragraph into Columns
+ * -----------------------------------------------------------------------------
+ * @param   int     $count          Number of columns.
+ * @param   int     $gap            Gap between columns.
+ */
 
 @mixin columns($count, $gap) {
     column-count: $count;
@@ -413,13 +470,29 @@
     }
 }
 
-@mixin solid-mask($red: 255, $green: 255, $blue: 255, $opacity: 1) {
+/**
+ * Solid Background Mask
+ * -----------------------------------------------------------------------------
+ * @param   int     $red            Red value. 
+ * @param   int     $green          Green value.
+ * @param   int     $blue           Blue value. 
+ * @param   int     $alpha          Alpha value. 
+ */
+
+@mixin solid-mask($red: 255, $green: 255, $blue: 255, $alpha: 1) {
     @extend %background-mask;
 
     &:after {
-        background-color: rgba($red, $green, $blue, $opacity);
+        background-color: rgba($red, $green, $blue, $alpha);
     }
 }
+
+/**
+ * Gradient Background Mask
+ * -----------------------------------------------------------------------------
+ * @param   map     $start          Gradient start point.
+ * @param   map     $end            Gradient end point.
+ */
 
 @mixin gradient-mask ($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
     @extend %background-mask;
@@ -462,6 +535,8 @@
  * Then call with: 
  * 
  *      @include font-face($open-sans);
+ *
+ * @param   map         $font           Map of typeface information.
  */
 
 @mixin font-face($font) { 
