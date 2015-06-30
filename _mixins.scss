@@ -317,7 +317,7 @@
     flex-direction: $direction;
 
     @if ($justify) {
-        justify: $justify;
+        justify-content: $justify;
     }
 
     @if ($wrap) {
