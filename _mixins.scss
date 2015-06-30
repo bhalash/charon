@@ -313,7 +313,7 @@
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
     $ie-justify: '';
 
-    display: box;
+    // display: box;
     display: flex;
 
     // No 2009 equivalent.
