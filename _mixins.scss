@@ -196,65 +196,45 @@
  *          b. Height equal to 100% of parent height.
  * 3. Any given pixel size is treated identically-square.
  * 4. If you need finer control anyhing, add it as content.
- * 
- * You can find the connected SVG spritesheet on GitHub at he following
- * URL: https://gist.github.com/bhalash/6bad337ac7445054d3a9#file-gistfile2-svg
- * 
- * Feel free to create and use your own spritesheet using the map below as a 
- * template! :)
  */
 
-@mixin generate-social-link($element: null, $size: 100% 1, $service: null, $spritesheet: $spritesheet-white) {
-    /* Element can be a class, ID, element-whatever. #foo, .a or baz, or a[href^=fizz]
-     * are all perfectly acceptable. */
+@mixin social-link($size: 100% 1, $service: null, $spritesheet: $spritesheet-white) {
+    $sprites: map-get($spritesheet, sprites);
+    $networks: map-get($spritesheet, networks);
 
-    // Path to sprtesheet.
-    $url: nth(map-get($spritesheet, sprites), 1);
-    // Columns/width.
-    $columns: nth(map-get($spritesheet, sprites), 2);
-    // Rows/height.
-    $rows: nth(map-get($spritesheet, sprites), 3);
-    // Positional information.
-    $networks: map-get($spritesheet, positions);
-    // Pixel/percentage/rem/em/whatever size.
-    $width: nth($size, 1);
-    // Ratio of height to width. See square-flex().
-    $ratio: nth($size, 2);
+    background-image: map-get($sprites, png);
+    background-image: map-get($sprites, svg);
 
-    #{$element} {
-        // Vector spritesheet is background-image.
-        background-image: url($url);
-        /* Final icon is square. background-image size is:
-         * width: icon size * number of rows in spritesheet
-         * height: icon size * number of columns in spritesheet */
-        background-size: #{$width * $columns} #{$width * $rows};
-        background-repeat: no-repeat;
-        display: inline-block;
-        @include square-flex($width $ratio);
-    }
+    // Icon size * number of rows in spritesheet.
+    $w: nth($size, 1) * map-get($sprites, columns);
+    // Icon size * number of columns in spritesheet.
+    $h: nth($size, 1) * map-get($sprites, rows);
+
+    background-size: $w $h;
+    background-repeat: no-repeat;
+    display: inline-block;
+    @include square-flex($size);
 
     @if ($service) {
-        // If you supply a service, just output link for that.
-        $color: nth(map-get($networks, $service), 1);
-        $position-x: nth(map-get($networks, $service), 2);
-        $position-y: nth(map-get($networks, $service), 3);
+        // Only link given service, if provided.
+        $bg: nth(map-get($networks, $service), 1);
+        $x: nth(map-get($networks, $service), 2);
+        $y: nth(map-get($networks, $service), 3);
 
-        #{$element}.#{$service} {
-            background-color: $color;
-            background-position: $position-x $position-y;
-            @content;
+        &.#{$service} {
+            background-color: $bg;
+            background-position: $x $y;
         }
     } @else {
-        // Else iterate map-list to produce social links.
-        @each $map, $network in $networks {
-            $color: nth($network, 1);
-            $position-x: nth($network, 2);
-            $position-y: nth($network, 3);
+        // Else iterate $networks to produce social links.
+        @each $class, $network in $networks {
+            $bg: nth($network, 1);
+            $x: nth($network, 2);
+            $y: nth($network, 3);
 
-            #{$element}.#{$map} {
-                background-color: $color;
-                background-position:  $position-x $position-y;
-                @content;
+            &.#{$class} {
+                background-color: $bg;
+                background-position: $x $y; 
             }
         }
     }
@@ -291,23 +271,15 @@
 /**
  * Flexbox
  * -----------------------------------------------------------------------------
- * See https://css-tricks.com/snippets/css/a-guide-to-flexbox/ for a primer on
- * CSS flexbox. If you have come this far you should have an understanding of
- * how, why and where you would use flexbox.
- * 
- * These two mixins generate rules for parent and child elements respectively.
- * By default, the parent will be a row and the child will have a flex value of 
- * 1.
- * 
- * As of April 2015 cross-browser support for flexbox isn't complete; there are
- * major issues with vertical alignment in Internet Explorer and all versions
- * of Safari (desktop and mobile) require properties and values to be prefixed
- * with -webkit-foo.
+ * If you have come this far you should have an understanding of how, why and 
+ * where you would use flexbox. These mixins generate unprefixed CSS flexbox
+ * rules, with a fallback generated for IE8 for use through Flexie.
+ *
+ * @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ * @link http://flexiejs.com/
  */
 
 @mixin flex-parent($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
-    // Generate flex parent rules.
-
     display: flex;
     flex-direction: $direction;
 
@@ -325,7 +297,6 @@
 }
 
 @mixin flex-child($flex: 1, $align-self: null, $order: null) {
-    // Generate flex children rules.
     flex: $flex;
 
     @if ($align-self) {

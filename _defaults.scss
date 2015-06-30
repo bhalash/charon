@@ -58,7 +58,7 @@ $default-multipliers: (
  */
 
 $spritesheet-positions: (
-    positions: (
+    networks: (
         beard: (#343537, 0, 0),
         discuss: (#b9dfbc, 20%, 0),
         email: (#f5756c, 40%, 0),
@@ -81,8 +81,23 @@ $spritesheet-positions: (
    )
 ) !default;
 
-$black-sprites: (sprites: ('scss-helpers/vectors/button-sprites-black.svg', 6, 4)) !default;
-$white-sprites: (sprites: ('scss-helpers/vectors/button-sprites-white.svg', 6, 4)) !default;
+$black-sprites: (
+    sprites: (
+        png: 'scss-helpers/assets/png/button-sprites-black.png',
+        svg: 'scss-helpers/assets/svg/button-sprites-black.svg',
+        rows: 6,
+        columns: 4
+    )
+) !default;
+
+$white-sprites: (
+    sprites: (
+        png: 'scss-helpers/assets/png/button-sprites-white.png',
+        svg: 'scss-helpers/assets/svg/button-sprites-white.svg',
+        rows: 6,
+        columns: 4
+    )
+) !default;
 
 $spritesheet-black: map-merge($spritesheet-positions, $black-sprites) !default;
 $spritesheet-white: map-merge($spritesheet-positions, $white-sprites) !default;
