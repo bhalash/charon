@@ -202,8 +202,8 @@
     $sprites: map-get($spritesheet, sprites);
     $networks: map-get($spritesheet, networks);
 
-    background-image: map-get($sprites, png);
-    background-image: map-get($sprites, svg);
+    background-image: url(map-get($sprites, png));
+    background-image: url(map-get($sprites, svg));
 
     // Icon size * number of rows in spritesheet.
     $w: nth($size, 1) * map-get($sprites, columns);
