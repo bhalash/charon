@@ -306,23 +306,39 @@
  * @param   string      $wrap               Whether or not to wrap content.
  * @param   string      $align-items        Alignment of content along secondary axis.
  * @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ * @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
  * @link http://flexiejs.com/
  */
 
-@mixin flex-parent($direction: row, $justify-content: null, $wrap: null, $align-items: null) {
+@mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
+    display: box;
     display: flex;
     flex-direction: $direction;
 
-    @if ($justify-content) {
-        justify-content: $justify-content;
+    @if ($justify) {
+        @if ($justify == 'flex-start') {
+            $ie-justify: start;
+        } @else if ($justify == 'flex-end') {
+            $ie-justify: end;
+        } @else if ($justify == 'center') {
+            $ie-justify: center;
+        } @else if ($justify == 'space-between') {
+            $ie-justify: ie-justify;
+        } @else if ($justify == 'space-around') {
+            $ie-justify: distribute;
+        }
+
+        flex-pack: $ie-justify;
+        justify: $justify;
     }
 
     @if ($wrap) {
+        // No 2012 equivalent.
         flex-wrap: $wrap;
     }
 
-    @if ($align-items) {
-        align-items: $align-items;
+    @if ($align) {
+        align-items: $align;
     }
 }
 
@@ -334,14 +350,16 @@
  * @param   int       $order        Order for self in flex parent.
  */
 
-@mixin flex-child($flex: 1, $align-self: null, $order: null) {
+@mixin flex-child($flex: 1, $align: null, $order: null) {
+    box-flex: $flex;
     flex: $flex;
 
-    @if ($align-self) {
-        align-self: $align-self;
+    @if ($align) {
+        align-self: $align;
     }
 
     @if ($order) {
+        flex-order: $order;
         order: $order;
     }
 }
