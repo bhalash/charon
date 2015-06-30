@@ -34,20 +34,10 @@
 /**
  * Self-clearing Floats 
  * -----------------------------------------------------------------------------
- * Bulletproof and Rock-Solid self-clearing float. You can tell it is both
- * Bulletproof and Rock-Solid since I capitalized the words. There are very rare
- * instances were I might need to use a clearing element (such as splitting 
- * floating elements vertically).
  */
 
 .clearfix, %clearfix {
-    overflow: auto;
-
-    &:after {
-        clear: both;
-        content: '';
-        display: table;
-    }
+    @include clearfix();
 }
 
 /**
