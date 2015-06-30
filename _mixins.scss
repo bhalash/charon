@@ -247,12 +247,12 @@
         }
     } @else {
         // Else iterate $networks to produce social links.
-        @each $class, $network in $networks {
+        @each $service, $network in $networks {
             $bg: nth($network, 1);
             $x: nth($network, 2);
             $y: nth($network, 3);
 
-            &.#{$class} {
+            &.#{$service} {
                 background-color: $bg;
                 background-position: $x $y; 
             }
