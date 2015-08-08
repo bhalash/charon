@@ -167,6 +167,41 @@
 }
 
 /**
+ * Fetch Named Asset
+ * -----------------------------------------------------------------------------
+ * $assets: (
+ *      brand: (
+ *          tuairisc: (
+ *              black: $brands + 'tuairisc-black.svg',
+ *              white: $brands + 'tuairisc-white.svg'
+ *          ),
+ *          foras: (
+ *              black: 'foras-black.svg',
+ *              white: 'foras-white.svg'
+ *          ),
+ *          greann: $brands + 'greann.svg'
+ *      )
+ *  );
+ *
+ * @param   string      $asset      Primary asset name.
+ * @param   map         $secondary  Asset variant names.
+ * @return  string      Returned image asset.
+ * @link https://www.bhalash.com/archives/13544804892
+ */
+
+@function asset($asset, $variants: null) {
+    $asset: map-get($assets, $asset);
+
+    @if ($variants) {
+        @each $variant in $variants {
+            $asset: map-get($asset, $variant);
+        }
+    }
+
+    @return url($asset);
+}
+
+/**
  * Prefix Attribute
  * -----------------------------------------------------------------------------
  * Automatically vendor prefixes to CSS properties. You should use autoprefixer! 
