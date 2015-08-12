@@ -43,14 +43,14 @@
     $units: ();
     $multiplier: '';
 
-    @if (not map-has-key($multipliers, $type)) {
+    @if not map-has-key($multipliers, $type) {
         @warn "`#{$type}` is an invalid type: Type should be one of rem, em or px.";
     } @else {
         $multiplier: map-get($multipliers, $type);
     }
 
     @each $value in $values {
-        @if (not unitless($value)) {
+        @if not unitless($value) {
             @warn "`#{$value}` is an invalid value: Property should be a unitless decimal.";
         } @else {
             $units: append($units, $value * $multiplier + $type);
@@ -129,8 +129,8 @@
  */
 
 @mixin box-size($attribute, $values, $sides: null) {
-    @if ($sides) {
-        @if(length($values) > 1) {
+    @if $sides {
+        @if length($values) > 1 {
             // Discard all values but the first if explicit sides are provided.
             $values: nth($values, 1);
         }
@@ -167,19 +167,19 @@
  */
 
 @mixin size($sizes) {
-    @if (length($sizes) < 2) {
+    @if length($sizes) < 2 {
         @warn 'Two values should be passed to this mixin!';
     } @else {
         $width: nth($sizes, 1);
         $height: nth($sizes, 2);
 
-        @if (is-decimal($width)) {
+        @if is-decimal($width) {
             @include width($width);
         } @else {
             width: $width;
         }
 
-        @if (is-decimal($height)) {
+        @if is-decimal($height) {
             @include height($height);
         } @else {
             height: $height;
