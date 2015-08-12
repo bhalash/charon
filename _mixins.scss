@@ -76,27 +76,27 @@
 @mixin position($position, $values, $offsets: null) {
     position: $position; 
 
-    @if (not $offsets) {
+    @if not $offsets {
         // 1. Default offsets list.
         $offsets: top right bottom left;
 
-        @if (length($values) == 1) {
+        @if length($values) == 1 {
             @for $i from 1 to 4 {
                 // 1 or 4 values. If only one side input, duplicate it for the other sides.
                 $values: append($values, nth($values, 1));
             }
-        } @else if (length($values) == 2) {
+        } @else if length($values) == 2 {
             // 2 values. Duplicate each value if two items provided.
             $offsets: top left bottom right;
             $values: append($values, nth($values, 1));
             $values: append($values, nth($values, 2));
-        } @else if (length($values) == 3) {
+        } @else if length($values) == 3 {
             // 3 values. Add extra side if three values provided.
             $offsets: top left bottom right;
             $values: append($values, nth($values, 2));
         }
     } @else {
-        @if (length($values) != length($offsets)) {
+        @if length($values) != length($offsets) {
             @warn 'The number of offset properties and offset values must be equal.';
         }
     }
@@ -105,9 +105,9 @@
         $side: index($offsets, $offset);
         $value: nth($values, $side);
 
-        @if (not valid-unit($value)) {
+        @if not valid-unit($value) {
             @warn '"#{$side} is not a valid unit for this mixin.';
-        } @else if (is-decimal($value)) {
+        } @else if is-decimal($value) {
             @include rem(#{$offset}, $value);
         } @else {
             #{$offset}: $value;
@@ -192,7 +192,7 @@
 @function asset($asset, $variants: null) {
     $asset: map-get($assets, $asset);
 
-    @if ($variants) {
+    @if $variants {
         @each $variant in $variants {
             $asset: map-get($asset, $variant);
         }
@@ -270,7 +270,7 @@
     display: inline-block;
     @include square-flex($size);
 
-    @if ($service) {
+    @if $service {
         // Only link given service, if provided.
         $bg: nth(map-get($networks, $service), 1);
         $x: nth(map-get($networks, $service), 2);
@@ -351,15 +351,15 @@
     // No 2009 equivalent.
     flex-direction: $direction;
 
-    @if ($justify) {
+    @if $justify {
         justify-content: $justify;
     }
 
-    @if ($wrap) {
+    @if $wrap {
         flex-wrap: $wrap;
     }
 
-    @if ($align) {
+    @if $align {
         align-items: $align;
     }
 }
@@ -375,11 +375,11 @@
 @mixin flex-child($flex: 1, $align: null, $order: null) {
     flex: $flex;
 
-    @if ($align) {
+    @if $align {
         align-self: $align;
     }
 
-    @if ($order) {
+    @if $order {
         order: $order;
     }
 }
@@ -616,15 +616,15 @@
 
         // Optionally override CSS text defaults:
 
-        @if (map-has-key($font, weight)) {
+        @if map-has-key($font, weight) {
             font-weight: map-get($font, weight);    
         }
 
-        @if (map-has-key($font, style)) {
+        @if map-has-key($font, style) {
             font-style: map-get($font, style);
         }
 
-        @if (map-has-key($font, stretch)) {
+        @if map-has-key($font, stretch) {
             // Not supported anywhere. Ware ye.
             font-stretch: map-get($font, stretch);
         }
