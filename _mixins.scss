@@ -632,3 +632,21 @@
         @content;
     } 
 }
+
+/**
+ * Flexbox Columns
+ * -----------------------------------------------------------------------------
+ * @param   int     $count          Number of columns to output.
+ * @param   int     $percentage     Percentage space betwen columns.
+ */
+
+@mixin column-of($child: div, $columns: 3, $separation: 2) {
+    $column-width: (100 - ($columns - 1) * $separation) / $columns;
+
+    @include flex-parent(row, space-between, wrap);
+
+    > #{$child} {
+        @include flex-child(0 1 #{$column-width + '%'});
+        @content;
+    }
+}
