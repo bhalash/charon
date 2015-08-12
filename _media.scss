@@ -33,11 +33,11 @@
     $start: null;
     $end: null;
 
-    @if (length($args) == 2) {
+    @if length($args) == 2 {
         $start: nth($args, 2);
     }
 
-    @if (length($args) == 3) {
+    @if length($args) == 3 {
         $end: nth($args, 3);
     }
 
@@ -46,13 +46,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == smartphone) {
+    @if $type == smartphone {
         @include smartphone() {
             @content;
         }
     }
 
-    @if ($type == tablet) {
+    @if $type == tablet {
         @include tablet() {
             @content;
         }
@@ -63,19 +63,19 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == aspect) {
+    @if $type == aspect {
         @include aspect-ratio($start) {
             @content;
         }
     }
 
-    @if ($type == portrait) {
+    @if $type == portrait {
         @include orient-portrait() {
             @content;
         }
     }
 
-    @if ($type == landscape) {
+    @if $type == landscape {
         @include orient-landscape() {
             @content;
         }
@@ -86,13 +86,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == min) {
+    @if $type == min {
         @include min($start) {
             @content;
         }
     }
 
-    @if ($type == max) {
+    @if $type == max {
         @include max($start) {
             @content;
         }
@@ -103,13 +103,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == min-height) {
+    @if $type == min-height {
         @include min-height($start) {
             @content;
         }
     }
 
-    @if ($type == max-height) {
+    @if $type == max-height {
         @include max-height($start) {
             @content;
         }
@@ -120,13 +120,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == min-device) {
+    @if $type == min-device {
         @include min-device($start) {
             @content;
         }
     }
 
-    @if ($type == max-device) {
+    @if $type == max-device {
         @include max-device($start) {
             @content;
         }
@@ -137,13 +137,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == min-device-height) {
+    @if $type == min-device-height {
         @include min-device-height($start) {
             @content;
         }
     }
 
-    @if ($type == max-device-height) {
+    @if $type == max-device-height {
         @include max-device-height($start) {
             @content;
         }
@@ -154,13 +154,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == range) {
+    @if $type == range {
         @include range($start, $end) {
             @content;
         }
     }
 
-    @if ($type == range-height) {
+    @if $type == range-height {
         @include range-height($start, $end) {
             @content;
         }
@@ -171,13 +171,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == range-device) {
+    @if $type == range-device {
         @include range-device($start, $end) {
             @content;
         }
     }
 
-    @if ($type == range-device-height) {
+    @if $type == range-device-height {
         @include range-device-height($start, $end) {
             @content;
         }
@@ -188,13 +188,13 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == density) {
+    @if $type == density {
         @include density($start) {
             @content;
         }
     }
 
-    @if ($type == print) {
+    @if $type == print {
         @include print() {
             @content;
         }
@@ -205,7 +205,7 @@
      * -------------------------------------------------------------------------
      */
 
-    @if ($type == ie) {
+    @if $type == ie {
         @include ie($start) {
             @content;
         }
@@ -414,16 +414,16 @@
  */
 
 @mixin ie($version: null) {
-    @if ($version) {
-        @if ($version == 6) {
+    @if $version {
+        @if $version == 6 {
             $version: 'screen\9';
-        } @else if ($version == 7) {
+        } @else if $version == 7 {
             $version: '\0screen\,screen\9';
-        } @else if ($version == 8) {
+        } @else if $version == 8 {
             $version: '\0screen';
-        } @else if ($version == 9) {
+        } @else if $version == 9 {
             $version: 'screen\0';
-        } @else if ($version == 10) {
+        } @else if $version == 10 {
             $version: 'screen and (min-width:0\0)';
         }
     } @else {
