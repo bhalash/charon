@@ -634,14 +634,27 @@
 }
 
 /**
- * Flexbox Columns
+ * Flexbox Column Width
+ * -----------------------------------------------------------------------------
+ * Separated because I use it for fallback rules.
+ * 
+ * @param   int     $columns        Number of columns.
+ * @param   int     $separation     Percentage space between columns.
+ */
+
+@function column-width($columns, $separation) {
+    @return (100 - ($columns - 1) * $separation) / $columns;
+}
+
+/**
+ * Flexbox Column Width
  * -----------------------------------------------------------------------------
  * @param   int     $count          Number of columns to output.
  * @param   int     $percentage     Percentage space betwen columns.
  */
 
 @mixin column-of($child: div, $columns: 3, $separation: 2) {
-    $column-width: (100 - ($columns - 1) * $separation) / $columns;
+    $column-width: column-width($columns, $separation);
 
     @include flex-parent(row, space-between, wrap);
 
