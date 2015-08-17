@@ -705,7 +705,7 @@
 
     > #{$element} {
         min-height: 1px;
-        @include flex-element(0 1 #{column-width($columns, $separation) + '%'});
+        @include flex-child(0 1 #{column-width($columns, $separation) + '%'});
         @content;
     }
 }
@@ -762,7 +762,7 @@
     }
 
     @each $col in $columns {
-        #{$child}:nth-child($i) {
+        > #{$child}:nth-child($i) {
             @if $i < length($columns) {
                 $col: $col - $separation;
                 margin-#{opposite-side($side)}: #{$separation + '%'};
