@@ -1,0 +1,283 @@
+/**
+ * Columnar Container Rules
+ * -----------------------------------------------------------------------------
+ * Flexbox and float column mixins. 
+ * 
+ * @category   Stylesheet
+ * @package    Scss Helpers
+ * @author     Mark Grealish <mark@bhalash.com>
+ * @copyright  Copyright (c) 2015, Mark Grealish
+ * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version    2.0
+ * @link       https://github.com/bhalash/scss-helpers
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * Flexbox Parent
+ * -----------------------------------------------------------------------------
+ * If you have come this far you should have an understanding of how, why and 
+ * where you would use flexbox. These mixins generate unprefixed CSS flexbox
+ * rules, with a fallback generated for IE8 for use through Flexie.
+ * 
+ * Two safe defaults are assumes for flex-direction and flex, but otherwise I 
+ * leave browser defaults be.
+ *
+ * @param   string      $direction          Direction of flexbox. Column or row.
+ * @param   string      $justify-content    Alignment of content along main axis.
+ * @param   string      $wrap               Whether or not to wrap content.
+ * @param   string      $align-items        Alignment of content along secondary axis.
+ * @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ * @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
+ * @link http://flexiejs.com/
+ */
+
+@mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
+    display: flex;
+
+    // No 2009 equivalent.
+    flex-direction: $direction;
+
+    @if $justify {
+        justify-content: $justify;
+    }
+
+    @if $wrap {
+        flex-wrap: $wrap;
+    }
+
+    @if $align {
+        align-items: $align;
+    }
+}
+
+/**
+ * Flexbox Child
+ * -----------------------------------------------------------------------------
+ * @param   list      $flex         Default flex arguments.
+ * @param   string    $align-self   Self-alignment position.
+ * @param   int       $order        Order for self in flex parent.
+ */
+
+@mixin flex-child($flex: 1, $align: null, $order: null) {
+    flex: $flex;
+
+    @if $align {
+        align-self: $align;
+    }
+
+    @if $order {
+        order: $order;
+    }
+}
+
+/**
+ * Flexbox Column Width
+ * -----------------------------------------------------------------------------
+ * Separated because I use it for fallback rules.
+ * 
+ * @param   int     $columns        Number of columns.
+ * @param   int     $margin         Percentage space between columns.
+ * @return  int     Calculated column width.
+ */
+
+@function column-width($columns, $margin) {
+    @return (100 - ($columns - 1) * $margin) / $columns;
+}
+
+/**
+ * Asymmetric Float Column Width
+ * -----------------------------------------------------------------------------
+ * Return the width of all "auto" size columns in asym-float().
+ * 
+ * @param   list    $columns        List of columns.
+ * @param   int     $margin         Column margin.
+ */
+
+@function asym-col-width($columns, $margin) {
+    $percent: 0;
+    $autos: 0;
+
+    @each $col in $columns {
+        $percent: $percent + col-percent($col);
+
+        @if is-keyword($col) {
+            $autos: $autos + 1;
+        }
+    }
+
+    @if $autos == 0 {
+        $autos: 1;
+    }
+
+    @return ((100 - $percent) / $autos) - ($margin * (length($columns) - 1));
+}
+
+/**
+ * Get Opposite Float Side
+ * -----------------------------------------------------------------------------
+ * Used in several places and surprisingly useful.
+ * 
+ * @param   string      $side         Float side;
+ * @return  string      $opposite     Inverse of floated side;
+ */
+
+@function opposite-side($side: left) {
+    $opposite: right;
+
+    @if $side == right {
+        $opposite: left;
+    }
+
+    @return $opposite;
+}
+
+/**
+ * Flexbox Columns
+ * -----------------------------------------------------------------------------
+ * @param   string      $element        Target element element.
+ * @param   int         $count          Number of columns to output.
+ * @param   int         $percentage     Percentage space betwen columns.
+ */
+
+@mixin column-of($element: div, $columns: 3, $margin: 2) {
+    @include flex-parent(row, space-between, wrap);
+
+    > #{$element} {
+        min-height: 1px;
+        @include flex-child(0 1 percentage(column-width($columns, $margin)));
+        @content;
+    }
+}
+
+/**
+ * Float Columns
+ * -----------------------------------------------------------------------------
+ * @param   string      $element        Target element element.
+ * @param   int         $count          Number of columns to output.
+ * @param   int         $percentage     Percentage space betwen columns.
+ * @param   string      $side           Float side.
+ */
+
+@mixin float-of($element: div, $columns: 3, $margin: 2, $side: left) {
+    @include clearfix();
+
+    > #{$element} {
+        float: $side;
+        min-height: 1px;
+        width: percentage(column-width($columns, $margin));
+
+        &:not(:nth-child(#{$columns + 'n'})) {
+            margin-#{opposite-side($side)}: percentage($margin);
+        }
+
+        @content;
+    }
+}
+
+/**
+ *  Evaluate Whether Number is Column
+ * -----------------------------------------------------------------------------
+ * If number is a percentage, return number, else return number 0.
+ * 
+ * @param   int     $value          Number to test.
+ * @return  int     Number/0.
+ */
+
+@function value-percent($value) {
+    @return if(is-percent($value), $value, 0);
+}
+
+/**
+ * Total Percentages in List 
+ * -----------------------------------------------------------------------------
+ * The list for asymmetric float columns has a mix of percentage and "auto"
+ * sized columns. This tallies the percentage columns and returns whether they
+ * exceed 100%.
+ */
+
+@function list-greater-than($columns, $target: 100) {
+    $percent: 0;
+
+    @each $col in $columns {
+        $percent: $percent + col-percent($col);
+    }
+
+    @return ($percent > $target);
+}
+
+/**
+ * Asymmetrical Floated Elements
+ * -----------------------------------------------------------------------------
+ * float-of() provides regularly-sized floated columns side by side. This allows
+ * for an asymmetrical structure. SIZES ARE INCLUSIVE OF MARGIN, EXCEPT IN LAST
+ * COLUMN.
+ * 
+ * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
+ * float-of() if you need regular columns, because the right margin will look
+ * all fucked. This is *only* for asymmetric columns.
+ * 
+ * @param   string      $element        Target child element.
+ * @param   list        $columns        List of columns to produce.
+ * @param   int         $percentage     Percentage space betwen columns.
+ * @param   string      $side           Float side.
+ */
+
+@mixin asym-float($element: div, $columns: 25% auto, $margin: 2, $side: left) {
+    @each $col in $columns {
+        @if not is-percent($col) and not is-keyword($col) {
+            @error 'Supplied units should be either a percentage or \'auto!\'';
+        }
+    }
+
+    @if list-greater-than($columns, 100) { 
+        @error 'Column percentages should total < 100%!';
+    }
+
+    $auto-width: asym-col-width($columns, $margin);
+    $column-sizes: ();
+
+    @each $col in $columns {
+        @if is-keyword($col) {
+            $col: $auto-width;        
+        }
+
+        $column-sizes: append($column-sizes, $col);
+    }
+
+    @include clearfix();
+
+    > #{$element} {
+        float: $side;
+        min-height: 1px;
+
+        @for $i from 1 through length($columns) {
+            &:nth-child(#{$i}) {
+                width: nth($column-sizes, $i);
+            }
+        }
+
+        &:not(:nth-child(#{length($columns) + 'n'})) {
+            margin-#{opposite-side($side)}: percentage($margin * 0.01);
+        }
+
+        @content;
+    }
+}
