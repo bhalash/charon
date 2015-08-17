@@ -59,15 +59,16 @@
 @import 'columns';
 
 /**
- * Partials Generate from Mixins and Functions
- * -----------------------------------------------------------------------------
- */
-
-@import 'partials';
-
-/**
  * Media Queries
  * -----------------------------------------------------------------------------
  */
 
 @import 'media';
+
+/**
+ * Partials Generate from Mixins and Functions
+ * -----------------------------------------------------------------------------
+ * Partials are disabled because I don't use them. Add if you wish!
+ */
+
+// @import 'partials';
