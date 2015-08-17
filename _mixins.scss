@@ -763,6 +763,10 @@
 
     @each $col in $columns {
         > #{$child}:nth-child($i) {
+            @if not unitless($col) {
+                @warn 'Column widths should be unitless!';
+            }
+
             @if $i < length($columns) {
                 $col: $col - $separation;
                 margin-#{opposite-side($side)}: #{$separation + '%'};
