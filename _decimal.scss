@@ -29,6 +29,49 @@
  */
 
 /**
+ * Validate Units
+ * -----------------------------------------------------------------------------
+ * Build evaluation from units to types. 
+ *
+ * @link    http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+ */
+
+@function is-number($unit) {
+    @return type-of($unit) == 'number';
+}
+
+@function is-keyword($unit, $keywords: auto initial inherit 0) {
+    @return index($keywords, $unit) != null;
+}
+
+@function is-unit-type($unit, $type) {
+    @return is-number($unit) and unit($unit) == $type;
+}
+
+@function is-valid-unit($unit) {
+    @return (is-number($unit) or (not is-number($unit) and is-keyword($unit)));
+}
+
+/**
+ * Unit Check Shorthand
+ * -----------------------------------------------------------------------------
+ * @param   string      $unit       Canidate unit.
+ * @return  bool        Unit is $type, true false.
+ */
+
+@function is-decimal($unit) {
+    @return is-number($unit) and $unit != 0;
+}
+
+@function is-percent($unit) {
+    @return is-number($unit) and is-unit-type($unit, '%');
+}
+
+@function is-px($unit) {
+    @return is-number($unit) and is-unit-type($unit, 'px');
+}
+
+/**
  * Convert Decimal Unit to Given Output Unit
  * -----------------------------------------------------------------------------
  * Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
