@@ -40,6 +40,10 @@
     @include clearfix();
 }
 
+.nofloat, %nofloat {
+    @include nofloat();
+}
+
 /**
  * Modal Popover 
  * -----------------------------------------------------------------------------
@@ -51,14 +55,7 @@
  */
 
 .pop-modal, %pop-modal {
-    display: none;
-    @include fixed(0);
-
-    &:target {
-        display: block;
-        outline: 0;
-        z-index: 4;
-    }
+    @include pop-modal();
 }
 
 /**
