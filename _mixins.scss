@@ -727,7 +727,7 @@
         min-height: 1px;
         width: #{column-width($columns, $separation) + '%'};
 
-        &:not(:nth-element(#{$columns + 'n'})) {
+        &:not(:nth-child(#{$columns + 'n'})) {
             margin-#{opposite-side($side)}: #{$separation + '%'};
         }
 
