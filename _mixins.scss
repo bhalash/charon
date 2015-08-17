@@ -656,12 +656,10 @@
  */
 
 @mixin column-of($child: div, $columns: 3, $separation: 2) {
-    $column-width: column-width($columns, $separation);
-
     @include flex-parent(row, space-between, wrap);
 
     > #{$child} {
-        @include flex-child(0 1 #{$column-width + '%'});
+        @include flex-child(0 1 #{column-width($columns, $separation) + '%'});
         @content;
     }
 }
@@ -676,13 +674,11 @@
  */
 
 @mixin float-of($child: div, $columns: 3, $separation: 2, $direction: left) {
-    $column-width: column-width($columns, $separation);
-    
     @include clearfix();
 
     > #{$child} {
         float: $direction;
-        width: #{$column-width + '%'};
+        width: #{column-width($columns, $separation) + '%'};
 
         &:not(:nth-child(#{$columns + 'n'})) {
             margin-right: #{$separation + '%'};
