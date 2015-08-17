@@ -659,6 +659,7 @@
     @include flex-parent(row, space-between, wrap);
 
     > #{$child} {
+        min-height: 1px;
         @include flex-child(0 1 #{column-width($columns, $separation) + '%'});
         @content;
     }
@@ -678,6 +679,7 @@
 
     > #{$child} {
         float: $direction;
+        min-height: 1px;
         width: #{column-width($columns, $separation) + '%'};
 
         &:not(:nth-child(#{$columns + 'n'})) {
