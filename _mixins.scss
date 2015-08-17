@@ -687,5 +687,7 @@
         &:not(:nth-child(#{$columns + 'n'})) {
             margin-right: #{$separation + '%'};
         }
+
+        @content;
     }
 }
