@@ -683,7 +683,7 @@
     > #{$child} {
         float: $direction;
 
-        &:not(:nth-child(#{$columns + 'n'}) {
+        &:not(:nth-child(#{$columns + 'n'}i)) {
             margin-right: #{$separation + '%'};
         }
     }
