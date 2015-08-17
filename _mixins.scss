@@ -404,6 +404,16 @@
 }
 
 /**
+ * Remove Float
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin nofloat() {
+    float: none;
+    width: initial;
+}
+
+/**
  * Flexible Square Boxes
  * -----------------------------------------------------------------------------
  * Generate a box whose height is equal to the given ratio of the width.
@@ -545,6 +555,22 @@
 }
 
 /**
+ * Modal Popover
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin pop-modal() {
+    display: none;
+    @include fixed(0);
+
+    &:target {
+        display: block;
+        outline: 0;
+        z-index: 4;
+    }
+}
+
+/**
  * Gradient Background Mask
  * -----------------------------------------------------------------------------
  * @param   map     $start          Gradient start point.
@@ -648,19 +674,38 @@
 }
 
 /**
+ * Get Opposite Float Side
+ * -----------------------------------------------------------------------------
+ * Used in several places and surprisingly useful.
+ * 
+ * @param   string      $side         Float side;
+ * @return  string      $opposite     Inverse of floated side;
+ */
+
+@function opposite-side($side: left) {
+    $opposite: right;
+
+    @if $side == right {
+        $opposite: left;
+    }
+
+    @return $opposite;
+}
+
+/**
  * Flexbox Columns
  * -----------------------------------------------------------------------------
- * @param   string  $child          Target child element.
+ * @param   string  $element        Target element element.
  * @param   int     $count          Number of columns to output.
  * @param   int     $percentage     Percentage space betwen columns.
  */
 
-@mixin column-of($child: div, $columns: 3, $separation: 2) {
+@mixin column-of($element: div, $columns: 3, $separation: 2) {
     @include flex-parent(row, space-between, wrap);
 
-    > #{$child} {
+    > #{$element} {
         min-height: 1px;
-        @include flex-child(0 1 #{column-width($columns, $separation) + '%'});
+        @include flex-element(0 1 #{column-width($columns, $separation) + '%'});
         @content;
     }
 }
@@ -668,24 +713,64 @@
 /**
  * Float Columns
  * -----------------------------------------------------------------------------
- * @param   string  $child          Target child element.
+ * @param   string  $element        Target element element.
  * @param   int     $count          Number of columns to output.
  * @param   int     $percentage     Percentage space betwen columns.
- * @param   string  $direction      Float direction.
+ * @param   string  $side           Float side.
  */
 
-@mixin float-of($child: div, $columns: 3, $separation: 2, $direction: left) {
+@mixin float-of($element: div, $columns: 3, $separation: 2, $side: left) {
     @include clearfix();
 
-    > #{$child} {
-        float: $direction;
+    > #{$element} {
+        float: $side;
         min-height: 1px;
         width: #{column-width($columns, $separation) + '%'};
 
-        &:not(:nth-child(#{$columns + 'n'})) {
-            margin-right: #{$separation + '%'};
+        &:not(:nth-element(#{$columns + 'n'})) {
+            margin-#{opposite-side($side)}: #{$separation + '%'};
         }
 
         @content;
+    }
+}
+
+/**
+ * Asymmetrical Floated Elements
+ * -----------------------------------------------------------------------------
+ * float-of() provides regularly-sized floated columns side by side. This allows
+ * for an asymmetrical structure. SIZES ARE INCLUSIVE OF MARGIN, EXCEPT IN LAST
+ * COLUMN.
+ * 
+ * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
+ * float-of() if you need regular columns, because the right margin will look
+ * all fucked. This is *only* for asymmetric columns.
+ * 
+ * @param   string      $child          Target child element.
+ * @param   list        $columns        List of columns to produce.
+ * @param   int         $percentage     Percentage space betwen columns.
+ * @param   string      $side           Float side.
+ */
+
+@mixin asym-float($child: div, $columns: 25 75, $separation: 2, $side: left) {
+    $i: 1;
+
+    @include clearfix();
+
+    #{$child} {
+        float: $side;
+    }
+
+    @each $col in $columns {
+        #{$child}:nth-child($i) {
+            @if $i < length($columns) {
+                $col: $col - $separation;
+                margin-#{opposite-side($side)}: #{$separation + '%'};
+            }
+
+            width: #{$col + '%'};
+        }
+
+        $i: $i + 1;
     }
 }
