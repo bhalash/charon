@@ -665,12 +665,12 @@
  * Separated because I use it for fallback rules.
  * 
  * @param   int     $columns        Number of columns.
- * @param   int     $separation     Percentage space between columns.
+ * @param   int     $margin         Percentage space between columns.
  * @return  int     Calculated column width.
  */
 
-@function column-width($columns, $separation) {
-    @return (100 - ($columns - 1) * $separation) / $columns;
+@function column-width($columns, $margin) {
+    @return (100 - ($columns - 1) * $margin) / $columns;
 }
 
 /**
@@ -700,12 +700,12 @@
  * @param   int     $percentage     Percentage space betwen columns.
  */
 
-@mixin column-of($element: div, $columns: 3, $separation: 2) {
+@mixin column-of($element: div, $columns: 3, $margin: 2) {
     @include flex-parent(row, space-between, wrap);
 
     > #{$element} {
         min-height: 1px;
-        @include flex-child(0 1 #{column-width($columns, $separation) + '%'});
+        @include flex-child(0 1 percentage(column-width($columns, $margin));
         @content;
     }
 }
@@ -719,16 +719,16 @@
  * @param   string  $side           Float side.
  */
 
-@mixin float-of($element: div, $columns: 3, $separation: 2, $side: left) {
+@mixin float-of($element: div, $columns: 3, $margin: 2, $side: left) {
     @include clearfix();
 
     > #{$element} {
         float: $side;
         min-height: 1px;
-        width: #{column-width($columns, $separation) + '%'};
+        width: percentage(column-width($columns, $margin));
 
         &:not(:nth-child(#{$columns + 'n'})) {
-            margin-#{opposite-side($side)}: #{$separation + '%'};
+            margin-#{opposite-side($side)}: percentage($margin);
         }
 
         @content;
@@ -746,33 +746,29 @@
  * float-of() if you need regular columns, because the right margin will look
  * all fucked. This is *only* for asymmetric columns.
  * 
- * @param   string      $child          Target child element.
+ * @param   string      $element        Target child element.
  * @param   list        $columns        List of columns to produce.
  * @param   int         $percentage     Percentage space betwen columns.
  * @param   string      $side           Float side.
  */
 
-@mixin asym-float($child: div, $columns: 25 75, $separation: 2, $side: left) {
+@mixin asym-float($element: div, $columns: 25% auto, $margin: 2, $side: left) {
     $i: 1;
 
     @include clearfix();
 
-    #{$child} {
+    #{$element} {
         float: $side;
     }
 
     @each $col in $columns {
-        > #{$child}:nth-child($i) {
-            @if not unitless($col) {
-                @warn 'Column widths should be unitless!';
-            }
-
+        > #{$element}:nth-child($i) {
             @if $i < length($columns) {
-                $col: $col - $separation;
-                margin-#{opposite-side($side)}: #{$separation + '%'};
+                $col: $col - $margin;
+                margin-#{opposite-side($side)}: percentage($margin);
             }
 
-            width: #{$col + '%'};
+            width: percentage($col);
         }
 
         $i: $i + 1;
