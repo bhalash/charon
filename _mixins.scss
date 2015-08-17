@@ -705,7 +705,7 @@
 
     > #{$element} {
         min-height: 1px;
-        @include flex-child(0 1 percentage(column-width($columns, $margin));
+        @include flex-child(0 1 percentage(column-width($columns, $margin)));
         @content;
     }
 }
