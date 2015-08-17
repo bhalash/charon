@@ -640,6 +640,7 @@
  * 
  * @param   int     $columns        Number of columns.
  * @param   int     $separation     Percentage space between columns.
+ * @return  int     Calculated column width.
  */
 
 @function column-width($columns, $separation) {
@@ -647,8 +648,9 @@
 }
 
 /**
- * Flexbox Column Width
+ * Flexbox Columns
  * -----------------------------------------------------------------------------
+ * @param   string  $child          Target child element.
  * @param   int     $count          Number of columns to output.
  * @param   int     $percentage     Percentage space betwen columns.
  */
@@ -661,5 +663,28 @@
     > #{$child} {
         @include flex-child(0 1 #{$column-width + '%'});
         @content;
+    }
+}
+
+/**
+ * Float Columns
+ * -----------------------------------------------------------------------------
+ * @param   string  $child          Target child element.
+ * @param   int     $count          Number of columns to output.
+ * @param   int     $percentage     Percentage space betwen columns.
+ * @param   string  $direction      Float direction.
+ */
+
+@mixin float-of($child: div, $columns: 3, $separation: 2, $direction: left) {
+    $column-width: column-width($columns, $separation);
+    
+    @include clearfix();
+
+    > #{$child} {
+        float: $direction;
+
+        &:not(:nth-child(#{$columns + 'n'}) {
+            margin-right: #{$separation + '%'};
+        }
     }
 }
