@@ -109,14 +109,16 @@
  * 
  * @param   list    $columns        List of columns.
  * @param   int     $margin         Column margin.
+ * @return  int     $width          Percentage width of "auto" columns.
  */
 
 @function asym-col-width($columns, $margin) {
     $percent: 0;
+    $width: 0;
     $autos: 0;
 
     @each $col in $columns {
-        $percent: $percent + col-percent($col);
+        $percent: $percent + value-percent($col);
 
         @if is-keyword($col) {
             $autos: $autos + 1;
@@ -124,10 +126,18 @@
     }
 
     @if $autos == 0 {
+        // Division by zero is bad.
         $autos: 1;
     }
 
-    @return ((100 - $percent) / $autos) - ($margin * (length($columns) - 1));
+    /* Width for margin is subtracted from auto columns. In short:
+     * % column total = % width + margin;
+     * auto column total = % width - margin; */
+
+    $margin: $margin * (length($columns) - 1);
+    $width: ((100 - $percent) / $autos) - ($margin / $autos);
+
+    @return $width;
 }
 
 /**
@@ -217,7 +227,7 @@
     $percent: 0;
 
     @each $col in $columns {
-        $percent: $percent + col-percent($col);
+        $percent: $percent + value-percent($col);
     }
 
     @return ($percent > $target);
@@ -227,8 +237,8 @@
  * Asymmetrical Floated Elements
  * -----------------------------------------------------------------------------
  * float-of() provides regularly-sized floated columns side by side. This allows
- * for an asymmetrical structure. SIZES ARE INCLUSIVE OF MARGIN, EXCEPT IN LAST
- * COLUMN.
+ * for an asymmetrical structure. SIZES ARE INCLUSIVE OF MARGIN, EXCEPT IN
+ * PERCENTAGE COLUMNS.
  * 
  * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
  * float-of() if you need regular columns, because the right margin will look
@@ -243,14 +253,17 @@
 @mixin asym-float($element: div, $columns: 25% auto, $margin: 2, $side: left) {
     @each $col in $columns {
         @if not is-percent($col) and not is-keyword($col) {
+            // Check for appropraite units.
             @error 'Supplied units should be either a percentage or \'auto!\'';
         }
     }
 
     @if list-greater-than($columns, 100) { 
+        // Check for appropriate size.
         @error 'Column percentages should total < 100%!';
     }
 
+    // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>..
     $auto-width: asym-col-width($columns, $margin);
     $column-sizes: ();
 
