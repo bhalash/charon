@@ -263,7 +263,7 @@
         @error 'Column percentages should total < 100%!';
     }
 
-    // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>..
+    // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>.
     $auto-width: asym-col-width($columns, $margin);
     $column-sizes: ();
 
