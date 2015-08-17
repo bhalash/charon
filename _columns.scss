@@ -168,11 +168,13 @@
  */
 
 @mixin column-of($element: div, $columns: 3, $margin: 2) {
+    $width: percentage(column-width($columns, $margin) * 0.01);
+
     @include flex-parent(row, space-between, wrap);
 
     > #{$element} {
         min-height: 1px;
-        @include flex-child(0 1 percentage(column-width($columns, $margin)));
+        @include flex-child(0 1 $width);
         @content;
     }
 }
@@ -187,15 +189,17 @@
  */
 
 @mixin float-of($element: div, $columns: 3, $margin: 2, $side: left) {
+    $width: percentage(column-width($columns, $margin) * 0.01);
+
     @include clearfix();
 
     > #{$element} {
         float: $side;
         min-height: 1px;
-        width: percentage(column-width($columns, $margin));
+        width: $width;
 
         &:not(:nth-child(#{$columns + 'n'})) {
-            margin-#{opposite-side($side)}: percentage($margin);
+            margin-#{opposite-side($side)}: percentage($margin * 0.01);
         }
 
         @content;
@@ -265,6 +269,7 @@
 
     // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>.
     $auto-width: asym-col-width($columns, $margin);
+    $margin: percentage($margin * 0.01);
     $column-sizes: ();
 
     @each $col in $columns {
@@ -288,7 +293,7 @@
         }
 
         &:not(:nth-child(#{length($columns) + 'n'})) {
-            margin-#{opposite-side($side)}: percentage($margin * 0.01);
+            margin-#{opposite-side($side)}: $margin;
         }
 
         @content;
