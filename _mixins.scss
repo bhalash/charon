@@ -332,9 +332,10 @@
  * -----------------------------------------------------------------------------
  */
 
-@mixin nofloat() {
-    float: none;
-    width: initial;
+@mixin nofloat($important: false) {
+    float: none #{if($important, !important, '')};
+    width: initial #{if($important, !important, '')};
+    @content;
 }
 
 /**
