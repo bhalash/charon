@@ -36,39 +36,55 @@
  * @link    http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
  */
 
-@function is-number($unit) {
-    @return type-of($unit) == 'number';
+@function is-number($number) {
+    @return type-of($number) == 'number';
 }
 
-@function is-keyword($unit, $keywords: auto initial inherit 0) {
-    @return index($keywords, $unit) != null;
+@function is-keyword($number, $keywords: auto initial inherit 0) {
+    @return index($keywords, $number) != null;
 }
 
-@function is-unit-type($unit, $type) {
-    @return is-number($unit) and unit($unit) == $type;
+@function is-unit-type($number, $type) {
+    @return is-number($number) and unit($number) == $type;
 }
 
-@function is-valid-unit($unit) {
-    @return (is-number($unit) or (not is-number($unit) and is-keyword($unit)));
+@function is-valid-unit($number) {
+    @return (is-number($number) or (not is-number($number) and is-keyword($number)));
 }
 
 /**
  * Unit Check Shorthand
  * -----------------------------------------------------------------------------
- * @param   string      $unit       Canidate unit.
+ * @param   string      $number       Canidate unit.
  * @return  bool        Unit is $type, true false.
  */
 
-@function is-decimal($unit) {
-    @return is-number($unit) and unitless($unit);
+@function is-decimal($number) {
+    @return is-number($number) and unitless($number);
 }
 
-@function is-percent($unit) {
-    @return is-number($unit) and is-unit-type($unit, '%');
+@function is-percent($number) {
+    @return is-number($number) and is-unit-type($number, '%');
 }
 
-@function is-px($unit) {
-    @return is-number($unit) and is-unit-type($unit, 'px');
+@function is-px($number) {
+    @return is-number($number) and is-unit-type($number, 'px');
+}
+
+/**
+ * Strip Number Unit
+ * -----------------------------------------------------------------------------
+ * @param   int     $number         Number with unit.
+ * @return  int     $number         Number without unit.
+ * @link https://css-tricks.com/snippets/sass/strip-unit-function/
+ */
+
+@function strip-unit($number) {
+    @if is-number($number) and not unitless($number) {
+        $number: $number / ($number * 0 + 1);
+    }
+
+    @return $number;
 }
 
 /**
