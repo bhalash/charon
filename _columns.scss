@@ -273,7 +273,7 @@
 
     @for $i from 1 through length($columns) {
         @if is-keyword(nth($columns, $i), auto) {
-            set-nth($columns, $i, $auto-width);
+            $columns: set-nth($columns, $i, $auto-width);
         }
     }
 
