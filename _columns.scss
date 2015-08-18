@@ -98,7 +98,7 @@
  * @return  int     Calculated column width.
  */
 
-@function sym-column-width($columns, $margin) {
+@function column-width($columns, $margin) {
     @return (100 - ($columns - 1) * $margin) / $columns;
 }
 
@@ -109,12 +109,11 @@
  * 
  * @param   list    $columns        List of columns.
  * @param   int     $margin         Column margin.
- * @return  int     $width          Percentage width of "auto" columns.
+ * @return  int     Percentage width of "auto" columns.
  */
 
-@function asym-column-width($columns, $margin) {
+@function odd-column-width($columns, $margin) {
     $percent: 0;
-    $width: 0;
     $autos: 0;
 
     @each $col in $columns {
@@ -133,11 +132,7 @@
     /* Width for margin is subtracted from auto columns. In short:
      * % column total = % width + margin;
      * auto column total = % width - margin; */
-
-    $margin: $margin * (length($columns) - 1);
-    $width: ((100 - $percent) / $autos) - ($margin / $autos);
-
-    @return $width;
+    @return ((100 - $percent) / $autos) - (($margin * (length($columns) - 1)) / $autos);
 }
 
 /**
@@ -196,7 +191,7 @@
  * @param   list        $columns        List of columns.
  */
 
-@function check-asym-columns($columns) {
+@function check-odd-columns($columns) {
     @if type-of($columns) != 'list' {
         @error 'Columns should be supplied a list!'; 
     }
@@ -224,7 +219,7 @@
  */
 
 @function set-autocol-sizes($columns, $margin) {
-    $auto-width: asym-col-width($columns, $margin);
+    $auto-width: odd-col-width($columns, $margin);
 
     @for $i from 1 through length($columns) {
         @if is-keyword(nth($columns, $i), auto) {
@@ -246,7 +241,7 @@
  */
 
 @mixin columns($type: flex, $element: div, $columns: 3, $margin: 2, $side: left) {
-    $width: percentage(sym-column-width($columns, $margin) * 0.01);
+    $width: percentage(column-width($columns, $margin) * 0.01);
 
     @if $type == 'flex' {
         @include even-flexbox($element, $width) {
@@ -255,12 +250,7 @@
     }
     
     @if $type == 'float' {
-        @if not is-percentage($margin) {
-            // Convert margin into a percentage value.
-            $margin: percentage(strip-unit($margin) * 0.01);
-        }
-
-        @include even-float($element, $width, $margin, $side) {
+        @include even-float($element, $columns, $margin, $side, $width) {
             @content;
         }
     }
@@ -292,8 +282,13 @@
  * @param   string      $side           Float side.
  */
 
-@mixin even-float($element, $width, $margin, $side) {
+@mixin even-float($element, $columns, $margin, $side, $width) {
     @include clearfix();
+
+    @if not is-percentage($margin) {
+        // Convert margin into a percentage value.
+        $margin: percentage(strip-unit($margin) * 0.01);
+    }
 
     > #{$element} {
         float: $side;
@@ -332,23 +327,18 @@
 
 @mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 2, $side: left) {
     // Validate columns.
-    $columns: check-asym-columns($columns);
+    $columns: check-odd-columns($columns);
     // Set up column sizes. Convert "auto" columns to percentage columns.
     $columns: set-autocol-sizes($columns, $margin);
 
     @if $type == 'flex' {
-        @include asym-flexbox($element, $columns) {
+        @include odd-flexbox($element, $columns) {
             @content;
         }
     }
 
     @if $type == 'float' {
-        @if not is-percentage($margin) {
-            // Convert margin into a percentage value.
-            $margin: percentage(strip-unit($margin) * 0.01);
-        }
-
-        @include asym-float($element, $columns, $margin, $side) {
+        @include odd-float($element, $columns, $margin, $side) {
             @content;
         }
     }
@@ -361,7 +351,7 @@
  * @param   list        $columns        List of columns to produce.
  */
 
-@mixin asym-flexbox($element, $columns) {
+@mixin odd-flexbox($element, $columns) {
     @include flex-parent(row, space-between);
 
     > #{$element} {
@@ -385,7 +375,12 @@
  * @param   string      $side           Float side.
  */
 
-@mixin asym-float($element, $columns, $margin, $side) {
+@mixin odd-float($element, $columns, $margin, $side) {
+    @if not is-percentage($margin) {
+        // Convert margin into a percentage value.
+        $margin: percentage(strip-unit($margin) * 0.01);
+    }
+
     @include clearfix();
 
     > #{$element} {
