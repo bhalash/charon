@@ -160,6 +160,63 @@
 }
 
 /**
+ *  Evaluate Whether Number is Column
+ * -----------------------------------------------------------------------------
+ * If number is a percentage, return number, else return number 0.
+ * 
+ * @param   int     $value          Number to test.
+ * @return  int     Number/0.
+ */
+
+@function value-percent($value) {
+    @return if(is-percent($value), $value, 0);
+}
+
+/**
+ * Total Percentages in List 
+ * -----------------------------------------------------------------------------
+ * The list for asymmetric float columns has a mix of percentage and "auto"
+ * sized columns. This tallies the percentage columns and returns whether they
+ * exceed 100%.
+ */
+
+@function list-greater-than($columns, $target: 100) {
+    $percent: 0;
+
+    @each $col in $columns {
+        $percent: $percent + value-percent($col);
+    }
+
+    @return ($percent > $target);
+}
+
+/**
+ * Validate Asymmetric Mixin Vars
+ * -----------------------------------------------------------------------------
+ * @param   list        $columns        List of columns.
+ */
+
+@function check-asym-columns($columns) {
+    @if type-of($columns) != 'list' {
+        @error 'Columns should be supplied a list!'; 
+    }
+
+    @each $col in $columns {
+        @if not is-percent($col) and not is-keyword($col) {
+            // Check for appropraite units.
+            @error 'Supplied units should be either a percentage or \'auto!\'';
+        }
+    }
+
+    @if list-greater-than($columns, 100) { 
+        // Check for appropriate size.
+        @error 'Column percentages should total < 100%!';
+    }
+
+    @return $columns;
+}
+
+/**
  * Flexbox Columns
  * -----------------------------------------------------------------------------
  * @param   string      $element        Target element element.
@@ -207,34 +264,12 @@
 }
 
 /**
- *  Evaluate Whether Number is Column
+ * Asymmetrical Flexbox Elements
  * -----------------------------------------------------------------------------
- * If number is a percentage, return number, else return number 0.
- * 
- * @param   int     $value          Number to test.
- * @return  int     Number/0.
  */
 
-@function value-percent($value) {
-    @return if(is-percent($value), $value, 0);
-}
-
-/**
- * Total Percentages in List 
- * -----------------------------------------------------------------------------
- * The list for asymmetric float columns has a mix of percentage and "auto"
- * sized columns. This tallies the percentage columns and returns whether they
- * exceed 100%.
- */
-
-@function list-greater-than($columns, $target: 100) {
-    $percent: 0;
-
-    @each $col in $columns {
-        $percent: $percent + value-percent($col);
-    }
-
-    @return ($percent > $target);
+@mixin asym-column($element, $columns: 25% auto, $margin) {
+    @warn 'lol';
 }
 
 /**
@@ -255,21 +290,12 @@
  */
 
 @mixin asym-float($element: div, $columns: 25% auto, $margin: 2, $side: left) {
-    @each $col in $columns {
-        @if not is-percent($col) and not is-keyword($col) {
-            // Check for appropraite units.
-            @error 'Supplied units should be either a percentage or \'auto!\'';
-        }
-    }
-
-    @if list-greater-than($columns, 100) { 
-        // Check for appropriate size.
-        @error 'Column percentages should total < 100%!';
-    }
-
+    // Validate input columns.
+    $columns: check-asym-columns($columns);
+    // Reduce $margin to a percentage value.
+    $margin: percentage(strip-unit($margin) * 0.01);
     // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>.
     $auto-width: asym-col-width($columns, $margin);
-    $margin: percentage($margin * 0.01);
 
     @for $i from 1 through length($columns) {
         @if is-keyword(nth($columns, $i), auto) {
