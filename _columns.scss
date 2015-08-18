@@ -89,30 +89,30 @@
 }
 
 /**
- * Flexbox Column Width
+ * Symmetric Column Width
  * -----------------------------------------------------------------------------
- * Separated because I use it for fallback rules.
+ * Determine the width of each column in a syemmetrical element. 
  * 
  * @param   int     $columns        Number of columns.
  * @param   int     $margin         Percentage space between columns.
  * @return  int     Calculated column width.
  */
 
-@function column-width($columns, $margin) {
+@function sym-column-width($columns, $margin) {
     @return (100 - ($columns - 1) * $margin) / $columns;
 }
 
 /**
- * Asymmetric Float Column Width
+ * Asymmetric Column Width
  * -----------------------------------------------------------------------------
- * Return the width of all "auto" size columns in asym-float().
+ * Determine the width of "auto" columns in asyemmetrical element.
  * 
  * @param   list    $columns        List of columns.
  * @param   int     $margin         Column margin.
  * @return  int     $width          Percentage width of "auto" columns.
  */
 
-@function asym-col-width($columns, $margin) {
+@function asym-column-width($columns, $margin) {
     $percent: 0;
     $width: 0;
     $autos: 0;
@@ -236,16 +236,44 @@
 }
 
 /**
+ * Symmetric, Even Flexbox or Floated Columns
+ * -----------------------------------------------------------------------------
+ * @param   string      $type           Flexbox or float?
+ * @param   string      $element        Target child element.
+ * @param   int         $columns        Number of columns to produce.
+ * @param   int         $margin         Margin between columns. 
+ * @param   string      $side           Float side.
+ */
+
+@mixin even-col($type: flex, $element: div, $columns: 3, $margin: 2, $side: left) {
+    $width: percentage(sym-column-width($columns, $margin) * 0.01);
+
+    @if $type == 'flex' {
+        @include even-flexbox($element, $width) {
+            @content;
+        }
+    }
+    
+    @if $type == 'float' {
+        @if not is-percentage($margin) {
+            // Convert margin into a percentage value.
+            $margin: percentage(strip-unit($margin) * 0.01);
+        }
+
+        @include even-float($element, $width, $margin, $side) {
+            @content;
+        }
+    }
+}
+
+/**
  * Flexbox Columns
  * -----------------------------------------------------------------------------
  * @param   string      $element        Target element element.
- * @param   int         $count          Number of columns to output.
- * @param   int         $percentage     Percentage space betwen columns.
+ * @param   int         $width          Width of each columns.
  */
 
-@mixin column-of($element: div, $columns: 3, $margin: 2) {
-    $width: percentage(column-width($columns, $margin) * 0.01);
-
+@mixin even-flexbox($element, $width) {
     @include flex-parent(row, space-between, wrap);
 
     > #{$element} {
@@ -259,14 +287,12 @@
  * Float Columns
  * -----------------------------------------------------------------------------
  * @param   string      $element        Target element element.
- * @param   int         $count          Number of columns to output.
- * @param   int         $percentage     Percentage space betwen columns.
+ * @param   int         $width          Width of each columns.
+ * @param   int         $margin         Margin between columns. 
  * @param   string      $side           Float side.
  */
 
-@mixin float-of($element: div, $columns: 3, $margin: 2, $side: left) {
-    $width: percentage(column-width($columns, $margin) * 0.01);
-
+@mixin even-float($element, $width, $margin, $side) {
     @include clearfix();
 
     > #{$element} {
@@ -275,7 +301,7 @@
         width: $width;
 
         &:not(:nth-child(#{$columns + 'n'})) {
-            margin-#{opposite-side($side)}: percentage($margin * 0.01);
+            margin-#{opposite-side($side)}: $margin;
         }
 
         @content;
@@ -283,21 +309,59 @@
 }
 
 /**
- * Asymmetrical Flexbox Elements
+ * Asymmetrical Columns
  * -----------------------------------------------------------------------------
- * DO NOT USE THIS IF YOU WANT REGULAR SIZES. USE column-of() INSTEAD.
+ * asym-col() provides irregularly-sized floated columns side by side. This
+ * allows for an asymmetrical structure.
  * 
+ * DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE even-col() INSTEAD.
+ * 
+ * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
+ * even-col() if you need regular columns, because the right margin will look
+ * all fucked. This is *only* for asymmetric columns.
+ *
+ * Be careful with @content rules too -- I intend it to only be used for
+ * responsive rules, as the output can be quite verbose.
+ * 
+ * @param   string      $type           Flexbox or float?
  * @param   string      $element        Target child element.
  * @param   list        $columns        List of columns to produce.
- * @param   int         $margin         Space between columns.
+ * @param   int         $margin         Margin between columns. 
+ * @param   string      $side           Float side.
  */
 
-@mixin asym-column($element: div, $columns: 25% auto, $margin: 2) {
+@mixin asym-col($type: flex, $element: div, $columns: (), $margin: 2, $side: left) {
     // Validate columns.
     $columns: check-asym-columns($columns);
-    // Set up column sizes.
+    // Set up column sizes. Convert "auto" columns to percentage columns.
     $columns: set-autocol-sizes($columns, $margin);
 
+    @if $type == 'flex' {
+        @include asym-flexbox($element, $columns) {
+            @content;
+        }
+    }
+
+    @if $type == 'float' {
+        @if not is-percentage($margin) {
+            // Convert margin into a percentage value.
+            $margin: percentage(strip-unit($margin) * 0.01);
+        }
+
+        @include asym-float($element, $columns, $margin, $side) {
+            @content;
+        }
+    }
+}
+
+/**
+ * Asymmetrical Flexbox Elements
+ * -----------------------------------------------------------------------------
+ * @param   string      $element        Target child element.
+ * @param   list        $columns        List of columns to produce.
+ */
+
+@mixin asym-flexbox($element, $columns) {
     @include flex-parent(row, space-between);
 
     > #{$element} {
@@ -305,8 +369,6 @@
 
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
-                /* Ware ye! This can lead to *very* verbose CSS, while making it
-                 * easier to add responsive rules. */
                 @include flex-child(0 1 nth($columns, $i));
                 @content;
             }
@@ -317,25 +379,13 @@
 /**
  * Asymmetrical Floated Elements
  * -----------------------------------------------------------------------------
- * float-of() provides regularly-sized floated columns side by side. This allows
- * for an asymmetrical structure. SIZES ARE INCLUSIVE OF MARGIN, EXCEPT IN
- * PERCENTAGE COLUMNS.
- * 
- * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
- * float-of() if you need regular columns, because the right margin will look
- * all fucked. This is *only* for asymmetric columns.
- * 
  * @param   string      $element        Target child element.
  * @param   list        $columns        List of columns to produce.
  * @param   int         $margin         Margin between columns. 
  * @param   string      $side           Float side.
  */
 
-@mixin asym-float($element: div, $columns: 25% auto, $margin: 2, $side: left) {
-    $columns: check-asym-columns($columns);
-    $margin: percentage(strip-unit($margin) * 0.01);
-    $columns: set-autocol-sizes($columns, $margin);
-
+@mixin asym-float($element, $columns, $margin, $side) {
     @include clearfix();
 
     > #{$element} {
