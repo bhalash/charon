@@ -329,11 +329,9 @@
 @mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 2, $side: left) {
     // Validate columns.
     $columns: check-odd-columns($columns);
-    // Set up column sizes. Convert "auto" columns to percentage columns.
-    $columns: set-autocol-sizes($columns, $margin);
 
     @if $type == 'flex' {
-        @include odd-flexbox($element, $columns) {
+        @include odd-flexbox($element, $columns, $margin) {
             @content;
         }
     }
@@ -352,15 +350,25 @@
  * @param   list        $columns        List of columns to produce.
  */
 
-@mixin odd-flexbox($element, $columns) {
+@mixin odd-flexbox($element, $columns, $margin) {
     @include flex-parent(row, space-between);
+
+    @if $margin != 0 {
+        $columns: set-autocol-sizes($columns, $margin);
+    }
 
     > #{$element} {
         min-height: 1px;
 
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
-                @include flex-child(0 1 nth($columns, $i));
+                $flex: 0 1 nth($columns, $i);
+
+                @if $margin == 0 and nth($columns, $i) == auto {
+                    $flex: 1;
+                }
+
+                @include flex-child($flex);
                 @content;
             }
         }
@@ -380,6 +388,9 @@
     @if not is-percentage($margin) {
         $margin: percentage(strip-unit($margin) * 0.01);
     }
+
+    // Set up column sizes. Convert "auto" columns to percentage columns.
+    $columns: set-autocol-sizes($columns, $margin);
 
     @include clearfix();
 
