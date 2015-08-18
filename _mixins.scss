@@ -87,7 +87,7 @@
         $side: index($offsets, $offset);
         $value: nth($values, $side);
 
-        @if not valid-unit($value) {
+        @if not is-valid-unit($value) {
             @warn '"#{$side} is not a valid unit for this mixin.';
         } @else if is-decimal($value) {
             @include rem(#{$offset}, $value);
@@ -306,6 +306,17 @@
         padding-left: 0;
         padding-right: 0;
     }
+}
+
+/**
+ *  Freeze Div Content
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin freeze() {
+    overflow: hidden;
+    z-index: -1;
+    @include fixed(0);
 }
 
 /**
