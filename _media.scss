@@ -201,7 +201,7 @@
     }
 
     /**
-     * By Density
+     * Internet Explorer
      * -------------------------------------------------------------------------
      */
 
@@ -430,6 +430,8 @@
         // Target 8, 9 and 10 by default.
         $version: 'screen\0';
     }
+
+    @warn 'This is the terrible horrible no good very bad way to set IE fallback CSS!';
 
     @media #{$version} {
         @content;
