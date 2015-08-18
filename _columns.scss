@@ -217,6 +217,25 @@
 }
 
 /**
+ * Set "Auto"-width Column Sizes
+ * -----------------------------------------------------------------------------
+ * @param   list        $columns        List of columns.
+ * @param   int         $margin         Margin size.
+ */
+
+@function set-autocol-sizes($columns, $margin) {
+    $auto-width: asym-col-width($columns, $margin);
+
+    @for $i from 1 through length($columns) {
+        @if is-keyword(nth($columns, $i), auto) {
+            $columns: set-nth($columns, $i, $auto-width);
+        }
+    }
+
+    @return $columns;
+}
+
+/**
  * Flexbox Columns
  * -----------------------------------------------------------------------------
  * @param   string      $element        Target element element.
@@ -266,10 +285,33 @@
 /**
  * Asymmetrical Flexbox Elements
  * -----------------------------------------------------------------------------
+ * DO NOT USE THIS IF YOU WANT REGULAR SIZES. USE column-of() INSTEAD.
+ * 
+ * @param   string      $element        Target child element.
+ * @param   list        $columns        List of columns to produce.
+ * @param   int         $margin         Space between columns.
  */
 
-@mixin asym-column($element, $columns: 25% auto, $margin) {
-    @warn 'lol';
+@mixin asym-column($element: div, $columns: 25% auto, $margin: 2) {
+    // Validate columns.
+    $columns: check-asym-columns($columns);
+    // Set up column sizes.
+    $columns: set-autocol-sizes($columns, $margin);
+
+    @include flex-parent(row, space-between);
+
+    > #{$element} {
+        min-height: 1px;
+
+        @for $i from 1 through length($columns) {
+            &:nth-child(#{$i}) {
+                /* Ware ye! This can lead to *very* verbose CSS, while making it
+                 * easier to add responsive rules. */
+                @include flex-child(0 1 nth($columns, $i));
+                @content;
+            }
+        }
+    }
 }
 
 /**
@@ -285,25 +327,14 @@
  * 
  * @param   string      $element        Target child element.
  * @param   list        $columns        List of columns to produce.
- * @param   int         $percentage     Percentage space betwen columns.
+ * @param   int         $margin         Margin between columns. 
  * @param   string      $side           Float side.
  */
 
 @mixin asym-float($element: div, $columns: 25% auto, $margin: 2, $side: left) {
-    // Validate input columns.
     $columns: check-asym-columns($columns);
-    // Reduce $margin to a percentage value.
     $margin: percentage(strip-unit($margin) * 0.01);
-    // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>.
-    $auto-width: asym-col-width($columns, $margin);
-
-    @for $i from 1 through length($columns) {
-        @if is-keyword(nth($columns, $i), auto) {
-            $columns: set-nth($columns, $i, $auto-width);
-        }
-    }
-
-    // Output CSS begins.
+    $columns: set-autocol-sizes($columns, $margin);
 
     @include clearfix();
 
@@ -318,8 +349,6 @@
                 }
 
                 width: nth($columns, $i);
-                /* Ware ye! This can lead to *very* verbose CSS, while making it
-                 * easier to add responsive rules. */
                 @content;
             }
         }
