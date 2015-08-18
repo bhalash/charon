@@ -277,6 +277,7 @@
  * Float Columns
  * -----------------------------------------------------------------------------
  * @param   string      $element        Target element element.
+ * @param   int         $columns        Number of columns to produce.
  * @param   int         $width          Width of each columns.
  * @param   int         $margin         Margin between columns. 
  * @param   string      $side           Float side.
@@ -377,7 +378,6 @@
 
 @mixin odd-float($element, $columns, $margin, $side) {
     @if not is-percentage($margin) {
-        // Convert margin into a percentage value.
         $margin: percentage(strip-unit($margin) * 0.01);
     }
 
