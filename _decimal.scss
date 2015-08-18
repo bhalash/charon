@@ -60,7 +60,7 @@
  */
 
 @function is-decimal($unit) {
-    @return is-number($unit) and $unit != 0;
+    @return is-number($unit) and unitless($unit);
 }
 
 @function is-percent($unit) {
