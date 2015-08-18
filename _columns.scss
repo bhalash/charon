@@ -245,7 +245,7 @@
  * @param   string      $side           Float side.
  */
 
-@mixin even-col($type: flex, $element: div, $columns: 3, $margin: 2, $side: left) {
+@mixin columns($type: flex, $element: div, $columns: 3, $margin: 2, $side: left) {
     $width: percentage(sym-column-width($columns, $margin) * 0.01);
 
     @if $type == 'flex' {
@@ -311,13 +311,13 @@
 /**
  * Asymmetrical Columns
  * -----------------------------------------------------------------------------
- * asym-col() provides irregularly-sized floated columns side by side. This
+ * odd-columns() provides irregularly-sized floated columns side by side. This
  * allows for an asymmetrical structure.
  * 
- * DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE even-col() INSTEAD.
+ * DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE columns() INSTEAD.
  * 
  * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
- * even-col() if you need regular columns, because the right margin will look
+ * columns() if you need regular columns, because the right margin will look
  * all fucked. This is *only* for asymmetric columns.
  *
  * Be careful with @content rules too -- I intend it to only be used for
@@ -330,7 +330,7 @@
  * @param   string      $side           Float side.
  */
 
-@mixin asym-col($type: flex, $element: div, $columns: (), $margin: 2, $side: left) {
+@mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 2, $side: left) {
     // Validate columns.
     $columns: check-asym-columns($columns);
     // Set up column sizes. Convert "auto" columns to percentage columns.
