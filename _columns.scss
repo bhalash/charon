@@ -270,15 +270,14 @@
     // Determine width of 'auto' columns using <rainbow>mathematics</rainbow>.
     $auto-width: asym-col-width($columns, $margin);
     $margin: percentage($margin * 0.01);
-    $column-sizes: ();
 
-    @each $col in $columns {
-        @if is-keyword($col) {
-            $col: $auto-width;        
+    @for $i from 1 through length($columns) {
+        @if is-keyword(nth($columns, $i), auto) {
+            set-nth($columns, $i, $auto-width);
         }
-
-        $column-sizes: append($column-sizes, $col);
     }
+
+    // Output CSS begins.
 
     @include clearfix();
 
@@ -288,14 +287,15 @@
 
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
-                width: nth($column-sizes, $i);
+                @if $i < length($columns) and $margin != 0 {
+                    margin-#{opposite-side($side)}: $margin;
+                }
+
+                width: nth($columns, $i);
+                /* Ware ye! This can lead to *very* verbose CSS, while making it
+                 * easier to add responsive rules. */
+                @content;
             }
         }
-
-        &:not(:nth-child(#{length($columns) + 'n'})) {
-            margin-#{opposite-side($side)}: $margin;
-        }
-
-        @content;
     }
 }
