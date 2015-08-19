@@ -117,38 +117,6 @@
 }
 
 /**
- * Fetch from Color Palette
- * -----------------------------------------------------------------------------
- * In short, the post advocates a mapped palette of colors and tones using a 
- * set schema, and then using this function to return the colors. 
- *
- *      $_color-base-gray: rgb(229,231,234);
- * 
- *      $palettes: (
- *          purple: (
- *              base: rgb(42,40,80),
- *              light: rgb(51,46,140),
- *              dark: rgb(40,38,65)
- *             ),
- *          gray: (
- *              base: $_color-base-gray,
- *              light: lighten($_color-base-gray, 10%),
- *              dark: darken($_color-base-gray, 10%)
- *          )
- *      );
- * 
- * @param   string      $color          Colour to be used from map.
- * @param   string      $tone           Default tone to be used.
- * @param   map         $palette        Palette of colours.
- * @return  string                      Colour chen from map.
- * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
- */
-
-@function palette($color, $tone: 'base', $palette: $default-colors) {
-    @return map-get(map-get($palette, $color), $tone);
-}
-
-/**
  * Fetch Named Asset
  * -----------------------------------------------------------------------------
  * $assets: (
@@ -220,64 +188,6 @@
 }
 
 /**
- * Social Images and Colours
- * -----------------------------------------------------------------------------
- * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
- * icons. This mixin generates uses an SVG spritemap with PNG fallback to 
- * generate social icons for popular networks. Have a look at _defaults.scss to
- * see the list of currently supported services, as well as the format used. 
- * 
- * I have included black and white minimal icons; the background colours of the
- * element will be that for the relevant network.
- * 
- * @param   map     $size           Percentage width and height ratio for square-flex().
- * @param   map     $service        Service to be selectively output.
- * @param   map     $spritesheet    Map with information for spritesheet. 
- */
-
-@mixin social-link($size: 100% 1, $service: null, $spritesheet: $spritesheet-white) {
-    $sprites: map-get($spritesheet, sprites);
-    $networks: map-get($spritesheet, networks);
-
-    background-image: url(map-get($sprites, png));
-    background-image: url(map-get($sprites, svg));
-
-    // Icon size * number of rows in spritesheet.
-    $w: nth($size, 1) * map-get($sprites, rows);
-    // Icon size * number of columns in spritesheet.
-    $h: nth($size, 1) * map-get($sprites, columns);
-
-    background-size: $w $h;
-    background-repeat: no-repeat;
-    display: inline-block;
-    @include square-flex($size);
-
-    @if $service {
-        // Only link given service, if provided.
-        $bg: nth(map-get($networks, $service), 1);
-        $x: nth(map-get($networks, $service), 2);
-        $y: nth(map-get($networks, $service), 3);
-
-        &.#{$service} {
-            background-color: $bg;
-            background-position: $x $y;
-        }
-    } @else {
-        // Else iterate $networks to produce social links.
-        @each $service, $network in $networks {
-            $bg: nth($network, 1);
-            $x: nth($network, 2);
-            $y: nth($network, 3);
-
-            &.#{$service} {
-                background-color: $bg;
-                background-position: $x $y; 
-            }
-        }
-    }
-}
-
-/**
  * Section Interior Padding
  * -----------------------------------------------------------------------------
  * Responsive padding for sections without having to list it all by hand. 
@@ -317,36 +227,6 @@
     overflow: hidden;
     z-index: -1;
     @include fixed(0);
-}
-
-/**
- * Clearfix
- * -----------------------------------------------------------------------------
- * Bulletproof and Rock-Solid self-clearing float. You can tell it is both
- * Bulletproof and Rock-Solid since I capitalized the words. There are very rare
- * instances were I might need to use a clearing element (such as splitting
- * floating elements vertically).
- */
-
-@mixin clearfix() {
-    overflow: auto;
-
-    &:after {
-        clear: both;
-        content: '';
-        display: table;
-    }
-}
-
-/**
- * Remove Float
- * -----------------------------------------------------------------------------
- */
-
-@mixin nofloat($important: false) {
-    float: none #{if($important, !important, '')};
-    width: initial #{if($important, !important, '')};
-    @content;
 }
 
 /**
@@ -399,18 +279,6 @@
     $alpha: 1 - $alpha;
 
     @return rgba($red, $green, $blue, $alpha);
-}
-
-/**
- * Split Paragraph into Columns
- * -----------------------------------------------------------------------------
- * @param   int     $count          Number of columns.
- * @param   int     $gap            Gap between columns.
- */
-
-@mixin columns($count, $gap) {
-    column-count: $count;
-    column-gap: $gap;
 }
 
 /**

@@ -231,6 +231,36 @@
 }
 
 /**
+ * Clearfix
+ * -----------------------------------------------------------------------------
+ * Bulletproof and Rock-Solid self-clearing float. You can tell it is both
+ * Bulletproof and Rock-Solid since I capitalized the words. There are very rare
+ * instances were I might need to use a clearing element (such as splitting
+ * floating elements vertically).
+ */
+
+@mixin clearfix() {
+    overflow: auto;
+
+    &:after {
+        clear: both;
+        content: '';
+        display: table;
+    }
+}
+
+/**
+ * Remove Float
+ * -----------------------------------------------------------------------------
+ */
+
+@mixin nofloat($important: false) {
+    float: none #{if($important, !important, '')};
+    width: initial #{if($important, !important, '')};
+    @content;
+}
+
+/**
  * Symmetric, Even Flexbox or Floated Columns
  * -----------------------------------------------------------------------------
  * @param   string      $type           Flexbox or float?

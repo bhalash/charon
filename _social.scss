@@ -1,0 +1,140 @@
+/**
+ *  Social Network Colours
+ * -----------------------------------------------------------------------------
+ */
+
+$network-colours: (
+    beard: #343537,
+    discuss: #b9dfbc,
+    email: #f5756c,
+    facebook: #3B5998,
+    flickr: #ff0084,
+    github: #666666,
+    google: #dd4b39,
+    instagram: #3f729b,
+    linkedin: #0976b4,
+    pinterest: #cc2127,
+    print: #007aaf,
+    reddit: #ff5700,
+    rss: #ff6600,
+    search: #000000,
+    share: #000000,
+    tumblr: #35465c,
+    twitter: #55acee,
+    youtube: #b31217,
+    menu: #000000
+) !default;
+
+/**
+ * Default Vector Stylesheet
+ * -----------------------------------------------------------------------------
+ * Gaps separate rows. Currently 6 columns by 4 rows in size.
+ */
+
+$social-sprites: (
+    dimensions: (6 4),
+    positions: (
+        beard: (0 0),
+        discuss: (20% 0),
+        email: (40% 0),
+        facebook: (60% 0),
+        flickr: (80% 0),
+        github: (100% 0),
+        google: (0 33.33%),
+        instagram: (20% 33.33%),
+        linkedin: (40% 33.33%),
+        pinterest: (60% 33.33%),
+        print: (80% 33.33%),
+        reddit: (100% 33.33%),
+        rss: (0 66.6%),
+        search: (20% 66.6%),
+        share: (40% 66.6%),
+        tumblr: (60% 66.6%),
+        twitter: (80% 66.6%),
+        youtube: (100% 66.6%),
+        menu: (0 100%),
+    ),
+    dark: (
+        png: 'scss-helpers/assets/png/button-sprites-black.png',
+        svg: 'scss-helpers/assets/svg/button-sprites-black.svg'
+    ),
+    light: (
+        png: 'scss-helpers/assets/png/button-sprites-white.png',
+        svg: 'scss-helpers/assets/svg/button-sprites-white.svg'
+    ),
+) !default;
+
+/**
+ * Social Images and Colours
+ * -----------------------------------------------------------------------------
+ * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
+ * icons. This mixin generates uses an SVG spritemap with PNG fallback to 
+ * generate social icons for popular networks. Have a look at _defaults.scss to
+ * see the list of currently supported services, as well as the format used. 
+ * 
+ * I have included black and white minimal icons; the background colours of the
+ * element will be that for the relevant network.
+ * 
+ * @param   map     $size           Sizes for square-flex(). 
+ * @param   map     $service(s)     Service(s) to be selectively output.
+ * @param   map     $sprites        Map with information for spritesheet. 
+ */
+
+@function get-services($services: null) {
+    @if not $services {
+        @each $service, $colour in $network-colours {
+            $services: append($services, $service);
+        }
+    }
+
+    @return $services;
+}
+
+@function get-sprites($colour: dark) {
+    @warn $colour;
+    @warn map-get(map-get($spritesheets, $colour), svg);
+    @return (sprites: map-get($spritesheets, $colour));
+}
+
+@mixin social($element: li, $size: 100% 1, $services: null, $variant: dark) {
+    // $colours: $network-colours;
+    // $services: get-services($services);
+
+    // $sprites: get-sprites($);
+
+    // @warn map-get($sprites, svg);
+
+    @warn index($social-sprites, $variant);
+    @warn map-get($social-sprites, dark);
+
+    
+    // Element percentage width * number of rows in spritesheet.
+    // Element percentage width * number of columns in spritesheet.
+
+    // @warn map-get($sprite-positions, positions);
+
+    // $bg-size-w: nth($size, 1) * map-get($sprites, rows);
+    // $bg-size-h: nth($size, 1) * map-get($sprites, columns);
+
+    // #{$element} {
+    //     background: center/$bg-size-w $bg-size-h no-repeat;
+    //     background-image: url(map-get($sprites, png));
+    //     background-image: url(map-get($sprites, svg));
+    //     display: inline-block;
+    //     @include square-flex($size);
+
+    //     // Else iterate $networks to produce social links.
+    //     @each $service, $network in $networks {
+    //         &.#{$service} {
+    //             $bg: nth($network, 1);
+    //             $x: nth($network, 2);
+    //             $y: nth($network, 3);
+
+    //             background-color: $bg;
+    //             background-position: $x $y; 
+    //         }
+    //     }
+    // }
+}
+
+

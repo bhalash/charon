@@ -28,6 +28,21 @@
  * THE SOFTWARE.
  */
 
+/**
+ * Media Query Default Table and Cellphone Screen Sizes
+ * -----------------------------------------------------------------------------
+ */
+ 
+$smartphone-min-width: 200px !default; 
+$smartphone-max-width: 599px !default;
+$tablet-min-width: 600px !default; 
+$tablet-max-width: 1024px !default;
+
+/**
+ * A Mixin for (Most) Important @media Rules
+ * -----------------------------------------------------------------------------
+ */
+
 @mixin media($args) {
     $type: nth($args, 1);
     $start: null;
@@ -230,8 +245,10 @@
  */
 
 @mixin smartphone() {
-    @media screen and (min-device-width: $smartphone-min-width) and (max-device-width: $smartphone-max-width) and (orientation: portrait), 
-    screen and (min-device-width: $smartphone-min-width) and (max-device-width: $smartphone-max-width) and (orientation: landscape) {
+    @media screen and (min-device-width: $smartphone-min-width)
+        and (max-device-width: $smartphone-max-width) and (orientation: portrait), 
+    screen and (min-device-width: $smartphone-min-width)
+        and (max-device-width: $smartphone-max-width) and (orientation: landscape) {
         @content;  
     }
 }
@@ -243,8 +260,10 @@
  */
 
 @mixin tablet() {
-    @media screen and (min-device-width: $tablet-min-width) and (max-device-width: $tablet-max-width) and (orientation: portrait), 
-    screen and (min-device-width: $tablet-min-width) and (max-device-width: $tablet-max-width) and (orientation: landscape) {
+    @media screen and (min-device-width: $tablet-min-width)
+        and (max-device-width: $tablet-max-width) and (orientation: portrait), 
+    screen and (min-device-width: $tablet-min-width)
+        and (max-device-width: $tablet-max-width) and (orientation: landscape) {
         @content;
     }
 }
@@ -411,6 +430,11 @@
  * @link http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/media-tests/
  * @link http://www.limecanvas.com/css-hacks-targeting-ie-10/
  * @link http://www.paulirish.com/2009/browser-specific-css-hacks/
+ * 
+ * DO NOT USE THIS. 
+ * 
+ * Wait...what? It's a bad idea to mix conditional IE CSS and regular CSS. It's
+ * here if you need it, but ask yourself first: should I really do this?
  */
 
 @mixin ie($version: null) {
@@ -432,6 +456,7 @@
     }
 
     @warn 'This is the terrible horrible no good very bad way to set IE fallback CSS!';
+    @warn 'You are a very naughty developer';
 
     @media #{$version} {
         @content;

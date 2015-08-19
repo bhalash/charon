@@ -31,78 +31,6 @@
  */
 
 /**
- * Media Query Default Table and Cellphone Screen Sizes
- * -----------------------------------------------------------------------------
- */
- 
-$smartphone-min-width: 200px !default; 
-$smartphone-max-width: 599px !default;
-$tablet-min-width: 600px !default; 
-$tablet-max-width: 1024px !default;
-
-/**
- * Default REM and PX Multipliers
- * -----------------------------------------------------------------------------
- */
-
-$default-multipliers: (
-    px: 10, 
-    rem: 0.625,
-    em: 0.625
-) !default;
-
-/**
- * Default Vector Stylesheet
- * -----------------------------------------------------------------------------
- * Gaps separate rows. Currently 6 columns by 4 rows in size.
- */
-
-$spritesheet-positions: (
-    networks: (
-        beard: (#343537, 0, 0),
-        discuss: (#b9dfbc, 20%, 0),
-        email: (#f5756c, 40%, 0),
-        facebook: (#3B5998, 60%, 0),
-        flickr: (#ff0084, 80%, 0),
-        github: (#666666, 100%, 0),
-        google: (#dd4b39, 0, 33.33%),
-        instagram: (#3f729b, 20%, 33.33%),
-        linkedin: (#0976b4, 40%, 33.33%),
-        pinterest: (#cc2127, 60%, 33.33%),
-        print: (#007aaf, 80%, 33.33%),
-        reddit: (#ff5700, 100%, 33.33%),
-        rss: (#ff6600, 0, 66.6%),
-        search: (#000000, 20%, 66.6%),
-        share: (#000000, 40%, 66.6%),
-        tumblr: (#35465c, 60%, 66.6%),
-        twitter: (#55acee, 80%, 66.6%),
-        youtube: (#b31217, 100%, 66.6%),
-        menu: (#000000, 0, 100%)
-   )
-) !default;
-
-$black-sprites: (
-    sprites: (
-        png: 'scss-helpers/assets/png/button-sprites-black.png',
-        svg: 'scss-helpers/assets/svg/button-sprites-black.svg',
-        rows: 6,
-        columns: 4
-    )
-) !default;
-
-$white-sprites: (
-    sprites: (
-        png: 'scss-helpers/assets/png/button-sprites-white.png',
-        svg: 'scss-helpers/assets/svg/button-sprites-white.svg',
-        rows: 6,
-        columns: 4
-    )
-) !default;
-
-$spritesheet-black: map-merge($spritesheet-positions, $black-sprites) !default;
-$spritesheet-white: map-merge($spritesheet-positions, $white-sprites) !default;
-
-/**
  * Default Size Colours
  * -----------------------------------------------------------------------------
  * Default grey (I use gray because "grey" highlights annoyingly) came from a 
@@ -139,3 +67,36 @@ $default-colors: (
         x-light: #ffffff
     ),
 ) !default;
+
+/**
+ * Fetch from Color Palette
+ * -----------------------------------------------------------------------------
+ * In short, the post advocates a mapped palette of colors and tones using a 
+ * set schema, and then using this function to return the colors. 
+ *
+ *      $_color-base-gray: rgb(229,231,234);
+ * 
+ *      $palettes: (
+ *          purple: (
+ *              base: rgb(42,40,80),
+ *              light: rgb(51,46,140),
+ *              dark: rgb(40,38,65)
+ *             ),
+ *          gray: (
+ *              base: $_color-base-gray,
+ *              light: lighten($_color-base-gray, 10%),
+ *              dark: darken($_color-base-gray, 10%)
+ *          )
+ *      );
+ * 
+ * @param   string      $color          Colour to be used from map.
+ * @param   string      $tone           Default tone to be used.
+ * @param   map         $palette        Palette of colours.
+ * @return  string                      Colour chen from map.
+ *
+ * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+ */
+
+@function palette($color, $tone: 'base', $palette: $default-colors) {
+    @return map-get(map-get($palette, $color), $tone);
+}

@@ -29,6 +29,21 @@
  */
 
 /**
+ * Default Unit Multipliers
+ * -----------------------------------------------------------------------------
+ * Used when you convert decimal to any of the given units. Add more as you wish!
+ * See here for more information on comparitive multipliers:
+ * 
+ * @link https://www.bhalash.com/archives/13544803803
+ */
+
+$default-multipliers: (
+    px: 10, 
+    rem: 0.625,
+    em: 0.625
+) !default;
+
+/**
  * Validate Units
  * -----------------------------------------------------------------------------
  * Build evaluation from units to types. 
