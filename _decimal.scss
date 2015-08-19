@@ -103,17 +103,18 @@
     $multiplier: '';
 
     @if not map-has-key($multipliers, $type) {
-        @warn "`#{$type}` is an invalid type: Type should be one of rem, em or px.";
-    } @else {
-        $multiplier: map-get($multipliers, $type);
+        @error #{$type} + ' is an invalid type: Type should be one of rem, em or px.';
     }
+
+    $multiplier: map-get($multipliers, $type);
 
     @each $value in $values {
         @if not unitless($value) {
-            @warn "`#{$value}` is an invalid value: Property should be a unitless decimal.";
-        } @else {
-            $units: append($units, $value * $multiplier + $type);
+            @error #{$value} + 'is an invalid value: Property should be a unitless decimal.';
         }
+
+        // Do not attach units to a 0 value. Looks ugly.
+        $units: append($units, if($value != 0, $value * $multiplier + $type, $value));
     }
 
     @return $units;
@@ -160,20 +161,23 @@
  */
 
 @mixin rem($property, $values) {
-    #{$property}: px($values);
-    #{$property}: rem($values);
+    @if is-number($values) and $values == 0 {
+        // Prevents a value of 0 having a unit appended.
+        #{$property}: $values;
+    } @else {
+        #{$property}: px($values);
+        #{$property}: rem($values);
+    }
 }
 
 @mixin font-size($value: 1) {
     // font-value in rem with px fallback.
-    font-size: px($value);
-    font-size: rem($value);
+    @include rem(font-size, $value);
 }
 
 @mixin line-height($value: 1) {
     // line-height in rem with px fallback.
-    line-height: px($value);
-    line-height: rem($value);
+    @include rem(line-height, $value);
 }
 
 /**
@@ -184,7 +188,9 @@
  * an optional operator. If you do set a side, every margin or padding except 
  * the first passed will be silently discarded.
  * 
- * @param   string      $attribute      Atrt
+ * @param   string      $attribute      Attribute to set sizes for.
+ * @param   list        $values         Values, either singlar or plural.
+ * @param   list        $sides          Sides (top, left, etc.).
  */
 
 @mixin box-size($attribute, $values, $sides: null) {
@@ -195,12 +201,10 @@
         }
 
         @each $side in $sides {
-            #{$attribute + '-' + $side}: px($values);
-            #{$attribute + '-' + $side}: rem($values);
+            @include rem(#{$attribute + '-' + $side}, $values);
         }
     } @else {
-        #{$attribute}: px($values);
-        #{$attribute}: rem($values);
+        @include rem(#{$attribute}, $values);
     }
 }
 
@@ -221,27 +225,28 @@
 } 
 
 /**
- * Quickly Set Padding and Height
+ * Quickly Set Width and Height
  * -----------------------------------------------------------------------------
+ * @param   list        $sizes          Width and height sizes.
  */
 
 @mixin size($sizes) {
     @if length($sizes) < 2 {
-        @warn 'Two values should be passed to this mixin!';
+        @error 'Two values should be passed to this mixin!';
+    }
+
+    $width: nth($sizes, 1);
+    $height: nth($sizes, 2);
+
+    @if is-decimal($width) {
+        @include width($width);
     } @else {
-        $width: nth($sizes, 1);
-        $height: nth($sizes, 2);
+        width: $width;
+    }
 
-        @if is-decimal($width) {
-            @include width($width);
-        } @else {
-            width: $width;
-        }
-
-        @if is-decimal($height) {
-            @include height($height);
-        } @else {
-            height: $height;
-        }
+    @if is-decimal($height) {
+        @include height($height);
+    } @else {
+        height: $height;
     }
 }
