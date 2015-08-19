@@ -1,68 +1,119 @@
 /**
- *  Social Network Colours
- * -----------------------------------------------------------------------------
- */
-
-$network-colours: (
-    beard: #343537,
-    discuss: #b9dfbc,
-    email: #f5756c,
-    facebook: #3B5998,
-    flickr: #ff0084,
-    github: #666666,
-    google: #dd4b39,
-    instagram: #3f729b,
-    linkedin: #0976b4,
-    pinterest: #cc2127,
-    print: #007aaf,
-    reddit: #ff5700,
-    rss: #ff6600,
-    search: #000000,
-    share: #000000,
-    tumblr: #35465c,
-    twitter: #55acee,
-    youtube: #b31217,
-    menu: #000000
-) !default;
-
-/**
  * Default Vector Stylesheet
  * -----------------------------------------------------------------------------
  * Gaps separate rows. Currently 6 columns by 4 rows in size.
  */
 
 $social-sprites: (
-    dimensions: (6 4),
-    positions: (
-        beard: (0 0),
-        discuss: (20% 0),
-        email: (40% 0),
-        facebook: (60% 0),
-        flickr: (80% 0),
-        github: (100% 0),
-        google: (0 33.33%),
-        instagram: (20% 33.33%),
-        linkedin: (40% 33.33%),
-        pinterest: (60% 33.33%),
-        print: (80% 33.33%),
-        reddit: (100% 33.33%),
-        rss: (0 66.6%),
-        search: (20% 66.6%),
-        share: (40% 66.6%),
-        tumblr: (60% 66.6%),
-        twitter: (80% 66.6%),
-        youtube: (100% 66.6%),
-        menu: (0 100%),
+    variants: (
+        dark: 'scss-helpers/assets/svg/button-sprites-black.svg',
+        light: 'scss-helpers/assets/svg/button-sprites-white.svg'
     ),
-    dark: (
-        png: 'scss-helpers/assets/png/button-sprites-black.png',
-        svg: 'scss-helpers/assets/svg/button-sprites-black.svg'
-    ),
-    light: (
-        png: 'scss-helpers/assets/png/button-sprites-white.png',
-        svg: 'scss-helpers/assets/svg/button-sprites-white.svg'
+    dimensions: (6, 4),
+    sprites: (
+        beard: (#343537, 0, 0),
+        discuss: (#b9dfbc, 20%, 0),
+        email: (#f5756c, 40%, 0),
+        facebook: (#3B5998, 60%, 0),
+        flickr: (#ff0084, 80%, 0),
+        github: (#666666, 100%, 0),
+        google: (#dd4b39, 0, 33.33%),
+        instagram: (#3f729b, 20%, 33.33%),
+        linkedin: (#0976b4, 40%, 33.33%),
+        pinterest: (#cc2127, 60%, 33.33%),
+        print: (#007aaf, 80%, 33.33%),
+        reddit: (#ff5700, 100%, 33.33%),
+        rss: (#ff6600, 0, 66.6%),
+        search: (#000000, 20%, 66.6%),
+        share: (#000000, 40%, 66.6%),
+        tumblr: (#35465c, 60%, 66.6%),
+        twitter: (#55acee, 80%, 66.6%),
+        youtube: (#b31217, 100%, 66.6%),
+        menu: (#000000, 0, 100%)
     ),
 ) !default;
+
+/**
+ * Get Spritesheet Assets Variant
+ * -----------------------------------------------------------------------------
+ * @param   list        $variant        SVG map variant to use. 
+ * @param   map         $map            Map to use.
+ * @return  string      Selected vector spritemap.
+ */
+
+@function get-variant($variant: light, $map: $social-sprites) {
+    @return map-get(map-get($map, variants), $variant);
+}
+
+/**
+ * Get Sprite form Spritesheet
+ * -----------------------------------------------------------------------------
+ * @param   list        $network        Network sprite.
+ * @param   map         $map            Map to use.
+ * @return  list        $sprite         Selected sprite information. 
+ */
+
+@function sprite($network: null, $map: $social-sprites) {
+    @if not $network {
+        @error 'Error: A network must be selected!';
+    }
+
+    $sprite: map-get(map-get($map, sprites), $network);
+
+    $sprite: (
+        colour: nth($sprite, 1),
+        x: nth($sprite, 2),
+        y: nth($sprite, 3)
+    );
+
+    @return $sprite;
+}
+
+/**
+ * Get List of Networks from Spritesheet
+ * -----------------------------------------------------------------------------
+ * If no network was provided, output all networks. 
+ * 
+ * @param   list        $networks       Input list of networks.
+ * @param   map         $map            Map to use.
+ * @return  list        $networks       Output list of networks.
+ */
+
+@function get-networks($networks: null, $map: $social-sprites) {
+    @if not $networks {
+        @each $network, $col in $map {
+            $networks: append($networks, $network);
+        }
+    }
+
+    @return $networks;
+}
+
+/**
+ * Get Element Background Size
+ * -----------------------------------------------------------------------------
+ * Width: Element percentage width * number of rows in spritesheet.
+ * Height: Element percentage width * number of columns in spritesheet.
+ * 
+ * @param   list        $size           Element size.
+ * @param   map         $map            Map to use.
+ * return   map         $dimensions     Calculated background size.
+ */
+
+@function get-dimensions($size: 100% 1, $map: $social-sprites) {
+    $dimensions: map-get($map, dimensions);
+
+    $size: nth($size, 1);
+    $width: nth($dimensions, 1);
+    $height: nth($dimensions, 2);
+
+    $dimensions: (
+        $width * $size,
+        $height * $size
+    );
+
+    @return $dimensions;
+}
 
 /**
  * Social Images and Colours
@@ -80,61 +131,33 @@ $social-sprites: (
  * @param   map     $sprites        Map with information for spritesheet. 
  */
 
-@function get-services($services: null) {
-    @if not $services {
-        @each $service, $colour in $network-colours {
-            $services: append($services, $service);
+@mixin social($element: li, $size: 100% 1, $networks: null, $variant: light) {
+    $networks: get-networks($networks);
+    $spritesheet: get-variant($variant);
+    $dimensions: get-dimensions($size);
+
+    $width: nth($dimensions, 1);
+    $height: nth($dimensions, 2);
+
+    // Output CSS begins.
+
+    #{$element} {
+        background: center/$width $height no-repeat url(#{$spritesheet});
+        display: inline-block;
+        @include square-flex($size);
+
+        @each $network in $networks {
+            // Iterate, one class per nework.
+            $sprite: sprite($network);
+
+            $colour: map-get($sprite, colour);
+            $position-x: map-get($sprite, x);
+            $position-y: map-get($sprite, y);
+
+            &.#{$network} {
+                background-color: $colour;
+                background-position: $position-x $position-y; 
+            }
         }
     }
-
-    @return $services;
 }
-
-@function get-sprites($colour: dark) {
-    @warn $colour;
-    @warn map-get(map-get($spritesheets, $colour), svg);
-    @return (sprites: map-get($spritesheets, $colour));
-}
-
-@mixin social($element: li, $size: 100% 1, $services: null, $variant: dark) {
-    // $colours: $network-colours;
-    // $services: get-services($services);
-
-    // $sprites: get-sprites($);
-
-    // @warn map-get($sprites, svg);
-
-    @warn index($social-sprites, $variant);
-    @warn map-get($social-sprites, dark);
-
-    
-    // Element percentage width * number of rows in spritesheet.
-    // Element percentage width * number of columns in spritesheet.
-
-    // @warn map-get($sprite-positions, positions);
-
-    // $bg-size-w: nth($size, 1) * map-get($sprites, rows);
-    // $bg-size-h: nth($size, 1) * map-get($sprites, columns);
-
-    // #{$element} {
-    //     background: center/$bg-size-w $bg-size-h no-repeat;
-    //     background-image: url(map-get($sprites, png));
-    //     background-image: url(map-get($sprites, svg));
-    //     display: inline-block;
-    //     @include square-flex($size);
-
-    //     // Else iterate $networks to produce social links.
-    //     @each $service, $network in $networks {
-    //         &.#{$service} {
-    //             $bg: nth($network, 1);
-    //             $x: nth($network, 2);
-    //             $y: nth($network, 3);
-
-    //             background-color: $bg;
-    //             background-position: $x $y; 
-    //         }
-    //     }
-    // }
-}
-
-
