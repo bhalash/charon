@@ -219,7 +219,7 @@
  */
 
 @function set-autocol-sizes($columns, $margin) {
-    $auto-width: odd-col-width($columns, $margin);
+    $auto-width: odd-column-width($columns, $margin);
 
     @for $i from 1 through length($columns) {
         @if is-keyword(nth($columns, $i), auto) {
@@ -240,7 +240,7 @@
  * @param   string      $side           Float side.
  */
 
-@mixin columns($type: flex, $element: div, $columns: 3, $margin: 2, $side: left) {
+@mixin columns($type: flex, $element: div, $columns: 3, $margin: 0, $side: left) {
     $width: percentage(column-width($columns, $margin) * 0.01);
 
     @if $type == 'flex' {
@@ -326,7 +326,7 @@
  * @param   string      $side           Float side.
  */
 
-@mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 2, $side: left) {
+@mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 0, $side: left) {
     // Validate columns.
     $columns: check-odd-columns($columns);
 
