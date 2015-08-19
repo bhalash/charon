@@ -53,15 +53,8 @@ $social-sprites: (
  * @return  list        $sprite         Selected sprite information. 
  */
 
-@function sprite($network, $map: $social-sprites) {
-    $map: $social-sprites;
-    @debug $network;
-
-    @if not $network {
-        @error 'Error: A network must be selected!';
-    }
-
-    $sprite: map-get(map-get($map, sprites), $network);
+@function get-sprite($network: null, $map: $social-sprites) {
+    $sprite: (map-get(map-get($map, sprites), $network));
 
     $sprite: (
         colour: nth($sprite, 1),
@@ -84,10 +77,13 @@ $social-sprites: (
 
 @function get-networks($networks: null, $map: $social-sprites) {
     @if not $networks {
+        $networks: ();
+
         $map: map-get($map, sprites);
 
         @each $service, $col in $map {
-            $networks: append($networks, $service);
+            $service: inspect($service);
+            $networks: append($networks, inspect($service));
         }
     }
 
@@ -136,7 +132,7 @@ $social-sprites: (
  * @param   map     $sprites        Map with information for spritesheet. 
  */
 
-@mixin social($element: li, $size: 100% 1, $networks: null, $variant: light) {
+@mixin social($size: 100% 1, $networks: null, $variant: light) {
     $networks: get-networks($networks);
     $spritesheet: get-variant($variant);
     $dimensions: get-dimensions($size);
@@ -146,34 +142,22 @@ $social-sprites: (
 
     // Output CSS begins.
 
-    #{$element} {
-        background: center/$width $height no-repeat url(#{$spritesheet});
-        @include square-flex($size);
+    background: center/$width $height no-repeat url(#{$spritesheet});
+    @include square-flex($size);
 
-        // @each $network in $networks {
-        @each $service in $networks {
-            @warn $service;
-            @warn #{$service};
-            @debug $service;
-            @debug str-length($service);
+    // @each $network in $networks {
+    @each $network in $networks {
+        // Iterate, one class per nework.
+        $sprite: get-sprite($network);
 
-            // Iterate, one class per nework.
-            /*
+        $colour: map-get($sprite, colour);
+        $position-x: map-get($sprite, x);
+        $position-y: map-get($sprite, y);
 
-            $sprite: sprite($service);
-
-            $colour: map-get($sprite, colour);
-            $position-x: map-get($sprite, x);
-            $position-y: map-get($sprite, y);
-
-            &.#{$service} {
-                background-color: $colour;
-                background-position: $position-x $position-y; 
-            }
-
-            */
+        &.#{$network} {
+            background-color: $colour;
+            background-position: $position-x $position-y; 
+            @content;
         }
-
-        @content;
     }
 }
