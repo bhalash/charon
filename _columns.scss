@@ -271,10 +271,8 @@
  */
 
 @mixin columns($type: flex, $element: div, $columns: 3, $margin: 0, $side: left) {
-    $width: percentage(column-width($columns, $margin) * 0.01);
-
     @if $type == 'flex' {
-        @include even-flexbox($element, $width) {
+        @include even-flexbox($element, $columns, $margin) {
             @content;
         }
     }
@@ -293,12 +291,19 @@
  * @param   int         $width          Width of each columns.
  */
 
-@mixin even-flexbox($element, $width) {
+@mixin even-flexbox($element, $columns, $margin) {
+    $width: 1;
+
+    @if $margin != 0 {
+        // If margin is 0, width is not needed, so instead make columns auto fill.
+        $width: 0 1 percentage(column-width($columns, $margin) * 0.01);
+    }
+
     @include flex-parent(row, space-between, wrap);
 
     > #{$element} {
         min-height: 1px;
-        @include flex-child(0 1 $width);
+        @include flex-child($width);
         @content;
     }
 }
@@ -313,13 +318,15 @@
  * @param   string      $side           Float side.
  */
 
-@mixin even-float($element, $columns, $margin, $side, $width) {
-    @include clearfix();
+@mixin even-float($element, $columns, $margin, $side) {
+    $width: percentage(column-width($columns, $margin) * 0.01);
 
     @if not is-percentage($margin) {
         // Convert margin into a percentage value.
         $margin: percentage(strip-unit($margin) * 0.01);
     }
+
+    @include clearfix();
 
     > #{$element} {
         float: $side;
@@ -381,11 +388,12 @@
  */
 
 @mixin odd-flexbox($element, $columns, $margin) {
-    @include flex-parent(row, space-between);
-
     @if $margin != 0 {
+        // If margin is 0, width is not needed, so instead make columns auto fill.
         $columns: set-autocol-sizes($columns, $margin);
     }
+
+    @include flex-parent(row, space-between);
 
     > #{$element} {
         min-height: 1px;
