@@ -53,7 +53,10 @@ $social-sprites: (
  * @return  list        $sprite         Selected sprite information. 
  */
 
-@function sprite($network: null, $map: $social-sprites) {
+@function sprite($network, $map: $social-sprites) {
+    $map: $social-sprites;
+    @debug $network;
+
     @if not $network {
         @error 'Error: A network must be selected!';
     }
@@ -81,8 +84,10 @@ $social-sprites: (
 
 @function get-networks($networks: null, $map: $social-sprites) {
     @if not $networks {
-        @each $network, $col in $map {
-            $networks: append($networks, $network);
+        $map: map-get($map, sprites);
+
+        @each $service, $col in $map {
+            $networks: append($networks, $service);
         }
     }
 
@@ -145,18 +150,28 @@ $social-sprites: (
         background: center/$width $height no-repeat url(#{$spritesheet});
         @include square-flex($size);
 
-        @each $network in $networks {
+        // @each $network in $networks {
+        @each $service in $networks {
+            @warn $service;
+            @warn #{$service};
+            @debug $service;
+            @debug str-length($service);
+
             // Iterate, one class per nework.
-            $sprite: sprite($network);
+            /*
+
+            $sprite: sprite($service);
 
             $colour: map-get($sprite, colour);
             $position-x: map-get($sprite, x);
             $position-y: map-get($sprite, y);
 
-            &.#{$network} {
+            &.#{$service} {
                 background-color: $colour;
                 background-position: $position-x $position-y; 
             }
+
+            */
         }
 
         @content;
