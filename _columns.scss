@@ -278,7 +278,7 @@
     }
     
     @if $type == 'float' {
-        @include even-float($element, $columns, $margin, $side, $width) {
+        @include even-float($element, $columns, $margin, $side) {
             @content;
         }
     }
