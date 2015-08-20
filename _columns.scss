@@ -292,6 +292,7 @@
  */
 
 @mixin columns($type: flex, $element: div, $columns: 3, $margin: 0, $side: left) {
+    // Validate margin and set width.
     $margin: column-margin($margin); 
     $width: column-width($columns, $margin);
 
@@ -316,11 +317,10 @@
  */
 
 @mixin even-flexbox($element, $columns, $margin, $width) {
-
     @if $margin != 0 {
-        // If margin is 0, width is not needed, so instead make columns auto fill.
         $width: 0 1 $width;
     } @else {
+        // If margin is 0, width is not needed, so instead make columns auto fill.
         $width: 1;
     }
 
@@ -382,7 +382,6 @@
  */
 
 @mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 0, $side: left) {
-    // Validate columns.
     $margin: column-margin($margin); 
     $columns: check-odd-columns($columns);
 
@@ -408,7 +407,6 @@
 
 @mixin odd-flexbox($element, $columns, $margin) {
     @if $margin != 0 {
-        // If margin is 0, width is not needed, so instead make columns auto fill.
         $columns: set-autocol-sizes($columns, $margin);
     }
 
@@ -442,7 +440,6 @@
  */
 
 @mixin odd-float($element, $columns, $margin, $side) {
-    // Set up column sizes. Convert "auto" columns to percentage columns.
     $columns: set-autocol-sizes($columns, $margin);
 
     @include clearfix;
