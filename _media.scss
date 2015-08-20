@@ -62,13 +62,13 @@ $tablet-max-width: 1024px !default;
      */
 
     @if $type == smartphone {
-        @include smartphone() {
+        @include smartphone {
             @content;
         }
     }
 
     @if $type == tablet {
-        @include tablet() {
+        @include tablet {
             @content;
         }
     }
@@ -85,13 +85,13 @@ $tablet-max-width: 1024px !default;
     }
 
     @if $type == portrait {
-        @include orient-portrait() {
+        @include orient-portrait {
             @content;
         }
     }
 
     @if $type == landscape {
-        @include orient-landscape() {
+        @include orient-landscape {
             @content;
         }
     }
@@ -210,7 +210,7 @@ $tablet-max-width: 1024px !default;
     }
 
     @if $type == print {
-        @include print() {
+        @include print {
             @content;
         }
     }
@@ -232,7 +232,7 @@ $tablet-max-width: 1024px !default;
  * -----------------------------------------------------------------------------
  */
 
-@mixin print() {
+@mixin print {
     @media print {
         @content;
     }
@@ -244,7 +244,7 @@ $tablet-max-width: 1024px !default;
  * Should generally fit small smarphone screen sizes.
  */
 
-@mixin smartphone() {
+@mixin smartphone {
     @media screen and (min-device-width: $smartphone-min-width)
         and (max-device-width: $smartphone-max-width) and (orientation: portrait), 
     screen and (min-device-width: $smartphone-min-width)
@@ -259,7 +259,7 @@ $tablet-max-width: 1024px !default;
  * Should likewise fit tablet screen sizes.
  */
 
-@mixin tablet() {
+@mixin tablet {
     @media screen and (min-device-width: $tablet-min-width)
         and (max-device-width: $tablet-max-width) and (orientation: portrait), 
     screen and (min-device-width: $tablet-min-width)
@@ -347,13 +347,13 @@ $tablet-max-width: 1024px !default;
     }
 }
 
-@mixin orient-portrait() {
+@mixin orient-portrait {
     @media screen and (orientation: portrait) {
         @content;
     }
 }
 
-@mixin orient-landscape() {
+@mixin orient-landscape {
     @media screen and (orientation: landscape) {
         @content;
     }

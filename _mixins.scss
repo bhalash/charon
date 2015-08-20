@@ -223,7 +223,7 @@
  * -----------------------------------------------------------------------------
  */
 
-@mixin freeze() {
+@mixin freeze {
     overflow: hidden;
     z-index: -1;
     @include fixed(0);
@@ -294,7 +294,7 @@
  *      }
  */
 
-@mixin placeholder-style() {
+@mixin placeholder-style {
     &::-webkit-input-placeholder {
        @content;
     }
@@ -363,7 +363,7 @@
  * -----------------------------------------------------------------------------
  */
 
-@mixin pop-modal() {
+@mixin pop-modal {
     display: none;
     @include fixed(0);
 

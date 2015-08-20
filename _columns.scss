@@ -239,7 +239,7 @@
  * floating elements vertically).
  */
 
-@mixin clearfix() {
+@mixin clearfix {
     overflow: auto;
 
     &:after {
@@ -326,7 +326,7 @@
         $margin: percentage(strip-unit($margin) * 0.01);
     }
 
-    @include clearfix();
+    @include clearfix;
 
     > #{$element} {
         float: $side;
@@ -344,13 +344,13 @@
 /**
  * Asymmetrical Columns
  * -----------------------------------------------------------------------------
- * odd-columns() provides irregularly-sized floated columns side by side. This
+ * odd-columns provides irregularly-sized floated columns side by side. This
  * allows for an asymmetrical structure.
  * 
- * DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE columns() INSTEAD.
+ * DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE columns INSTEAD.
  * 
  * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
- * columns() if you need regular columns, because the right margin will look
+ * columns if you need regular columns, because the right margin will look
  * all fucked. This is *only* for asymmetric columns.
  *
  * Be careful with @content rules too -- I intend it to only be used for
@@ -430,7 +430,7 @@
     // Set up column sizes. Convert "auto" columns to percentage columns.
     $columns: set-autocol-sizes($columns, $margin);
 
-    @include clearfix();
+    @include clearfix;
 
     > #{$element} {
         float: $side;
