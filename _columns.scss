@@ -438,7 +438,7 @@
 
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
-                @if $i < length($columns) and $margin != 0 {
+                @if $i < length($columns) and strip-unit($margin) != 0 {
                     margin-#{opposite-side($side)}: $margin;
                 }
 
