@@ -86,6 +86,22 @@ $default-multipliers: (
     @return is-number($number) and is-unit-type($number, 'px');
 }
 
+@function is-vh($number) {
+    @return is-number($number) and is-unit-type($number, 'vh');
+}
+
+@function is-vw($number) {
+    @return is-number($number) and is-unit-type($number, 'vw');
+}
+
+@function is-em($number) {
+    @return is-number($number) and is-unit-type($number, 'em');
+}
+
+@function is-rem($number) {
+    @return is-number($number) and is-unit-type($number, 'rem');
+}
+
 /**
  * Strip Number Unit
  * -----------------------------------------------------------------------------
