@@ -103,6 +103,27 @@
 }
 
 /**
+ * Symmetric Column Margin
+ * -----------------------------------------------------------------------------
+ * Determine the width of each column in a syemmetrical element. 
+ * 
+ * @param   int     $margin         Margin as a decimal or percentage.
+ * @param   int     $margin         Margin as a percentage.
+ */
+
+@function column-margin($margin) {
+    @if $margin != 0 {
+        @if $margin != 0 and is-decimal($margin) {
+            $margin: percentage(strip-unit($margin) * 0.01);
+        } @else if not is-percent($margin) {
+            @error 'Margin should be supplied as a decimal or a percentage!';
+        }
+    }
+
+    @return $margin;
+}
+
+/**
  * Asymmetric Column Width
  * -----------------------------------------------------------------------------
  * Determine the width of "auto" columns in asyemmetrical element.
@@ -271,14 +292,17 @@
  */
 
 @mixin columns($type: flex, $element: div, $columns: 3, $margin: 0, $side: left) {
+    $margin: column-margin($margin); 
+    $width: column-width($columns, $margin);
+
     @if $type == 'flex' {
-        @include even-flexbox($element, $columns, $margin) {
+        @include even-flexbox($element, $columns, $margin, $width) {
             @content;
         }
     }
     
     @if $type == 'float' {
-        @include even-float($element, $columns, $margin, $side) {
+        @include even-float($element, $columns, $margin, $side, $width) {
             @content;
         }
     }
@@ -291,12 +315,13 @@
  * @param   int         $width          Width of each columns.
  */
 
-@mixin even-flexbox($element, $columns, $margin) {
-    $width: 1;
+@mixin even-flexbox($element, $columns, $margin, $width) {
 
     @if $margin != 0 {
         // If margin is 0, width is not needed, so instead make columns auto fill.
-        $width: 0 1 percentage(column-width($columns, $margin) * 0.01);
+        $width: 0 1 $width;
+    } @else {
+        $width: 1;
     }
 
     @include flex-parent(row, space-between, wrap);
@@ -318,14 +343,7 @@
  * @param   string      $side           Float side.
  */
 
-@mixin even-float($element, $columns, $margin, $side) {
-    $width: percentage(column-width($columns, $margin) * 0.01);
-
-    @if not is-percentage($margin) {
-        // Convert margin into a percentage value.
-        $margin: percentage(strip-unit($margin) * 0.01);
-    }
-
+@mixin even-float($element, $columns, $margin, $side, $width) {
     @include clearfix;
 
     > #{$element} {
@@ -365,6 +383,7 @@
 
 @mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 0, $side: left) {
     // Validate columns.
+    $margin: column-margin($margin); 
     $columns: check-odd-columns($columns);
 
     @if $type == 'flex' {
@@ -400,13 +419,13 @@
 
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
-                $flex: 0 1 nth($columns, $i);
+                $width: 1;
 
-                @if $margin == 0 and nth($columns, $i) == auto {
-                    $flex: 1;
+                @if $margin != 0 and nth($columns, $i) != auto {
+                    $width: 0 1 nth($columns, $i);
                 }
 
-                @include flex-child($flex);
+                @include flex-child($width);
                 @content;
             }
         }
@@ -423,10 +442,6 @@
  */
 
 @mixin odd-float($element, $columns, $margin, $side) {
-    @if not is-percentage($margin) {
-        $margin: percentage(strip-unit($margin) * 0.01);
-    }
-
     // Set up column sizes. Convert "auto" columns to percentage columns.
     $columns: set-autocol-sizes($columns, $margin);
 
