@@ -213,7 +213,7 @@
  */
 
 @function check-odd-columns($columns) {
-    @if type-of($columns) != 'list' {
+    @if not is-list($columns) {
         @error 'Asymmetrical columns should be supplied a list!'; 
     }
 
