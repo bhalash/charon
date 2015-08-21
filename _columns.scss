@@ -426,11 +426,8 @@
 
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
-                $width: 1;
-
-                @if $margin != 0 and nth($columns, $i) != auto {
-                    $width: 0 1 nth($columns, $i);
-                }
+                // Size is just "flex: 1" if margins are zeroand the column is auto.
+                $width: if(nth($columns, $i) != auto, 0 1 nth($columns, $i), 1);
 
                 @include flex-child($width);
                 @content;
@@ -463,6 +460,7 @@
                     margin-#{opposite-side($side)}: $margin;
                 }
 
+                // Floated columns do not enjoy the benefit of auto sizes.
                 width: nth($columns, $i);
                 @content;
             }
