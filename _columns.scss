@@ -44,9 +44,9 @@
  * @param   string      $justify-content    Alignment of content along main axis.
  * @param   string      $wrap               Whether or not to wrap content.
  * @param   string      $align-items        Alignment of content along secondary axis.
- * @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
- * @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
- * @link http://flexiejs.com/
+ * @link    https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+ * @link    http://zomigi.com/blog/flexbox-syntax-for-ie-10/
+ * @link    http://flexiejs.com/
  */
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
@@ -214,7 +214,7 @@
 
 @function check-odd-columns($columns) {
     @if type-of($columns) != 'list' {
-        @error 'Columns should be supplied a list!'; 
+        @error 'Asymmetrical columns should be supplied a list!'; 
     }
 
     @each $col in $columns {
@@ -286,14 +286,29 @@
  * -----------------------------------------------------------------------------
  * @param   string      $type           Flexbox or float?
  * @param   string      $element        Target child element.
- * @param   int         $columns        Number of columns to produce.
+ * @param   int/list    $columns        Number of columns to produce.
  * @param   int         $margin         Margin between columns. 
  * @param   string      $side           Float side.
  */
 
-@mixin columns($type: flex, $element: div, $columns: 3, $margin: 0, $side: left) {
-    // Validate margin and set width.
+@mixin columns($type: float, $element: div, $columns: 3, $margin: 0, $side: left) {
+    // Validate margin.
     $margin: column-margin($margin); 
+
+    @if is-decimal($columns) and $columns > 0 {
+        @include even-columns($type, $element, $columns, $margin, $side) {
+            @content;
+        }
+    } @else if is-list($columns) {
+        @include odd-columns($type, $element, $columns, $margin, $side) {
+            @content;
+        }
+    } @else {
+        @error 'Columns should be either a list or a a number';
+    }
+}
+
+@mixin even-columns($type, $element, $columns, $margin, $side) {
     $width: column-width($columns, $margin);
 
     @if $type == 'flex' {
@@ -304,6 +319,23 @@
     
     @if $type == 'float' {
         @include even-float($element, $columns, $margin, $side, $width) {
+            @content;
+        }
+    }
+}
+
+@mixin odd-columns($type, $element, $columns, $margin, $side, $width) {
+    // Validate columns, if list.
+    $columns: check-odd-columns($columns);
+
+    @if $type == 'flex' {
+        @include odd-flexbox($element, $columns, $margin) {
+            @content;
+        }
+    }
+
+    @if $type == 'float' {
+        @include odd-float($element, $columns, $margin, $side) {
             @content;
         }
     }
@@ -373,30 +405,7 @@
  *
  * Be careful with @content rules too -- I intend it to only be used for
  * responsive rules, as the output can be quite verbose.
- * 
- * @param   string      $type           Flexbox or float?
- * @param   string      $element        Target child element.
- * @param   list        $columns        List of columns to produce.
- * @param   int         $margin         Margin between columns. 
- * @param   string      $side           Float side.
  */
-
-@mixin odd-columns($type: flex, $element: div, $columns: (), $margin: 0, $side: left) {
-    $margin: column-margin($margin); 
-    $columns: check-odd-columns($columns);
-
-    @if $type == 'flex' {
-        @include odd-flexbox($element, $columns, $margin) {
-            @content;
-        }
-    }
-
-    @if $type == 'float' {
-        @include odd-float($element, $columns, $margin, $side) {
-            @content;
-        }
-    }
-}
 
 /**
  * Asymmetrical Flexbox Elements
