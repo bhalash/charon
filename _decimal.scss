@@ -51,7 +51,7 @@ $default-multipliers: (
  */
 
 @function is-list($list) {
-    @return get-type($list) == 'list';
+    @return type-of($list) == 'list';
 }
 
 /**
