@@ -29,94 +29,6 @@
  */
 
 /**
- * Set Position of Fixed, Absolute or Relative Items
- * -----------------------------------------------------------------------------
- * I wanted a slightly different operation for my position mixin: To be able to 
- * use in a manner identical to margin or padding side shorthand:
- * 
- *      margin: 10px 20px 5px;
- *      @include absolute(10px 20px 5px);
- * 
- * This will generate: 
- * 
- *      position: absolute;
- *      top: 10px;
- *      left: 20px;
- *      right: 20px;
- *      bottom: 5px;
- *
- * If values are unitless and greater than zero, it will assume they decimal
- * values and generate rem dimensions.
- * 
- * @param   string      $position           Type of position (absolute, fixed, relative).
- * @param   map         $values             Values to be applied.
- * @param   map         $offsets            Sides for values (top, right, etc.).
- * @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
- * @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
- */
-
-@mixin position($position, $values, $offsets: null) {
-    position: $position; 
-
-    @if not $offsets {
-        // 1. Default offsets list.
-        $offsets: top right bottom left;
-
-        @if length($values) == 1 {
-            @for $i from 1 to 4 {
-                // 1 or 4 values. If only one side input, duplicate it for the other sides.
-                $values: append($values, nth($values, 1));
-            }
-        } @else if length($values) == 2 {
-            // 2 values. Duplicate each value if two items provided.
-            $offsets: top left bottom right;
-            $values: append($values, nth($values, 1));
-            $values: append($values, nth($values, 2));
-        } @else if length($values) == 3 {
-            // 3 values. Add extra side if three values provided.
-            $offsets: top left bottom right;
-            $values: append($values, nth($values, 2));
-        }
-    } @else {
-        @if length($values) != length($offsets) {
-            @warn 'The number of offset properties and offset values must be equal.';
-        }
-    }
-
-    @each $offset in $offsets {
-        $side: index($offsets, $offset);
-        $value: nth($values, $side);
-
-        @if not is-valid-unit($value) {
-            @warn '"#{$side} is not a valid unit for this mixin.';
-        } @else if is-decimal($value) {
-            @include rem(#{$offset}, $value);
-        } @else {
-            #{$offset}: $value;
-        }
-    }
-}
-
-/**
- * Position Shorthand Mixins
- * -----------------------------------------------------------------------------
- * @param   map     $values         Values to be applied.
- * @param   map     $offsets        Sides for values (top, right, etc.).
- */
-
-@mixin absolute($values, $offsets: null) {
-    @include position(absolute, $values, $offsets);
-}
-
-@mixin fixed($values, $offsets: null) {
-    @include position(fixed, $values, $offsets);
-}
-
-@mixin relative($values, $offsets: null) {
-    @include position(relative, $values, $offsets);
-}
-
-/**
  * Fetch Named Asset
  * -----------------------------------------------------------------------------
  * $assets: (
@@ -227,27 +139,6 @@
     overflow: hidden;
     z-index: -1;
     @include fixed(0);
-}
-
-/**
- * Flexible Square Boxes
- * -----------------------------------------------------------------------------
- * Generate a box whose height is equal to the given ratio of the width.
- * Width can be of any size.
- * Ratio should be between 0 and foo.
- * 
- * @param   map     $size           Horizontal width and height ratio.
- * @link http://stackoverflow.com/a/13625843/1433400
- * @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
- */
-
-@mixin square-flex($size: 100% 1) {
-    $width: nth($size, 1);
-    $ratio: nth($size, 2);
-
-    height: 0;
-    padding-bottom: $width * $ratio;
-    width: $width;
 }
  
 /**
