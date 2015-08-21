@@ -44,6 +44,17 @@ $default-multipliers: (
 ) !default;
 
 /**
+ * Check if List
+ * -----------------------------------------------------------------------------
+ * @param   string      $list           Candidate unit.
+ * @return  bool        Is list, true/false.
+ */
+
+@function is-list($list) {
+    @return get-type($list) == 'list';
+}
+
+/**
  * Validate Units
  * -----------------------------------------------------------------------------
  * Build evaluation from units to types. 
