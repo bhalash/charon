@@ -324,7 +324,7 @@
     }
 }
 
-@mixin odd-columns($type, $element, $columns, $margin, $side, $width) {
+@mixin odd-columns($type, $element, $columns, $margin, $side) {
     // Validate columns, if list.
     $columns: check-odd-columns($columns);
 
