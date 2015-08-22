@@ -102,16 +102,15 @@ $social-sprites: (
  * return   map         $dimensions     Calculated background size.
  */
 
-@function get-dimensions($size: 100% 1, $map: $social-sprites) {
+@function get-dimensions($map: $social-sprites) {
     $dimensions: map-get($map, dimensions);
 
-    $size: nth($size, 1);
     $width: nth($dimensions, 1);
     $height: nth($dimensions, 2);
 
     $dimensions: (
-        $width * $size,
-        $height * $size
+        percentage($width),
+        percentage($height)
     );
 
     @return $dimensions;
@@ -136,7 +135,7 @@ $social-sprites: (
 @mixin social($size: 100% 1, $networks: null, $variant: light) {
     $networks: get-networks($networks);
     $spritesheet: get-variant($variant);
-    $dimensions: get-dimensions($size);
+    $dimensions: get-dimensions();
 
     $width: nth($dimensions, 1);
     $height: nth($dimensions, 2);
