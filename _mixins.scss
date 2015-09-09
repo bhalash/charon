@@ -250,6 +250,17 @@
 }
 
 /**
+ * Column Count
+ * -----------------------------------------------------------------------------
+ */
+
+@include coloumn-count($count: 3, $gap: 1rem, $rule: 0 solid #000) {
+    column-count: $count;
+    column-gap: $gap;
+    column-rule: $rule;
+}
+
+/**
  * Modal Popover
  * -----------------------------------------------------------------------------
  */
