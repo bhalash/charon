@@ -128,11 +128,19 @@ $social-sprites: (
  * element will be that for the relevant network.
  * 
  * @param   map     $size           Sizes for square-flex(). 
+ * @param   string  $selector       Optional selector.
  * @param   map     $service(s)     Service(s) to be selectively output.
  * @param   map     $sprites        Map with information for spritesheet. 
+ * 
+ * On $selector: There were some cases where I want the social style 
+ * to be attached to the parent, and on other occasions to an arbitrary child 
+ * instead. 
+ * 
+ * If #{$selector} for the background image exists, it is attached to selector,
+ * elsewise to the parent.
  */
 
-@mixin social($size: 100% 1, $networks: null, $variant: light) {
+@mixin social($size: null, $selector: null, $networks: null, $variant: light) {
     $networks: get-networks($networks);
     $spritesheet: get-variant($variant);
     $dimensions: get-dimensions();
@@ -140,12 +148,20 @@ $social-sprites: (
     $width: nth($dimensions, 1);
     $height: nth($dimensions, 2);
 
+    @if $selector {
+        $selector: ' ' + $selector;
+    }
+
     // Output CSS begins.
 
-    background: center/$width $height no-repeat url(#{$spritesheet});
-    @include square-flex($size);
+    &#{$selector} {
+        background: center/$width $height no-repeat url(#{$spritesheet});
 
-    // @each $network in $networks {
+        @if $size {
+            @include square-flex($size);
+        }
+    }
+
     @each $network in $networks {
         // Iterate, one class per nework.
         $sprite: get-sprite($network);
@@ -154,7 +170,7 @@ $social-sprites: (
         $position-x: map-get($sprite, x);
         $position-y: map-get($sprite, y);
 
-        &.#{$network} {
+        &.#{$network}#{$selector} {
             background-color: $colour;
             background-position: $position-x $position-y; 
             @content;
