@@ -97,6 +97,7 @@ $social-sprites: (
  * Width: Element percentage width * number of rows in spritesheet.
  * Height: Element percentage width * number of columns in spritesheet.
  * 
+ * @param   string      $axis           Background size axix (x or y).
  * @param   list        $size           Element size.
  * @param   map         $map            Map to use.
  * return   map         $dimensions     Calculated background size.
