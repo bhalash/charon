@@ -102,16 +102,17 @@ $social-sprites: (
  * return   map         $dimensions     Calculated background size.
  */
 
-@function get-dimensions($map: $social-sprites) {
+@function get-dimensions($axis: null, $map: $social-sprites) {
     $dimensions: map-get($map, dimensions);
 
-    $width: nth($dimensions, 1);
-    $height: nth($dimensions, 2);
-
     $dimensions: (
-        percentage($width),
-        percentage($height)
+        x: percentage(nth($dimensions, 1)),
+        y: percentage(nth($dimensions, 2))
     );
+
+    @if $axis and map-has-key($dimensions, $axis) {
+        $dimensions: map-get($dimensions, $axis);
+    }
 
     @return $dimensions;
 }
@@ -136,26 +137,27 @@ $social-sprites: (
  * to be attached to the parent, and on other occasions to an arbitrary child 
  * instead. 
  * 
- * If #{$selector} for the background image exists, it is attached to selector,
+ * If $selector for the background image exists, it is attached to selector,
  * elsewise to the parent.
  */
 
 @mixin social($size: null, $selector: null, $networks: null, $variant: light) {
     $networks: get-networks($networks);
     $spritesheet: get-variant($variant);
-    $dimensions: get-dimensions();
 
-    $width: nth($dimensions, 1);
-    $height: nth($dimensions, 2);
+    // x and y size, in percentages, of the background image.
+    $x: get-dimensions(x);
+    $y: get-dimensions(y);
 
-    @if $selector {
-        $selector: ' ' + $selector;
-    }
+    // Parse selector, if any.
+    $selector: if($selector, ' ' + $selector, $selector);
 
-    // Output CSS begins.
+    /**
+     * Output CSS begins.
+     */
 
     &#{$selector} {
-        background: center/$width $height no-repeat url(#{$spritesheet});
+        background: center/$x $y no-repeat url(#{$spritesheet});
 
         @if $size {
             @include square-flex($size);
