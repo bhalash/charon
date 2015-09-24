@@ -4,12 +4,12 @@
  * Gaps separate rows. Currently 6 columns by 4 rows in size.
  */
 
-$asset-path: '' !default;
+$helper-path: '' !default;
 
 $social-sprites: (
     variants: (
-        dark: #{$asset-path + 'scss-helpers/assets/svg/button-sprites-black.svg'},
-        light: #{$asset-path + 'scss-helpers/assets/svg/button-sprites-white.svg'}
+        dark: #{$helper-path + 'scss-helpers/assets/svg/button-sprites-black.svg'},
+        light: #{$helper-path + 'scss-helpers/assets/svg/button-sprites-white.svg'}
     ),
     dimensions: (6, 4),
     sprites: (
