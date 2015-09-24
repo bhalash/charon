@@ -18,7 +18,7 @@ Manage element sizes with unitless demical values that are automatically compile
 `@media` rules shorthand mixin.
 
 #### [\_social.scss](/_social.scss)
-Generate social media icons from the included vector spritesheet.
+Generate social media icons from the [included vector](https://github.com/bhalash/scss-helpers/tree/master/assets/svg) spritesheet.
 
 ## License and Copyright
 The MIT License (MIT)
