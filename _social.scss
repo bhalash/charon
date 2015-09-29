@@ -144,7 +144,7 @@ $social-sprites: (
  * elsewise to the parent.
  */
 
-@mixin social($size: null, $selector: null, $networks: null, $variant: light) {
+@mixin social($size: null, $selector: null, $split: false, $networks: null, $variant: light) {
     $networks: get-networks($networks);
     $spritesheet: get-variant($variant);
 
@@ -175,8 +175,17 @@ $social-sprites: (
         $position-x: map-get($sprite, x);
         $position-y: map-get($sprite, y);
 
+        @if $split {
+            &.#{$network} {
+                background-color: $colour;
+            }
+        }
+
         &.#{$network}#{$selector} {
-            background-color: $colour;
+            @if not $split {
+                background-color: $colour;
+            }
+
             background-position: $position-x $position-y; 
             @content;
         }
