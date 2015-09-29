@@ -2,64 +2,23 @@
 These files are a small set of helper functions, mixins and partials that I reuse across projects. Becasue I work on proprietary projects I chose to use the MIT License instead of the GPL in order to sidestep any headaches about needing to open code. 
 
 ## Files
+#### [\_boxes.scss](/_boxes.scss)
+`_boxes.scss` contains rules for the CSS box model: shorthand functions for `absolute`, `fixed`, and `relative` positions, and [fluid square](http://absolide.tumblr.com/post/7317210512/full-css-fluid-squares) boxes.
 
-### \_media.scss
-[\_media.scss](/_media.scss) is a library of @mixins to easily manage virtually and CSS @media rule.
+#### [\_colours.scss](/_colours.scss)
+Contains expandable map of colours and function to return a given colour and tone on demand.
 
-* * *
+#### [\_columns.scss](/_columns.scss)
+Create a dynamic [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) or floated grid layout upon demand. 
 
-### \_mixins.scss
-[\_mixins.scss](/_mixins.scss) contains a combination of useful mixins and functions for use in Scss projects:
+#### [\_decimal.scss](/_decimal.scss)
+Manage element sizes with unitless demical values that are automatically compiled to `rem` sizes with a `px` fallback. Also includes mixins and functions to convert between arbitrary unit types. 
 
-##### @position
-Quickly set absolute, relative and fixed positions for elements, along with offsets. Three mixins serve as wrappers for @position:
+#### [\_media.scss](/_media.scss)
+`@media` rules shorthand mixin.
 
-    * @absolute
-    * @fixed
-    * @relative
-
-##### @palette
-Return the specified from your theme's palette of colours.
-
-##### @prefix, @prefix-value
-Add arbitrary vendor prefixes to properties and values.
-
-##### @generate-social-link
-Generate dynamically-resizable social media icons from the supplied vector stylesheets. Both white icons and black icons are available to use.
-
-##### @content-padding
-Set side padding for the main content based on the contents of a mapof @media breakpoints.
-
-##### @flex-parent, @flex-child
-Generate [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) CSS rules for both parent and child flex elements, along with necessary vendor prefixes.
-
-##### @square-flex
-Generate square (or any aspect ratio) boxes using percentage sizes alone.
-
-##### @vertical-center
-Wrap element with equal padding above and below.
-
-##### @rgba-opposite
-Invert RGBA values.
-
-##### @placeholder-styles
-Style input placeholder text.
-
-##### @solid-mask, @gradient-mask 
-Extends %background-mask. Put a coloured mask behind an elements content.
-
-##### @font-face
-Generate CSS @font-face rules in a neat manner using a map.
-
-* * *
-
-### \_decimal.scss
-[\_decimal.scss](/_decimal.scss) is a suite of tools to manage margins, paddings, offsets, font-sizes and any other CSS unit with a numerical value using base 10 decimal units. These decimal units are then compiled to [rem](https://css-tricks.com/rems-ems/) units with a pixel value fallback.
-
-* * *
-
-### \_partials.scss
-[\_partials.scss](/_partials.scss) is a collection of miscellaneous Scss partials derived from mixins and functions in [\_decimal.scss](/_decimal.scss) and [\_mixins.scss](/_mixins.scss).
+#### [\_social.scss](/_social.scss)
+Generate social media icons from the [included vector](https://github.com/bhalash/scss-helpers/tree/master/assets/svg) spritesheet.
 
 ## License and Copyright
 The MIT License (MIT)
