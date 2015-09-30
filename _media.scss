@@ -66,6 +66,8 @@ $media-terms: (
    @return 'only screen and (min-device-width: #{$min}) and (max-device-width: #{$max})';
 }
 
+// TODO: Function for pixel density and IE.
+
 /**
  * Media Query Presets
  * -----------------------------------------------------------------------------
@@ -113,10 +115,12 @@ $media-presets: (
     @if $query and $condition {
         $query: $query + ' #{$switch} ';
     } @else if not $query {
+        // TODO: Better solution for this.
         $query: 'only screen and ';
     }
 
     @each $term in $condition {
+        // TODO: Add switch/check for 'only/all/not' and 'screen/speech,' etc.
         @if not $prefix and is-media-term(prefix, $term) {
             $prefix: $term + '-';   
         } @else if not $property and is-media-term(property, $term) {
@@ -126,6 +130,7 @@ $media-presets: (
         }
     }
 
+    // TODO: Test against weird selectors.
     $condition: '(#{$prefix}#{$property}: #{$value})';
     @return $query + $condition;
 }
@@ -159,6 +164,7 @@ $media-presets: (
 /**
  * Retina Pixel Density Screen
  * -----------------------------------------------------------------------------
+ * TODO: Integrate into new solution.
  */
 
 @mixin density($density) {
@@ -176,6 +182,8 @@ $media-presets: (
 /**
  * Internet Explorer
  * -----------------------------------------------------------------------------
+ * TODO: Integrate into new solution.
+ *
  * I am happy to exclude Internet Explorer 11 because it is decently good. My
  * IE problems inecrease exponentially as I work backwards in time.
  * 
