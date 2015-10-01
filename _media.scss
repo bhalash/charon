@@ -34,7 +34,7 @@
  */
 
 $media-terms: (
-    query: ('only', 'not', 'and'),
+    mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: ('all', 'print', 'screen', 'speech'),
     // Non-browser-prefixed @media features.
@@ -55,18 +55,17 @@ $media-terms: (
 /**
  * Parse Number Range for Presets
  * -----------------------------------------------------------------------------
- * Stuff will break if you move this, ware ye.
+ * Stuff will break if you move this, ware ye. The map below relies upon this.
  *
  * @param   int     $min        Range minimum size.
  * @param   int     $max        Range maximum size.
+ * @param   string  $property   Range property.
  * @return  string              Parsed media query range condition.
  */
 
-@function device-size-range($min, $max) {
-   @return 'only screen and (min-device-width: #{$min}) and (max-device-width: #{$max})';
+@function device-size-range($min, $max, $property: 'device-width') {
+   @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
-
-// TODO: Function for pixel density and IE.
 
 /**
  * Media Query Presets
@@ -83,19 +82,70 @@ $media-presets: (
 ) !default;
 
 /**
- * Check Query Keyword is Valid
+ * Test if Property is Prefixed
  * -----------------------------------------------------------------------------
+ * @param   string      $property       Property to test for prefixedness.
+ * @param   map         $map            Map of keywords.
+ * @return  bool                        Property is prefixed, true/false.
+ */
+
+@function is-prefixed-property($property, $map: $media-terms) {
+    @return index(map-get($map, prefixed), $property) != false;
+}
+
+/**
+ * Test if Value is Valid Media Value
+ * -----------------------------------------------------------------------------
+ * TODO: Some media values are either boolean or have a keyword (like orientation)
+ * instead of a number value.
+ *
+ * @param   string      $value          Candidate value.
+ * @return  bool                        Candidate is valid media value, true/false.
+ */
+
+@function is-media-value($value) {
+    @return type-of($value) == 'number';
+}
+
+/**
+ * Parse Media Keyword
+ * -----------------------------------------------------------------------------
+ * Looping here is, like, triple the work of a single loop in parse-condition()
+ * but the separation of function is worth it.
+ *
  * TODO: Missing keywords, especially for prefixed query rules.
  *
  * @param   string      $keyword        Type of keyword to check.
- * @param   string      $term           Candidate keyword to test.
+ * @param   string      $query          Input media query.
  * @param   map         $map            Map of keywords.
- * @return  bool                        Keyword is valid, true/false.
+ * @return  string      $parsed         Parsed keyword.
  */
 
-@function is-media-term($keyword, $term, $map: $media-terms) {
-    $map: map-get($map, $keyword);
-    @return (index($map, $term) != null);
+@function parse-condition-term($keyword, $query, $map: $media-terms) {
+    $parsed: null;
+
+    @each $term in $query {
+        @if $keyword != value {
+            // TODO: This logic needs to be complexified. Some media queries
+            // (like monochrome) are boolean in nature.
+            @if index(map-get($map, $keyword), $term) != null {
+                $parsed: $term;
+
+                @if $keyword == prefix {
+                    // For min-foo or max-bar.
+                    $parsed: $parsed + '-';
+                }
+            }
+        } @else if $keyword == value is-media-value($term) {
+            $parsed: $term;    
+        }
+    }
+
+    @if not $parsed {
+        $parsed: '';
+    }
+
+    @return $parsed;
 }
 
 /**
@@ -104,14 +154,10 @@ $media-presets: (
  * @param   string      $query      Aggregate media query as it stands.
  * @param   map         $condition  Media query condition to be parsed.
  * @param   string      $switch     and/or switch for queries. and/, literally.
- * @return  string                  Parsed condition appended to query.
+ * @return  string      $parsed     Parsed condition appended to query.
  */
 
 @function parse-condition($query, $condition, $switch: 'and') {
-    $prefix: null;
-    $property: null;
-    $value: null;
-
     @if $query and $condition {
         $query: $query + ' #{$switch} ';
     } @else if not $query {
@@ -119,20 +165,19 @@ $media-presets: (
         $query: 'only screen and ';
     }
 
-    @each $term in $condition {
-        // TODO: Add switch/check for 'only/all/not' and 'screen/speech,' etc.
-        @if not $prefix and is-media-term(prefix, $term) {
-            $prefix: $term + '-';   
-        } @else if not $property and is-media-term(property, $term) {
-            $property: $term;
-        } @else if not $value {
-            $value: $term;
-        }
-    }
+    // TODO: Add switch/check for 'only/all/not' and 'screen/speech,' etc.
+    $prefix: parse-condition-term(prefix, $condition);
+    $property: parse-condition-term(property, $condition);
+    $value: parse-condition-term(value, $condition);
 
-    // TODO: Test against weird selectors.
-    $condition: '(#{$prefix}#{$property}: #{$value})';
-    @return $query + $condition;
+    $parsed: $query;
+    $parsed: $parsed + '(';
+    $parsed: $parsed + if(is-prefixed-property($property), $prefix, '');
+    $parsed: $parsed + $property;
+    $parsed: $parsed + if(is-prefixed-property($property), ': ' + $value, '');
+    $parsed: $parsed + ')';
+
+    @return $parsed;
 }
 
 /**
@@ -165,6 +210,7 @@ $media-presets: (
  * Retina Pixel Density Screen
  * -----------------------------------------------------------------------------
  * TODO: Integrate into new solution.
+ * TODO: Function for pixel density and IE.
  */
 
 @mixin density($density) {
