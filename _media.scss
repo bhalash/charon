@@ -125,19 +125,19 @@ $media-presets: (
     $parsed: null;
 
     @each $term in $query {
-        @if $keyword != value {
+        @if $keyword == value and is-media-value($term) {
+            $parsed: $term;    
+        } @else if index(map-get($map, $keyword), $term) != null {
             // TODO: This logic needs to be complexified. Some media queries
             // (like monochrome) are boolean in nature.
-            @if index(map-get($map, $keyword), $term) != null {
-                $parsed: $term;
+            $parsed: $term;
 
-                @if $keyword == prefix {
-                    // For min-foo or max-bar.
-                    $parsed: $parsed + '-';
-                }
+            @if $keyword == prefix {
+                // For min-foo or max-bar.
+                $parsed: $parsed + '-';
             }
-        } @else if $keyword == value and is-media-value($term) {
-            $parsed: $term;    
+
+            // TODO: Further tests and conditions to go here.
         }
     }
 
@@ -210,7 +210,6 @@ $media-presets: (
  * Retina Pixel Density Screen
  * -----------------------------------------------------------------------------
  * TODO: Integrate into new solution.
- * TODO: Function for pixel density and IE.
  */
 
 @mixin density($density) {
