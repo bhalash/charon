@@ -63,7 +63,7 @@ $media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function device-size-range($min, $max, $property: 'device-width') {
+@function size-range($min, $max, $property: 'device-width') {
    @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
@@ -76,9 +76,9 @@ $media-presets: (
     print: 'print',
     speech: 'speech',
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
-    watch: device-size-range(218px, 281px),
-    smartphone: device-size-range(320px, 667px),
-    tablet: device-size-range(600px, 1280px)
+    watch: size-range(218px, 281px),
+    smartphone: size-range(320px, 667px),
+    tablet: size-range(600px, 1280px)
 ) !default;
 
 /**
@@ -136,7 +136,7 @@ $media-presets: (
                     $parsed: $parsed + '-';
                 }
             }
-        } @else if $keyword == value is-media-value($term) {
+        } @else if $keyword == value and is-media-value($term) {
             $parsed: $term;    
         }
     }
