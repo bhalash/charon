@@ -29,6 +29,26 @@
  */
 
 /**
+ * Recursive Map Get
+ * -----------------------------------------------------------------------------
+ * @param   map         $map        Map to search.
+ * @param   list        $terms      Terms to search for wtihin the map.
+ * @param   map         $map        Recursively-fetched results.
+ */
+
+@function map-seek($map, $terms: default) {
+    @each $term in $terms {
+        @if map-has-key($map, $term) {
+            $map: map-get($map, $term);
+        } @else {
+            $map: null;
+        }
+    }
+
+    @return $map;
+}
+
+/**
  * Fetch Named Asset
  * -----------------------------------------------------------------------------
  * $assets: (
@@ -51,16 +71,14 @@
  * @link https://www.bhalash.com/archives/13544804892
  */
 
-@function asset($asset, $variants: null) {
-    $asset: map-get($assets, $asset);
+@function asset($variants: null, $asset-map: $assets) {
+    $results: map-seek($asset-map, $variants);
 
-    @if $variants {
-        @each $variant in $variants {
-            $asset: map-get($asset, $variant);
-        }
+    @if not $results {
+        @error "Error: Asset variants '#{$variants}' not found!"
     }
 
-    @return url($asset);
+    @return $results;
 }
 
 /**
