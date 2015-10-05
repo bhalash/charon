@@ -33,7 +33,7 @@
  * -----------------------------------------------------------------------------
  */
 
-$media-terms: (
+$bh-media-terms: (
     mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: (
@@ -78,12 +78,24 @@ $media-terms: (
  * -----------------------------------------------------------------------------
  */
 
-$media-presets: (
+$bh-media-presets: (
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
     watch: size-range(218px, 281px),
     smartphone: size-range(320px, 667px),
     tablet: size-range(600px, 1280px)
-) !default;
+);
+
+/**
+ * Add to Template Presets
+ * -----------------------------------------------------------------------------
+ * @param   map         $map                    Map of presets to add.
+ * @return  map         $bh-media-presets       Library media preset.
+ */
+
+@function add-presets($map) {
+    $bh-media-presets: map-merge($bh-media-presets, $map) !global;
+    @return $bh-media-presets;
+}
 
 /**
  * Test if Property is a Preset
@@ -93,8 +105,8 @@ $media-presets: (
  * @return  bool                        Property is a preset, true/false.
  */
 
-@function is-media-preset($condition, $map: $media-presets) {
-    @return map-has-key($map, $condition);
+@function is-media-preset($condition) {
+    @return map-has-key($bh-media-presets, $condition);
 }
 
 /**
@@ -105,8 +117,8 @@ $media-presets: (
  * @param   string                      Preset property.
  */
 
-@function media-preset($condition, $map: $media-presets) {
-    @return map-get($map, $condition);
+@function media-preset($condition) {
+    @return map-get($bh-media-presets, $condition);
 }
 
 /**
@@ -116,7 +128,7 @@ $media-presets: (
  * @return  bool                        Property is shorthand/true false.
  */
 
-@function is-media-shorthand($property, $map: $media-terms) {
+@function is-media-shorthand($property) {
     @return length($property) == 1 and not is-media-preset($property);
 }
 
@@ -128,7 +140,7 @@ $media-presets: (
  * @return  string      $shorthand      Expanded media shorthand term.
  */
 
-@function media-shorthand($property, $map: $media-terms) {
+@function media-shorthand($property) {
     $shorthand: '';
     $property: nth($property, 1);
 
@@ -141,7 +153,7 @@ $media-presets: (
     } @else if $property == monochrome {
         // monochrome
         $shorthand: 'all and (#{$property})';
-    } @else if index(map-get($map, media), $property) != null {
+    } @else if index(map-get($bh-media-terms, media), $property) != null {
         $shorthand: $property;
     }
 
@@ -156,8 +168,8 @@ $media-presets: (
  * @return  bool                        Property is prefixed, true/false.
  */
 
-@function is-prefixed-property($property, $map: $media-terms) {
-    @return index(map-get($map, prefixed), $property) != false;
+@function is-prefixed-property($property) {
+    @return index(bh-media-terms-get($bh-media-terms, prefixed), $property) != false;
 }
 
 /**
@@ -165,13 +177,14 @@ $media-presets: (
  * -----------------------------------------------------------------------------
  * @param   list        $condition      Media condition to split.
  * @param   string      $key            Optional key so as to return a single value.
- * @param   map         $map            Map of media query terms.
  * @return  map         $split          Split up condition.
  * @return  string      $split          Single value.
  */
 
-@function split-condition($condition, $key: null, $map: $media-terms) {
+@function split-condition($condition, $key: null) {
     $split: ();
+
+    $map: $bh-media-terms;
 
     @each $term in $condition {
         @if index(map-get($map, media), $term) != null {
