@@ -1,0 +1,224 @@
+/**
+ * Spritesheet
+ * -----------------------------------------------------------------------------
+ * Add your own map to this with add-spritesheet().
+ */
+
+$bu-spritesheet: () !default;
+
+/**
+ * Recursive Map Get
+ * -----------------------------------------------------------------------------
+ * @param   map         $map        Map to search.
+ * @param   list        $terms      Terms to search for wtihin the map.
+ * @param   map         $map        Recursively-fetched results.
+ */
+
+@function bu-map-seek($map, $terms: default) {
+    @each $term in $terms {
+        @if map-has-key($map, $term) {
+            $map: map-get($map, $term);
+        } @else {
+            $map: null;
+        }
+    }
+
+    @return $map;
+}
+
+/**
+ * Add Spritesheet to Spritesheet Map
+ * -----------------------------------------------------------------------------
+ * @param   string      $key                Associative key for added map.
+ * @param   map         $map                Spritesheet map.
+ * @return  map         $bu-spritesheet     Complete map of sprites.
+ */
+
+@function add-spritesheet($key, $map) {
+    $bu-spritesheet: map-merge($bu-spritesheet, ($key: $map)) !global;
+    @return $bu-spritesheet;
+}
+
+/**
+ * Access Spritesheet
+ * -----------------------------------------------------------------------------
+ * Return requested information about the spritesheet.
+ *
+ * @param   string      $command        Action to perform on spritesheet.
+ * @param   string      $sheet          Sheet on which to perform action.
+ * @param   map         $args           Any other args (size axis or sprite).
+ * @param   map         $results        Requested information.
+ */
+
+@function spritesheet($command, $sheet: null, $arg: null) {
+    $results: '';
+
+    @if $command == sprite {
+        $results: bu-map-seek($bu-spritesheet, $sheet sprites $arg); 
+
+        @if not $results {
+            @error "Sprite '#{$arg}' not found in sheet '#{$sheet}'!";
+        }
+    }
+
+    @if $command == path {
+        $results: bu-map-seek($bu-spritesheet, $sheet path);
+    }
+
+    @if $command == count {
+        $results: length(bu-map-seek($bu-spritesheet, $sheet));
+    }
+
+    @if $command == dimensions {
+        $results: bu-map-seek($bu-spritesheet, $sheet dimensions);
+    }
+
+    @if $command == seek {
+        $reults: bu-map-seek($bu-spritesheet, $sheet $arg);
+    }
+
+    @return $results;
+}
+
+/**
+ * Return Count of Sprites
+ * -----------------------------------------------------------------------------
+ * @param   string      $sheet          Target spritesheet.
+ * @return  number                      Count of sprites in sheet.
+ */
+
+@function count($sheet) {
+    @return spritesheet(count, $sheet);
+}
+
+/**
+ * Return Spritesheet Path
+ * -----------------------------------------------------------------------------
+ * @param   string      $sheet          Target spritesheet.
+ * @return  string                      Path to spritesheet.
+ */
+
+@function path($sheet) {
+    @return spritesheet(path, $sheet);
+}
+
+/**
+ * Return Spritesheet Dimensions
+ * -----------------------------------------------------------------------------
+ * @param   string      $sheet          Target spritesheet.
+ * @param   string      $axis           Optional axis to return.
+ * @return  number      $dimension      Spritesheet dimension(s).
+ */
+
+@function dimension($sheet, $axis: null) {
+    $dimension: spritesheet(dimensions, $sheet);
+
+    @if $axis {
+        @if $axis == x or $axis == y {
+            $n: if($axis == x, 1, 2);
+            $dimension: nth($dimension, $n);
+        } @else {
+            @error "Imaginary axis #{$axis} requested!"    
+        }
+    }
+
+    @return $dimension;
+}
+
+/**
+ * Get Sprite from Spritesheet
+ * -----------------------------------------------------------------------------
+ * @param   string      $sheet          Target spritesheet.
+ * @param   string      $sprite         Sprite to fetch.
+ * @return  map                         Sprite information.
+ */
+
+@function get-sprite($sheet, $sprite) {
+    @if length($sprite) > 1 {
+        $sprite: nth($sprite, 1);
+    }
+
+    @return spritesheet(sprite, $sheet, $sprite);
+}
+
+/**
+ * Get Sprite Position
+ * -----------------------------------------------------------------------------
+ * Return X/Y CSS position of sprite as a percentage.
+ *
+ * @param   string      $sheet          Target spritesheet.
+ * @param   string      $sprite         Sprite to fetch.
+ * @return  map         $x $y           Percentage position of sprite.
+ */
+
+@function sprite-position($sheet, $sprite) {
+
+    $sprite: get-sprite($sheet, $sprite);
+    $sheet: dimension($sheet);
+
+    $sprite-x: nth($sprite, 1);
+    $sprite-y: nth($sprite, 2);
+    $sheet-x: nth($sheet, 1);
+    $sheet-y: nth($sheet, 2);
+
+    $x: percentage($sprite-x / $sheet-x);
+    $y: percentage($sprite-y / $sheet-y);
+
+    @return $x $y;
+}
+
+/**
+ * Get Sprite Size
+ * -----------------------------------------------------------------------------
+ * Return W/H CSS size of sprite as a percentage.
+ *
+ * @param   string      $sheet          Target spritesheet.
+ * @param   string      $sprite         Sprite to fetch.
+ * @return  map         $x $y           Percentage size of sprite.
+ */
+
+@function sprite-size($sheet, $sprite) {
+    $sheet: dimension($sheet);
+
+    $x: percentage(nth($sheet, 1));
+    $y: percentage(nth($sheet, 2));
+
+    @return $x $y;
+}
+
+/**
+ * Sprite Background Property
+ * -----------------------------------------------------------------------------
+ * @param   string      $sheet          Target spritesheet.
+ * @param   string      $sprite         Sprite to fetch.
+ * @return  map                         CSS background value for sprite.
+ */
+
+@function sprite($sheet, $sprite) {
+    $position: sprite-position($sheet, $sprite);
+    $size: sprite-size($sheet, $sprite);
+    $path: url(path($sheet));
+
+    @return $position/$size no-repeat $path;
+}
+
+/**
+ * Include Sprite Main Mixin
+ * -----------------------------------------------------------------------------
+ * Main entry point for this library. TL;DR: This makes a square(ish) sprite the 
+ * centered background image of a square container. If either or both is square 
+ * weird things will occur. WARE YE.
+ * 
+ * Square is good. All hail the squre. 
+ *
+ * @param   string      $sheet          Target spritesheet.
+ * @param   string      $sprite         Sprite to fetch.
+ */
+
+@mixin sprite($sheet, $sprite, $selector) {
+    &#{$selector} {
+        background: sprite($sheet, $sprite);
+    }
+
+    @content;
+}
