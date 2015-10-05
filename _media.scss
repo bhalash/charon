@@ -78,7 +78,7 @@ $bh-media-terms: (
  * -----------------------------------------------------------------------------
  */
 
-$bh-bh-get-presets: (
+$bh-media-presets: (
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
     watch: bh-size-range(218px, 281px),
     smartphone: bh-size-range(320px, 667px),
@@ -89,12 +89,12 @@ $bh-bh-get-presets: (
  * Add to Template Presets
  * -----------------------------------------------------------------------------
  * @param   map         $map                    Map of presets to add.
- * @return  map         $bh-bh-get-presets       Library media preset.
+ * @return  map         $bh-media-presets       Library media preset.
  */
 
 @function bh-add-presets($map) {
-    $bh-bh-get-presets: map-merge($bh-bh-get-presets, $map) !global;
-    @return $bh-bh-get-presets;
+    $bh-media-presets: map-merge($bh-media-presets, $map) !global;
+    @return $bh-media-presets;
 }
 
 /**
@@ -105,7 +105,7 @@ $bh-bh-get-presets: (
  */
 
 @function bh-get-preset($condition) {
-    @return map-has-key($bh-bh-get-presets, $condition);
+    @return map-has-key($bh-media-presets, $condition);
 }
 
 /**
@@ -116,7 +116,7 @@ $bh-bh-get-presets: (
  */
 
 @function bh-get-preset($condition) {
-    @return map-get($bh-bh-get-presets, $condition);
+    @return map-get($bh-media-presets, $condition);
 }
 
 /**
