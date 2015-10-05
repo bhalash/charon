@@ -8,7 +8,7 @@ $helper-path: '' !default;
 
 $social-sprites: add-spritesheet(social, (
     path: 'vectors/button-sprites.svg',
-    dimensions: (6, 5),
+    dimensions: (6, 4),
     sprites: (
         beard: (1, 1, #343537),
         discuss: (2, 1, #b9dfbc),
