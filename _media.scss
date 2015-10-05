@@ -29,376 +29,179 @@
  */
 
 /**
- * Media Query Default Table and Cellphone Screen Sizes
+ * Media Query Terms
  * -----------------------------------------------------------------------------
  */
- 
-$smartphone-min-width: 200px !default; 
-$smartphone-max-width: 599px !default;
-$tablet-min-width: 600px !default; 
-$tablet-max-width: 1024px !default;
+
+$media-terms: (
+    mod: ('only', 'not'),
+    // Non-deprecated media query devices.
+    media: ('all', 'print', 'screen', 'speech'),
+    // Non-browser-prefixed @media features.
+    property: (
+        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
+        'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid',
+        'orientation'
+    ),
+    // Valid prefix mods.
+    prefix: ('min', 'max'),
+    // @media featured with a min/max prefix.
+    prefixed: (
+        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
+        'color', 'color-index', 'monochrome', 'resolution'
+    )
+);
 
 /**
- * A Mixin for (Most) Important @media Rules
+ * Parse Number Range for Presets
  * -----------------------------------------------------------------------------
+ * Stuff will break if you move this, ware ye. The map below relies upon this.
+ *
+ * @param   int     $min        Range minimum size.
+ * @param   int     $max        Range maximum size.
+ * @param   string  $property   Range property.
+ * @return  string              Parsed media query range condition.
  */
 
-@mixin media($args) {
-    $type: nth($args, 1);
-    $start: null;
-    $end: null;
-
-    @if length($args) == 2 {
-        $start: nth($args, 2);
-    }
-
-    @if length($args) == 3 {
-        $end: nth($args, 3);
-    }
-
-    /**
-     * Cellphone and Tablet
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == smartphone {
-        @include smartphone {
-            @content;
-        }
-    }
-
-    @if $type == tablet {
-        @include tablet {
-            @content;
-        }
-    }
-
-    /**
-     * Device Orientation and Aspect Ratio
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == aspect {
-        @include aspect-ratio($start) {
-            @content;
-        }
-    }
-
-    @if $type == portrait {
-        @include orient-portrait {
-            @content;
-        }
-    }
-
-    @if $type == landscape {
-        @include orient-landscape {
-            @content;
-        }
-    }
-
-    /**
-     * Min and Max Window Width
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == min {
-        @include min($start) {
-            @content;
-        }
-    }
-
-    @if $type == max {
-        @include max($start) {
-            @content;
-        }
-    }
-
-    /**
-     * Min and Max Window Height
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == min-height {
-        @include min-height($start) {
-            @content;
-        }
-    }
-
-    @if $type == max-height {
-        @include max-height($start) {
-            @content;
-        }
-    }
-
-    /**
-     * Min and Max Device Width
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == min-device {
-        @include min-device($start) {
-            @content;
-        }
-    }
-
-    @if $type == max-device {
-        @include max-device($start) {
-            @content;
-        }
-    }
-
-    /**
-     * Min and Max Device Height
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == min-device-height {
-        @include min-device-height($start) {
-            @content;
-        }
-    }
-
-    @if $type == max-device-height {
-        @include max-device-height($start) {
-            @content;
-        }
-    }
-
-    /**
-     * Window Ranges
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == range {
-        @include range($start, $end) {
-            @content;
-        }
-    }
-
-    @if $type == range-height {
-        @include range-height($start, $end) {
-            @content;
-        }
-    }
-
-    /**
-     * Device Ranges
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == range-device {
-        @include range-device($start, $end) {
-            @content;
-        }
-    }
-
-    @if $type == range-device-height {
-        @include range-device-height($start, $end) {
-            @content;
-        }
-    }
-
-    /**
-     * By Density
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == density {
-        @include density($start) {
-            @content;
-        }
-    }
-
-    @if $type == print {
-        @include print {
-            @content;
-        }
-    }
-
-    /**
-     * Internet Explorer
-     * -------------------------------------------------------------------------
-     */
-
-    @if $type == ie {
-        @include ie($start) {
-            @content;
-        }
-    }
+@function size-range($min, $max, $property: 'device-width') {
+   @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
 /**
- * Print or PDF
+ * Media Query Presets
  * -----------------------------------------------------------------------------
  */
 
-@mixin print {
-    @media print {
-        @content;
-    }
+$media-presets: (
+    print: 'print',
+    speech: 'speech',
+    example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
+    watch: size-range(218px, 281px),
+    smartphone: size-range(320px, 667px),
+    tablet: size-range(600px, 1280px)
+) !default;
+
+/**
+ * Test if Property is Prefixed
+ * -----------------------------------------------------------------------------
+ * @param   string      $property       Property to test for prefixedness.
+ * @param   map         $map            Map of keywords.
+ * @return  bool                        Property is prefixed, true/false.
+ */
+
+@function is-prefixed-property($property, $map: $media-terms) {
+    @return index(map-get($map, prefixed), $property) != false;
 }
 
 /**
- * Generic Smartphone
+ * Test if Value is Valid Media Value
  * -----------------------------------------------------------------------------
- * Should generally fit small smarphone screen sizes.
+ * TODO: Some media values are either boolean or have a keyword (like orientation)
+ * instead of a number value.
+ *
+ * @param   string      $value          Candidate value.
+ * @return  bool                        Candidate is valid media value, true/false.
  */
 
-@mixin smartphone {
-    @media screen and (min-device-width: $smartphone-min-width)
-        and (max-device-width: $smartphone-max-width) and (orientation: portrait), 
-    screen and (min-device-width: $smartphone-min-width)
-        and (max-device-width: $smartphone-max-width) and (orientation: landscape) {
-        @content;  
-    }
+@function is-media-value($value) {
+    @return type-of($value) == 'number';
 }
 
 /**
- * Generic Tablet
+ * Parse Media Keyword
  * -----------------------------------------------------------------------------
- * Should likewise fit tablet screen sizes.
+ * Looping here is, like, triple the work of a single loop in parse-condition()
+ * but the separation of function is worth it.
+ *
+ * TODO: Missing keywords, especially for prefixed query rules.
+ *
+ * @param   string      $keyword        Type of keyword to check.
+ * @param   string      $query          Input media query.
+ * @param   map         $map            Map of keywords.
+ * @return  string      $parsed         Parsed keyword.
  */
 
-@mixin tablet {
-    @media screen and (min-device-width: $tablet-min-width)
-        and (max-device-width: $tablet-max-width) and (orientation: portrait), 
-    screen and (min-device-width: $tablet-min-width)
-        and (max-device-width: $tablet-max-width) and (orientation: landscape) {
-        @content;
+@function parse-condition-term($keyword, $query, $map: $media-terms) {
+    $parsed: null;
+
+    @each $term in $query {
+        @if $keyword == value and is-media-value($term) {
+            $parsed: $term;    
+        } @else if index(map-get($map, $keyword), $term) != null {
+            // TODO: This logic needs to be complexified. Some media queries
+            // (like monochrome) are boolean in nature.
+            $parsed: $term;
+
+            @if $keyword == prefix {
+                // For min-foo or max-bar.
+                $parsed: $parsed + '-';
+            }
+
+            // TODO: Further tests and conditions to go here.
+        }
     }
+
+    @if not $parsed {
+        $parsed: '';
+    }
+
+    @return $parsed;
 }
 
 /**
- * Min and Max Window Width
+ * Parse Media Query Condition
  * -----------------------------------------------------------------------------
+ * @param   string      $query      Aggregate media query as it stands.
+ * @param   map         $condition  Media query condition to be parsed.
+ * @param   string      $switch     and/or switch for queries. and/, literally.
+ * @return  string      $parsed     Parsed condition appended to query.
  */
 
-@mixin min($size) {
-    @media screen and (min-width: $size) {
-        @content;
+@function parse-condition($query, $condition, $switch: 'and') {
+    @if $query and $condition {
+        $query: $query + ' #{$switch} ';
+    } @else if not $query {
+        // TODO: Better solution for this.
+        $query: 'only screen and ';
     }
-}
 
-@mixin max($size) {
-    @media screen and (max-width: $size) {
-        @content;
-    }
+    // TODO: Add switch/check for 'only/all/not' and 'screen/speech,' etc.
+    $prefix: parse-condition-term(prefix, $condition);
+    $property: parse-condition-term(property, $condition);
+    $value: parse-condition-term(value, $condition);
+
+    $parsed: $query;
+    $parsed: $parsed + '(';
+    $parsed: $parsed + if(is-prefixed-property($property), $prefix, '');
+    $parsed: $parsed + $property;
+    $parsed: $parsed + if(is-prefixed-property($property), ': ' + $value, '');
+    $parsed: $parsed + ')';
+
+    @return $parsed;
 }
 
 /**
- * Min and Max Window Height
+ * Media Query Mixin
  * -----------------------------------------------------------------------------
+ * @param   list        $queries        Query conditions.
  */
 
-@mixin min-height($size) {
-    @media screen and (min-height: $size) {
-        @content;
+@mixin media($queries...) {
+    $query: null;
+
+    @each $condition in $queries {
+        @if map-has-key($media-presets, $condition) {
+            $query: map-get($media-presets, $condition);
+        } @else {
+            @if $condition {
+                // Query logic is AND for the purposes of this function.
+                // TODO: Will work on AND/OR later.
+                $query: parse-condition($query, $condition, 'and');
+            }   
+        }
     }
-}
 
-@mixin max-height($size) {
-    @media screen and (max-height: $size) {
-        @content;
-    }
-}
-
-/**
- * Min and Max Device Width
- * -----------------------------------------------------------------------------
- */
-
-@mixin min-device($size) {
-    @media screen and (min-device-width: $size) {
-        @content;
-    }
-}
-
-@mixin max-device($size) {
-    @media screen and (max-device-width: $size) {
-        @content;
-    }
-}
-
-/**
- * Min and Max Device Height
- * -----------------------------------------------------------------------------
- */
-
-@mixin min-device-height($size) {
-    @media screen and (min-device-height: $size) {
-        @content;
-    }
-}
-
-@mixin max-device-height($size) {
-    @media screen and (max-device-height: $size) {
-        @content;
-    }
-}
-
-/**
- * Device Orientation and Aspect Ratio
- * -----------------------------------------------------------------------------
- */
-
-@mixin aspect-ratio($ratio) {
-    @media screen and (device-aspect-ratio: $ratio) {
-        @content;
-    }
-}
-
-@mixin orient-portrait {
-    @media screen and (orientation: portrait) {
-        @content;
-    }
-}
-
-@mixin orient-landscape {
-    @media screen and (orientation: landscape) {
-        @content;
-    }
-}
-
-/**
- * Min-to-Max Window Width
- * -----------------------------------------------------------------------------
- */
-
-@mixin range($min, $max) {
-    @media screen and (min-width: $min) and (max-width: $max) {
-        @content;
-    }
-}
-
-/**
- * Min-to-Max Window Height
- * -----------------------------------------------------------------------------
- */
-
-@mixin range-height($min, $max) {
-    @media screen and (min-height: $min) and (max-height: $max) {
-        @content;
-    }
-}
-
-/**
- * Min-to-Max Device Width
- * -----------------------------------------------------------------------------
- */
-
-@mixin range-device($min, $max) {
-    @media screen and (min-device-width: $min) and (max-device-width: $max) {
-        @content;
-    }
-}
-
-/**
- * Min-to-Max Window Height
- * -----------------------------------------------------------------------------
- */
-
-@mixin range-device-height($min, $max) {
-    @media screen and (min-device-height: $min) and (max-device-height: $max) {
+    @media #{$query} {
         @content;
     }
 }
@@ -406,6 +209,7 @@ $tablet-max-width: 1024px !default;
 /**
  * Retina Pixel Density Screen
  * -----------------------------------------------------------------------------
+ * TODO: Integrate into new solution.
  */
 
 @mixin density($density) {
@@ -423,6 +227,8 @@ $tablet-max-width: 1024px !default;
 /**
  * Internet Explorer
  * -----------------------------------------------------------------------------
+ * TODO: Integrate into new solution.
+ *
  * I am happy to exclude Internet Explorer 11 because it is decently good. My
  * IE problems inecrease exponentially as I work backwards in time.
  * 
