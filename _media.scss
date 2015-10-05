@@ -161,27 +161,13 @@ $media-presets: (
 }
 
 /**
- * Test if Property has Value
+ * Split Media Condition
  * -----------------------------------------------------------------------------
- * Some properties (monochrome) do not have values.
- *
- * @param   string      $property       Property to test for prefixedness.
- * @param   map         $map            Map of keywords.
- * @return  bool                        Property should have value, true/false.
- */
-
-@function property-has-value($property, $map: $media-terms) {
-    @return index(map-get($map, noval), $property) == null;
-}
-
-/**
- * Test if Value is Valid Media Value
- * -----------------------------------------------------------------------------
- * TODO: Some media values are either boolean or have a keyword (like orientation)
- * instead of a number value.
- *
- * @param   string      $value          Candidate value.
- * @return  bool                        Candidate is valid media value, true/false.
+ * @param   list        $condition      Media condition to split.
+ * @param   string      $key            Optional key so as to return a single value.
+ * @param   map         $map            Map of media query terms.
+ * @return  map         $split          Split up condition.
+ * @return  string      $split          Single value.
  */
 
 @function split-condition($condition, $key: null, $map: $media-terms) {
@@ -192,7 +178,7 @@ $media-presets: (
             // @media type: screen, print, etc.
             $split: map-merge($split, (media: $term));
         } @else if index(map-get($map, mod), $term) != null {
-            // ???
+            // Media modifier term: not or and.
             $split: map-merge($split, (mod: $term));
         } @else if index(map-get($map, prefix), $term) != null {
             // @media property prefix: min or max.
