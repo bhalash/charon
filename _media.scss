@@ -69,7 +69,7 @@ $bh-media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function size-range($min, $max, $property: 'device-width') {
+@function bh-size-range($min, $max, $property: 'device-width') {
    @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
@@ -78,23 +78,23 @@ $bh-media-terms: (
  * -----------------------------------------------------------------------------
  */
 
-$bh-media-presets: (
+$bh-bh-get-presets: (
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
-    watch: size-range(218px, 281px),
-    smartphone: size-range(320px, 667px),
-    tablet: size-range(600px, 1280px)
+    watch: bh-size-range(218px, 281px),
+    smartphone: bh-size-range(320px, 667px),
+    tablet: bh-size-range(600px, 1280px)
 );
 
 /**
  * Add to Template Presets
  * -----------------------------------------------------------------------------
  * @param   map         $map                    Map of presets to add.
- * @return  map         $bh-media-presets       Library media preset.
+ * @return  map         $bh-bh-get-presets       Library media preset.
  */
 
-@function add-presets($map) {
-    $bh-media-presets: map-merge($bh-media-presets, $map) !global;
-    @return $bh-media-presets;
+@function bh-add-presets($map) {
+    $bh-bh-get-presets: map-merge($bh-bh-get-presets, $map) !global;
+    @return $bh-bh-get-presets;
 }
 
 /**
@@ -105,8 +105,8 @@ $bh-media-presets: (
  * @return  bool                        Property is a preset, true/false.
  */
 
-@function is-media-preset($condition) {
-    @return map-has-key($bh-media-presets, $condition);
+@function bh-get-preset($condition) {
+    @return map-has-key($bh-bh-get-presets, $condition);
 }
 
 /**
@@ -117,8 +117,8 @@ $bh-media-presets: (
  * @param   string                      Preset property.
  */
 
-@function media-preset($condition) {
-    @return map-get($bh-media-presets, $condition);
+@function bh-get-preset($condition) {
+    @return map-get($bh-bh-get-presets, $condition);
 }
 
 /**
@@ -128,8 +128,8 @@ $bh-media-presets: (
  * @return  bool                        Property is shorthand/true false.
  */
 
-@function is-media-shorthand($property) {
-    @return length($property) == 1 and not is-media-preset($property);
+@function bh-is-media-shorthand($property) {
+    @return length($property) == 1 and not bh-get-preset($property);
 }
 
 /**
@@ -140,7 +140,7 @@ $bh-media-presets: (
  * @return  string      $shorthand      Expanded media shorthand term.
  */
 
-@function media-shorthand($property) {
+@function bh-media-shorthand($property) {
     $shorthand: '';
     $property: nth($property, 1);
 
@@ -168,7 +168,7 @@ $bh-media-presets: (
  * @return  bool                        Property is prefixed, true/false.
  */
 
-@function is-prefixed-property($property) {
+@function bh-has-prefix($property) {
     @return index(bh-media-terms-get($bh-media-terms, prefixed), $property) != false;
 }
 
@@ -181,7 +181,7 @@ $bh-media-presets: (
  * @return  string      $split          Single value.
  */
 
-@function split-condition($condition, $key: null) {
+@function bh-split-condition($condition, $key: null) {
     $split: ();
 
     $map: $bh-media-terms;
@@ -254,15 +254,15 @@ $bh-media-presets: (
  * @return  string      $condition  Parsed condition appended to query.
  */
 
-@function parse-condition($condition) {
-    $media: split-condition($condition, media);
-    $mod: split-condition($condition, mod);
-    $prefix: split-condition($condition, prefix);
-    $property: split-condition($condition, property);
-    $value: split-condition($condition, value);
+@function bh-parse-condition($condition) {
+    $media: bh-split-condition($condition, media);
+    $mod: bh-split-condition($condition, mod);
+    $prefix: bh-split-condition($condition, prefix);
+    $property: bh-split-condition($condition, property);
+    $value: bh-split-condition($condition, value);
 
     @if property-has-value($property) {
-        @if is-prefixed-property($property) and $prefix {
+        @if bh-has-prefix($property) and $prefix {
             $prefix: '#{$prefix}-'; 
         } @else {
             $prefix: '';
@@ -291,13 +291,13 @@ $bh-media-presets: (
  * @return  string      $condition      Parsed media query.
  */
 
-@function query($condition) {
-    @if is-media-preset($condition) {
-        $condition: media-preset($condition);
-    } @else if is-media-shorthand($condition) {
-        $condition: media-shorthand($condition);
+@function bh-query($condition) {
+    @if bh-get-preset($condition) {
+        $condition: bh-get-preset($condition);
+    } @else if bh-is-media-shorthand($condition) {
+        $condition: bh-media-shorthand($condition);
     } @else {
-        $condition: parse-condition($condition);
+        $condition: bh-parse-condition($condition);
     }
 
     @return $condition;
@@ -325,7 +325,7 @@ $bh-media-presets: (
             $query: '#{$query}#{$bool} ';
         }
 
-        $query: '#{$query} #{query($con)}';
+        $query: '#{$query} #{bh-query($con)}';
     }
 
     @media #{$query} {
