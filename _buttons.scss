@@ -161,8 +161,8 @@ $bu-spritesheet: () !default;
     $sheet-x: nth($sheet, 1);
     $sheet-y: nth($sheet, 2);
 
-    $x: percentage($sprite-x / $sheet-x);
-    $y: percentage($sprite-y / $sheet-y);
+    $x: percentage($sprite-x / ($sheet-x - 1));
+    $y: percentage($sprite-y / ($sheet-y - 1));
 
     @return $x $y;
 }
