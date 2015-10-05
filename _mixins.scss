@@ -100,37 +100,6 @@
 }
 
 /**
- * Section Interior Padding
- * -----------------------------------------------------------------------------
- * Responsive padding for sections without having to list it all by hand. 
- * $padding, $padding * 0.8, $padding * 0.6, etc...
- * 
- * @param   int     $padding            Initial padding value.
- * @param   map     $media              Map of responsive @media breakpoints.
- */
-
-@mixin content-padding($padding, $media) {
-    $padding-mod: 1; 
-
-    padding-left: $padding;
-    padding-right: $padding;
-
-    @each $break in $media {
-        @include media($break) {
-            padding-left: $padding * $padding-mod;
-            padding-right: $padding * $padding-mod;
-        }
-
-        $padding-mod: $padding-mod - 0.2;
-    }
-
-    @include media(smartphone) {
-        padding-left: 0;
-        padding-right: 0;
-    }
-}
-
-/**
  *  Freeze Div Content
  * -----------------------------------------------------------------------------
  */
