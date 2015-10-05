@@ -101,7 +101,6 @@ $bh-bh-get-presets: (
  * Test if Property is a Preset
  * -----------------------------------------------------------------------------
  * @param   string      $condition      Property to test.
- * @param   map         $map            Map of presets
  * @return  bool                        Property is a preset, true/false.
  */
 
@@ -113,7 +112,6 @@ $bh-bh-get-presets: (
  * Get Preset
  * -----------------------------------------------------------------------------
  * @param   string      $property       Property to fetch.
- * @param   map         $map            Map of presets
  * @param   string                      Preset property.
  */
 
@@ -136,7 +134,6 @@ $bh-bh-get-presets: (
  * Expand Media Shorthand
  * -----------------------------------------------------------------------------
  * @param   string      $property       Property to test.
- * @param   map         $map            Map of terms.
  * @return  string      $shorthand      Expanded media shorthand term.
  */
 
@@ -164,7 +161,6 @@ $bh-bh-get-presets: (
  * Test if Property is Prefixed
  * -----------------------------------------------------------------------------
  * @param   string      $property       Property to test for prefixedness.
- * @param   map         $map            Map of keywords.
  * @return  bool                        Property is prefixed, true/false.
  */
 
