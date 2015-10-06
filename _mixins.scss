@@ -28,6 +28,8 @@
  * THE SOFTWARE.
  */
 
+$sh-assets-map: () !default;
+
 /**
  * Recursive Map Get
  * -----------------------------------------------------------------------------
@@ -49,6 +51,21 @@
 }
 
 /**
+ * Add Assets to List
+ * -----------------------------------------------------------------------------
+ * These aassets are separate to the spritesheet buttons - it is a list of
+ * keyworded assets that you can call up on demand wrapped as url($asset);
+ *
+ * @param   map         $map            Map of assets to add.
+ * @return  map         $sh-assets-map  Updated map of assets.
+ */
+
+@function sh-add-assets($map) {
+    $sh-assets-map: map-merge($sh-assets-map, $map) !global;
+    @return $sh-assets-map;
+}
+
+/**
  * Fetch Named Asset
  * -----------------------------------------------------------------------------
  * $assets: (
@@ -65,20 +82,19 @@
  *      )
  *  );
  *
- * @param   string      $asset      Primary asset name.
- * @param   map         $secondary  Asset variant names.
- * @return  string      Returned image asset.
+ * @param   string      $variants   Asset to fetch.
+ * @return  string      $asset      Returned image asset.
  * @link https://www.bhalash.com/archives/13544804892
  */
 
-@function asset($variants: null, $asset-map: $assets) {
-    $results: map-seek($asset-map, $variants);
+@function asset($variants: null) {
+    $asset: map-seek($sh-assets-map, $variants);
 
-    @if not $results {
+    @if not $asset {
         @error "Error: Asset variants '#{$variants}' not found!"
     }
 
-    @return $results;
+    @return url($asset);
 }
 
 /**
