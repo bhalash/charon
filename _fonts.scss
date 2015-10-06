@@ -1,0 +1,121 @@
+/**
+ * @font-face Manager
+ * -----------------------------------------------------------------------------
+ * @category   Stylesheet
+ * @package    Scss Helpers
+ * @author     Mark Grealish <mark@bhalash.com>
+ * @copyright  Copyright (c) 2015, Mark Grealish
+ * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version    1.0
+ * @link       https://github.com/bhalash/scss-helpers
+ */
+
+/**
+ * Expand @font-face Format
+ * -----------------------------------------------------------------------------
+ * @param   string      $format         @font-face format.
+ * @return  string      $format         Expanded @font-face format.
+ */
+
+@function font-family-format($format) {
+    @if $format == 'eot' {
+        $format: 'embedded-opentype';
+    } @else if $format == 'ttf' {
+        $format: 'truetype';
+    }
+
+    @return $format;
+}
+
+/**
+ * Parse @font-face Asset URL String
+ * -----------------------------------------------------------------------------
+ * @param   string      $path           Path to asset.
+ * @param   string      $exension       Asset extension.
+ * @return  string      $src            Parsed asset URL.
+ */
+
+@function font-family-src($path, $extension) {
+    $format: font-family-format($extension);
+    $src: 'url(#{$path}#{$extension}) format(#{$format})';
+    @return $src;
+}
+
+/**
+ * @font-face Declaration
+ * -----------------------------------------------------------------------------
+ * There are a bunch of Sass/Scss @font-face mixins available on the Internet, 
+ * but each of them is fundamentally inflexible. They variously:
+ * 
+ * 1. Require a fixed file path.
+ * 2. Fixed existence of files, by which I mean each and every possible type of 
+ *    file (eot, woff, etc).
+ * 3. Fixed order of declaration.
+ * 
+ * With font-face, I hopefully have provided something a little bit more 
+ * flexible: declare all of the attributes of your @font-face in a map, and then
+ * call the font-face mixin.
+ * 
+ * Weight, stretch and style are all optional.
+ *
+ * Example map:
+ *
+ *      $open-sans: (
+ *          family: 'font-name',
+ *          folder: '/path/to/folder/',
+ *          filename: 'FontName',
+ *          types: ('ttf', 'woff', 'eot'),
+ *          // Below attributes are optional.
+ *          weight: 'normal',
+ *          style: 'normal',
+ *          stretch: 'condensed'
+ *      );
+ *
+ * Then call with: 
+ * 
+ *      @include font-face($open-sans);
+ *
+ * @param   map         $font           Map of typeface information.
+ */
+
+
+@mixin font-face($font) { 
+    $family: map-get($font, family);
+    $path: map-get($font, path);
+    $file: map-get($font, filename);
+    $formats: map-get($font, types);
+    $src: '';
+
+    $path: '#{$path}#{$file}.';
+
+    @font-face {
+        @for $i from 1 through length($formats) {
+            @if $i > 1 {
+                $src: $src + ', ';
+            }
+
+            $src: '#{$src}#{font-family-src($path, nth($formats, $i))}';
+        }
+
+        font-family: map-get($font, family);
+        src: #{$src};
+
+        // Optionally override CSS text defaults:
+
+        @if map-has-key($font, weight) {
+            font-weight: map-get($font, weight);    
+        }
+
+        @if map-has-key($font, style) {
+            font-style: map-get($font, style);
+        }
+
+        @if map-has-key($font, stretch) {
+            // Not supported anywhere. Ware ye.
+            font-stretch: map-get($font, stretch);
+        }
+
+        @content;
+    } 
+}
+
