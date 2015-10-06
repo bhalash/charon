@@ -4,9 +4,7 @@
  * Gaps separate rows. Currently 6 columns by 4 rows in size.
  */
 
-$helper-path: '' !default;
-
-$social-sprites: add-spritesheet(social, (
+$ce-social-sprites: gg-add-spritesheet(social, (
     path: 'vectors/button-sprites.svg',
     dimensions: (6, 4),
     sprites: (
@@ -40,8 +38,8 @@ $social-sprites: add-spritesheet(social, (
  * @return  string                      Network colour.
  */
 
-@function social-color($network) {
-    @return nth(get-sprite(social, $network), 3);
+@function ce-social-color($network) {
+    @return nth(gg-get-sprite(social, $network), 3);
 }
 
 /**
@@ -90,7 +88,7 @@ $social-sprites: add-spritesheet(social, (
 
     @each $network in $networks {
         // Iterate, one class per nework.
-        $colour: social-color($network);
+        $colour: ce-social-color($network);
 
         @if $split {
             &.#{$network} {
@@ -99,7 +97,7 @@ $social-sprites: add-spritesheet(social, (
         }
 
         &.#{$network}#{$selector} {
-            background: sprite(social, $network);
+            background: gg-sprite(social, $network);
 
             @if not $split {
                 background-color: $colour;
