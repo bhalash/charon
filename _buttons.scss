@@ -215,7 +215,7 @@ $sh-spritesheet: () !default;
  * @param   string      $sprite         Sprite to fetch.
  */
 
-@mixin sh-sprite($sheet, $sprite, $selector) {
+@mixin sprite($sheet, $sprite, $selector) {
     &#{$selector} {
         background: sh-sprite($sheet, $sprite);
     }
