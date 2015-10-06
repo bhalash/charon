@@ -92,7 +92,7 @@ $ce-media-presets: (
  * @return  map         $ce-media-presets       Library media preset.
  */
 
-@function ce-add-presets($map) {
+@function ce-add-media-presets($map) {
     $ce-media-presets: map-merge($ce-media-presets, $map) !global;
     @return $ce-media-presets;
 }
