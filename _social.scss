@@ -97,7 +97,7 @@ $sh-social-sprites: sh-add-spritesheet(social, (
         }
 
         &.#{$network}#{$selector} {
-            background: sh-sprite(social, $network);
+            background: sprite(social, $network);
 
             @if not $split {
                 background-color: $colour;

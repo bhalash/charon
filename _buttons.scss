@@ -194,7 +194,7 @@ $sh-spritesheet: () !default;
  * @return  map                         CSS background value for sprite.
  */
 
-@function sh-sprite($sheet, $sprite) {
+@function sprite($sheet, $sprite) {
     $position: sh-sprite-position($sheet, $sprite);
     $size: sh-sprite-size($sheet, $sprite);
     $path: url(sh-path($sheet));
@@ -217,7 +217,7 @@ $sh-spritesheet: () !default;
 
 @mixin sprite($sheet, $sprite, $selector) {
     &#{$selector} {
-        background: sh-sprite($sheet, $sprite);
+        background: sprite($sheet, $sprite);
     }
 
     @content;

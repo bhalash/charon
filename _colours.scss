@@ -109,6 +109,6 @@ $sh-color-palette: (
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
  */
 
-@function sh-palette($color, $tone: 'base') {
+@function palette($color, $tone: 'base') {
     @return map-get(map-get($sh-color-palette, $color), $tone);
 }
