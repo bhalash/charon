@@ -116,7 +116,7 @@
  * @param   int     $gutter         Margin as a percentage.
  */
 
-@function column-margin($gutter) {
+@function column-gutter($gutter) {
     @if $gutter != 0 {
         @if $gutter != 0 and is-decimal($gutter) {
             $gutter: percentage(strip-unit($gutter) * 0.01);
@@ -134,7 +134,7 @@
  * Determine the width of "auto" columns in asyemmetrical element.
  * 
  * @param   list    $columns        List of columns.
- * @param   int     $gutter         Column margin.
+ * @param   int     $gutter         Column gutter (to right or left)
  * @return  int     Percentage width of "auto" columns.
  */
 
@@ -179,8 +179,8 @@
  * -----------------------------------------------------------------------------
  * If number is a percentage, return number, else return number 0.
  * 
- * @param   int     $value          Number to test.
- * @return  int     Number/0.
+ * @param   number  $value          Number to test.
+ * @return  number  Number/0.
  */
 
 @function value-percent($value) {
@@ -193,6 +193,10 @@
  * The list for asymmetric float columns has a mix of percentage and "auto"
  * sized columns. This tallies the percentage columns and returns whether they
  * exceed 100%.
+ *
+ * @param   list        $columns        List of columns to evaluate.
+ * @param   number      $target         Target percentage to check against.
+ * @return  bool                        Columns fit within $target, true/false.
  */
 
 @function list-greater-than($columns, $target: 100) {
@@ -208,7 +212,10 @@
 /**
  * Validate Asymmetric Mixin Vars
  * -----------------------------------------------------------------------------
+ * Validated paramaters passed for asymmetric columns. 
+ *
  * @param   list        $columns        List of columns.
+ * @return  list        $columns        List of columns, validated.
  */
 
 @function check-odd-columns($columns) {
@@ -234,7 +241,11 @@
 /**
  * Validate Column Type
  * -----------------------------------------------------------------------------
- * 
+ * Column type must be either floatbox or flex. Throw error if any other param
+ * is entered.
+ *
+ * @param   string      $type       Type of columns.
+ * @return  string      $type       Type of columns, validated.
  */
 
 @function column-type($type) {
@@ -250,6 +261,7 @@
  * -----------------------------------------------------------------------------
  * @param   list        $columns        List of columns.
  * @param   int         $gutter         Margin size.
+ * @return  list        $columns        Set sizes for columns.
  */
 
 @function set-autocol-sizes($columns, $gutter) {
@@ -316,8 +328,8 @@
  */
 
 @mixin columns($type: 'flex', $element: div, $columns: 3, $gutter: 0, $side: left, $overflow: auto) {
-    // Validate margin.
-    $gutter: column-margin($gutter); 
+    // Validate column gutter.
+    $gutter: column-gutter($gutter); 
     $type: column-type($type);
 
     @if is-decimal($columns) and $columns > 0 {
