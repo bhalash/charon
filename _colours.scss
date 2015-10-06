@@ -31,7 +31,7 @@
  */
 
 /**
- * Default Size Colours
+ * Default Size Colors
  * -----------------------------------------------------------------------------
  * Default grey (I use gray because "grey" highlights annoyingly) came from a 
  * simple rounded scale. Formula:
@@ -39,7 +39,7 @@
  * 255 / 7 = 36.4 = 36
  * 255 - (36 * {1-7}) = 219, 183, etc.
  * 
- * If you keep the structure, you can merge in your own colours as follows:
+ * If you keep the structure, you can merge in your own colors as follows:
  * 
  * $my-theme-colors: (..);
  * $default-colors: map-merge($default-colors, $my-theme-colors);
@@ -47,7 +47,7 @@
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
  */
 
-$default-colors: (
+$sh-color-palette: (
     black: (
         x-dark: #000000,
         dark: #121212,
@@ -67,6 +67,18 @@ $default-colors: (
         x-light: #ffffff
     ),
 ) !default;
+
+/**
+ * Add Color Palettes
+ * -----------------------------------------------------------------------------
+ * @param   map         $map                Map of palettes to add.
+ * @return  map         $sh-color-palette   New palette.
+ */
+
+@function sh-add-palettes($map) {
+    $sh-color-palette: map-merge($sh-color-palette, $map) !global;
+    @return $sh-color-palette;
+}
 
 /**
  * Fetch from Color Palette
@@ -89,14 +101,14 @@ $default-colors: (
  *          )
  *      );
  * 
- * @param   string      $color          Colour to be used from map.
+ * @param   string      $color          Color to be used from map.
  * @param   string      $tone           Default tone to be used.
- * @param   map         $palette        Palette of colours.
- * @return  string                      Colour chen from map.
+ * @param   map         $palette        Palette of colors.
+ * @return  string                      Color chen from map.
  *
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
  */
 
-@function palette($color, $tone: 'base', $palette: $default-colors) {
-    @return map-get(map-get($palette, $color), $tone);
+@function sh-palette($color, $tone: 'base') {
+    @return map-get(map-get($sh-color-palette, $color), $tone);
 }

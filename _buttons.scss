@@ -1,10 +1,10 @@
 /**
  * Spritesheet
  * -----------------------------------------------------------------------------
- * Add your own map to this with add-gg-spritesheet().
+ * Add your own map to this with add-sh-spritesheet().
  */
 
-$gg-spritesheet: () !default;
+$sh-spritesheet: () !default;
 
 /**
  * Recursive Map Get
@@ -14,7 +14,7 @@ $gg-spritesheet: () !default;
  * @param   map         $map        Recursively-fetched results.
  */
 
-@function gg-map-seek($map, $terms: default) {
+@function sh-map-seek($map, $terms: default) {
     @each $term in $terms {
         @if map-has-key($map, $term) {
             $map: map-get($map, $term);
@@ -31,12 +31,12 @@ $gg-spritesheet: () !default;
  * -----------------------------------------------------------------------------
  * @param   string      $key                Associative key for added map.
  * @param   map         $map                Spritesheet map.
- * @return  map         $gg-spritesheet     Complete map of sprites.
+ * @return  map         $sh-spritesheet     Complete map of sprites.
  */
 
-@function gg-add-spritesheet($key, $map) {
-    $gg-spritesheet: map-merge($gg-spritesheet, ($key: $map)) !global;
-    @return $gg-spritesheet;
+@function sh-add-spritesheet($key, $map) {
+    $sh-spritesheet: map-merge($sh-spritesheet, ($key: $map)) !global;
+    @return $sh-spritesheet;
 }
 
 /**
@@ -50,11 +50,11 @@ $gg-spritesheet: () !default;
  * @param   map         $results        Requested information.
  */
 
-@function gg-spritesheet($command, $sheet: null, $arg: null) {
+@function sh-spritesheet($command, $sheet: null, $arg: null) {
     $results: '';
 
     @if $command == sprite {
-        $results: gg-map-seek($gg-spritesheet, $sheet sprites $arg); 
+        $results: sh-map-seek($sh-spritesheet, $sheet sprites $arg); 
 
         @if not $results {
             @error "Sprite '#{$arg}' not found in sheet '#{$sheet}'!";
@@ -62,19 +62,19 @@ $gg-spritesheet: () !default;
     }
 
     @if $command == path {
-        $results: gg-map-seek($gg-spritesheet, $sheet path);
+        $results: sh-map-seek($sh-spritesheet, $sheet path);
     }
 
     @if $command == count {
-        $results: length(gg-map-seek($gg-spritesheet, $sheet));
+        $results: length(sh-map-seek($sh-spritesheet, $sheet));
     }
 
     @if $command == dimensions {
-        $results: gg-map-seek($gg-spritesheet, $sheet dimensions);
+        $results: sh-map-seek($sh-spritesheet, $sheet dimensions);
     }
 
     @if $command == seek {
-        $reults: gg-map-seek($gg-spritesheet, $sheet $arg);
+        $reults: sh-map-seek($sh-spritesheet, $sheet $arg);
     }
 
     @return $results;
@@ -87,8 +87,8 @@ $gg-spritesheet: () !default;
  * @return  number                      Count of sprites in sheet.
  */
 
-@function gg-count($sheet) {
-    @return gg-spritesheet(count, $sheet);
+@function sh-count($sheet) {
+    @return sh-spritesheet(count, $sheet);
 }
 
 /**
@@ -98,8 +98,8 @@ $gg-spritesheet: () !default;
  * @return  string                      Path to spritesheet.
  */
 
-@function gg-path($sheet) {
-    @return gg-spritesheet(path, $sheet);
+@function sh-path($sheet) {
+    @return sh-spritesheet(path, $sheet);
 }
 
 /**
@@ -107,11 +107,11 @@ $gg-spritesheet: () !default;
  * -----------------------------------------------------------------------------
  * @param   string      $sheet          Target spritesheet.
  * @param   string      $axis           Optional axis to return.
- * @return  number      $dimension      Spritesheet gg-dimension(s).
+ * @return  number      $dimension      Spritesheet sh-dimension(s).
  */
 
-@function gg-dimension($sheet, $axis: null) {
-    $dimension: gg-spritesheet(dimensions, $sheet);
+@function sh-dimension($sheet, $axis: null) {
+    $dimension: sh-spritesheet(dimensions, $sheet);
 
     @if $axis {
         @if $axis == x or $axis == y {
@@ -133,12 +133,12 @@ $gg-spritesheet: () !default;
  * @return  map                         Sprite information.
  */
 
-@function gg-get-sprite($sheet, $sprite) {
+@function sh-get-sprite($sheet, $sprite) {
     @if length($sprite) > 1 {
         $sprite: nth($sprite, 1);
     }
 
-    @return gg-spritesheet(sprite, $sheet, $sprite);
+    @return sh-spritesheet(sprite, $sheet, $sprite);
 }
 
 /**
@@ -151,10 +151,10 @@ $gg-spritesheet: () !default;
  * @return  map         $x $y           Percentage position of sprite.
  */
 
-@function gg-sprite-position($sheet, $sprite) {
+@function sh-sprite-position($sheet, $sprite) {
 
-    $sprite: gg-get-sprite($sheet, $sprite);
-    $sheet: gg-dimension($sheet);
+    $sprite: sh-get-sprite($sheet, $sprite);
+    $sheet: sh-dimension($sheet);
 
     $sprite-x: nth($sprite, 1);
     $sprite-y: nth($sprite, 2);
@@ -177,8 +177,8 @@ $gg-spritesheet: () !default;
  * @return  map         $x $y           Percentage size of sprite.
  */
 
-@function gg-sprite-size($sheet, $sprite) {
-    $sheet: gg-dimension($sheet);
+@function sh-sprite-size($sheet, $sprite) {
+    $sheet: sh-dimension($sheet);
 
     $x: percentage(nth($sheet, 1));
     $y: percentage(nth($sheet, 2));
@@ -194,10 +194,10 @@ $gg-spritesheet: () !default;
  * @return  map                         CSS background value for sprite.
  */
 
-@function gg-sprite($sheet, $sprite) {
-    $position: gg-sprite-position($sheet, $sprite);
-    $size: gg-sprite-size($sheet, $sprite);
-    $path: url(gg-path($sheet));
+@function sh-sprite($sheet, $sprite) {
+    $position: sh-sprite-position($sheet, $sprite);
+    $size: sh-sprite-size($sheet, $sprite);
+    $path: url(sh-path($sheet));
 
     @return $position/$size no-repeat $path;
 }
@@ -215,9 +215,9 @@ $gg-spritesheet: () !default;
  * @param   string      $sprite         Sprite to fetch.
  */
 
-@mixin gg-sprite($sheet, $sprite, $selector) {
+@mixin sh-sprite($sheet, $sprite, $selector) {
     &#{$selector} {
-        background: gg-sprite($sheet, $sprite);
+        background: sh-sprite($sheet, $sprite);
     }
 
     @content;

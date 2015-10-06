@@ -33,7 +33,7 @@
  * -----------------------------------------------------------------------------
  */
 
-$ce-media-terms: (
+$sh-media-terms: (
     mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: (
@@ -42,7 +42,7 @@ $ce-media-terms: (
     ),
     // Non-browser-prefixed @media features.
     property: (
-        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
+        'height', 'width', 'devish-width', 'devish-height', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid',
         'orientation'
     ),
@@ -50,7 +50,7 @@ $ce-media-terms: (
     prefix: ('min', 'max'),
     // @media featured with a min/max prefix.
     prefixed: (
-        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
+        'height', 'width', 'devish-width', 'devish-height', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution'
     ),
     noval: (
@@ -69,7 +69,7 @@ $ce-media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function ce-size-range($min, $max, $property: 'device-width') {
+@function sh-size-range($min, $max, $property: 'devish-width') {
    @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
@@ -78,23 +78,23 @@ $ce-media-terms: (
  * -----------------------------------------------------------------------------
  */
 
-$ce-media-presets: (
+$sh-media-presets: (
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
-    watch: ce-size-range(218px, 281px),
-    smartphone: ce-size-range(320px, 667px),
-    tablet: ce-size-range(600px, 1280px)
+    watch: sh-size-range(218px, 281px),
+    smartphone: sh-size-range(320px, 667px),
+    tablet: sh-size-range(600px, 1280px)
 );
 
 /**
  * Add to Template Presets
  * -----------------------------------------------------------------------------
  * @param   map         $map                    Map of presets to add.
- * @return  map         $ce-media-presets       Library media preset.
+ * @return  map         $sh-media-presets       Library media preset.
  */
 
-@function ce-add-media-presets($map) {
-    $ce-media-presets: map-merge($ce-media-presets, $map) !global;
-    @return $ce-media-presets;
+@function sh-add-media-presets($map) {
+    $sh-media-presets: map-merge($sh-media-presets, $map) !global;
+    @return $sh-media-presets;
 }
 
 /**
@@ -104,8 +104,8 @@ $ce-media-presets: (
  * @return  bool                        Property is a preset, true/false.
  */
 
-@function ce-get-preset($condition) {
-    @return map-has-key($ce-media-presets, $condition);
+@function sh-get-preset($condition) {
+    @return map-has-key($sh-media-presets, $condition);
 }
 
 /**
@@ -115,8 +115,8 @@ $ce-media-presets: (
  * @param   string                      Preset property.
  */
 
-@function ce-get-preset($condition) {
-    @return map-get($ce-media-presets, $condition);
+@function sh-get-preset($condition) {
+    @return map-get($sh-media-presets, $condition);
 }
 
 /**
@@ -126,8 +126,8 @@ $ce-media-presets: (
  * @return  bool                        Property is shorthand/true false.
  */
 
-@function ce-is-media-shorthand($property) {
-    @return length($property) == 1 and not ce-get-preset($property);
+@function sh-is-media-shorthand($property) {
+    @return length($property) == 1 and not sh-get-preset($property);
 }
 
 /**
@@ -137,7 +137,7 @@ $ce-media-presets: (
  * @return  string      $shorthand      Expanded media shorthand term.
  */
 
-@function ce-media-shorthand($property) {
+@function sh-media-shorthand($property) {
     $shorthand: '';
     $property: nth($property, 1);
 
@@ -150,7 +150,7 @@ $ce-media-presets: (
     } @else if $property == monochrome {
         // monochrome
         $shorthand: 'all and (#{$property})';
-    } @else if index(map-get($ce-media-terms, media), $property) != null {
+    } @else if index(map-get($sh-media-terms, media), $property) != null {
         $shorthand: $property;
     }
 
@@ -164,8 +164,8 @@ $ce-media-presets: (
  * @return  bool                        Property is prefixed, true/false.
  */
 
-@function ce-has-prefix($property) {
-    @return index(ce-media-terms-get($ce-media-terms, prefixed), $property) != false;
+@function sh-has-prefix($property) {
+    @return index(sh-media-terms-get($sh-media-terms, prefixed), $property) != false;
 }
 
 /**
@@ -177,10 +177,10 @@ $ce-media-presets: (
  * @return  string      $split          Single value.
  */
 
-@function ce-split-condition($condition, $key: null) {
+@function sh-split-condition($condition, $key: null) {
     $split: ();
 
-    $map: $ce-media-terms;
+    $map: $sh-media-terms;
 
     @each $term in $condition {
         @if index(map-get($map, media), $term) != null {
@@ -250,15 +250,15 @@ $ce-media-presets: (
  * @return  string      $condition  Parsed condition appended to query.
  */
 
-@function ce-parse-condition($condition) {
-    $media: ce-split-condition($condition, media);
-    $mod: ce-split-condition($condition, mod);
-    $prefix: ce-split-condition($condition, prefix);
-    $property: ce-split-condition($condition, property);
-    $value: ce-split-condition($condition, value);
+@function sh-parse-condition($condition) {
+    $media: sh-split-condition($condition, media);
+    $mod: sh-split-condition($condition, mod);
+    $prefix: sh-split-condition($condition, prefix);
+    $property: sh-split-condition($condition, property);
+    $value: sh-split-condition($condition, value);
 
     @if property-has-value($property) {
-        @if ce-has-prefix($property) and $prefix {
+        @if sh-has-prefix($property) and $prefix {
             $prefix: '#{$prefix}-'; 
         } @else {
             $prefix: '';
@@ -287,13 +287,13 @@ $ce-media-presets: (
  * @return  string      $condition      Parsed media query.
  */
 
-@function ce-query($condition) {
-    @if ce-get-preset($condition) {
-        $condition: ce-get-preset($condition);
-    } @else if ce-is-media-shorthand($condition) {
-        $condition: ce-media-shorthand($condition);
+@function sh-query($condition) {
+    @if sh-get-preset($condition) {
+        $condition: sh-get-preset($condition);
+    } @else if sh-is-media-shorthand($condition) {
+        $condition: sh-media-shorthand($condition);
     } @else {
-        $condition: ce-parse-condition($condition);
+        $condition: sh-parse-condition($condition);
     }
 
     @return $condition;
@@ -321,7 +321,7 @@ $ce-media-presets: (
             $query: '#{$query}#{$bool} ';
         }
 
-        $query: '#{$query} #{ce-query($con)}';
+        $query: '#{$query} #{sh-query($con)}';
     }
 
     @media #{$query} {
@@ -337,10 +337,10 @@ $ce-media-presets: (
 
 @mixin density($density) {
     @media
-    screen and (-webkit-min-device-pixel-ratio: $density),
-    screen and (min--moz-device-pixel-ratio: $density),
-    screen and (-o-min-device-pixel-ratio: $density/1),
-    screen and (min-device-pixel-ratio: $density),
+    screen and (-webkit-min-devish-pixel-ratio: $density),
+    screen and (min--moz-devish-pixel-ratio: $density),
+    screen and (-o-min-devish-pixel-ratio: $density/1),
+    screen and (min-devish-pixel-ratio: $density),
     screen and (min-resolution: #{$density * 96} + dpi),
     screen and (min-resolution: #{$density} + dppx) {  
         @content;
