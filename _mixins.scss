@@ -38,11 +38,12 @@ $sh-assets-map: () !default;
  * @param   map         $map        Recursively-fetched results.
  */
 
-@function map-seek($map, $terms: default) {
-    @each $term in $terms {
-        @if map-has-key($map, $term) {
-            $map: map-get($map, $term);
+@function map-seek($map, $keys: default) {
+    @each $key in $keys {
+        @if map-has-key($map, $key) {
+            $map: map-get($map, $key);
         } @else {
+            @error "Key '#{$key}' was not found in map '#{$map}'";
             $map: null;
         }
     }
@@ -68,20 +69,6 @@ $sh-assets-map: () !default;
 /**
  * Fetch Named Asset
  * -----------------------------------------------------------------------------
- * $assets: (
- *      brand: (
- *          example: (
- *              black: $brands + 'example-black.svg',
- *              white: $brands + 'example-white.svg'
- *          ),
- *          foras: (
- *              black: 'foras-black.svg',
- *              white: 'foras-white.svg'
- *          ),
- *          greann: $brands + 'greann.svg'
- *      )
- *  );
- *
  * @param   string      $variants   Asset to fetch.
  * @return  string      $asset      Returned image asset.
  * @link https://www.bhalash.com/archives/13544804892
