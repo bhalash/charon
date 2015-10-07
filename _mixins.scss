@@ -78,7 +78,7 @@ $sh-assets-map: () !default;
     $asset: map-seek($sh-assets-map, $variants);
 
     @if not $asset {
-        @error "Error: Asset variants '#{$variants}' not found!"
+        @error "Error: Asset variants '#{$variants}' not found!";
     }
 
     @return url($asset);
