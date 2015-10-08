@@ -30,66 +30,31 @@
  * Behold, as a wild ass in the desert, go I forth to my work.
  */
 
-/**
- * Decimal Unit Sizing
- * -----------------------------------------------------------------------------
- */
-
+// Decimal Unit Sizing
 @import 'decimal';
 
-/**
- * Box Elements
- * -----------------------------------------------------------------------------
- */
-
+// Box Elements
 @import 'boxes';
 
-/**
- * Mixins and Functions
- * -----------------------------------------------------------------------------
- */
-
+// Mixins and Functions
 @import 'mixins';
 
-/**
- * Fonts
- * -----------------------------------------------------------------------------
- * Manage @font-face declarations.
- */
-
+// Fonts
+// Manage @font-face declarations.
 @import 'fonts';
 
-/**
- * Columns
- * -----------------------------------------------------------------------------
- */
-
+// Columns
 @import 'columns';
 
-/**
- * Media Queries
- * -----------------------------------------------------------------------------
- */
-
+// Media Queries
 @import 'media';
 
-/**
- * Buttons
- * -----------------------------------------------------------------------------
- */
-
+// Buttons
+// Spritesheet buttons.
 @import 'buttons';
 
-/**
- * Social Links
- * -----------------------------------------------------------------------------
- */
-
+// Social Links
 @import 'social';
 
-/**
- * Colour Palette
- * -----------------------------------------------------------------------------
- */
-
+// Colour Palette
 @import 'colours';
