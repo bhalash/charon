@@ -50,7 +50,7 @@ $sh-media-terms: (
     prefix: ('min', 'max'),
     // @media featured with a min/max prefix.
     prefixed: (
-        'height', 'width', 'devish-width', 'devish-height', 'aspect-ratio',
+        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution'
     ),
     noval: (
@@ -165,22 +165,19 @@ $sh-media-presets: (
  */
 
 @function sh-has-prefix($property) {
-    @return index(sh-media-terms-get($sh-media-terms, prefixed), $property) != false;
+    @return index(map-get($sh-media-terms, prefixed), $property) != false;
 }
 
 /**
  * Split Media Condition
  * -----------------------------------------------------------------------------
  * @param   list        $condition      Media condition to split.
- * @param   string      $key            Optional key so as to return a single value.
  * @return  map         $split          Split up condition.
- * @return  string      $split          Single value.
  */
 
-@function sh-split-condition($condition, $key: null) {
-    $split: ();
-
+@function sh-split-condition($condition) {
     $map: $sh-media-terms;
+    $split: ();
 
     @each $term in $condition {
         @if index(map-get($map, media), $term) != null {
@@ -225,14 +222,6 @@ $sh-media-presets: (
         @error "Media condition '#{$condition}' is missing a media query value (e.g., 300px, 10rem)!";
     }
 
-    @if $key {
-        @if map-has-key($split, $key) {
-            $split: map-get($split, $key);
-        } @else {
-            $split: null;
-        }
-    }
-
     @return $split;
 }
 
@@ -251,11 +240,13 @@ $sh-media-presets: (
  */
 
 @function sh-parse-condition($condition) {
-    $media: sh-split-condition($condition, media);
-    $mod: sh-split-condition($condition, mod);
-    $prefix: sh-split-condition($condition, prefix);
-    $property: sh-split-condition($condition, property);
-    $value: sh-split-condition($condition, value);
+    $split: sh-split-condition($condition);
+
+    $media: map-get($split, media);
+    $mod: map-get($split, mod);
+    $prefix: map-get($split, prefix);
+    $property: map-get($split, property);
+    $value: map-get($split, value);
 
     @if property-has-value($property) {
         @if sh-has-prefix($property) and $prefix {
