@@ -57,23 +57,18 @@
  * call the font-face mixin.
  * 
  * Weight, stretch and style are all optional.
- *
- * Example map:
- *
- *      $open-sans: (
+ * 
+ *      @include font-face((
  *          family: 'font-name',
- *          folder: '/path/to/folder/',
+ *          path: '/path/to/folder/',
  *          filename: 'FontName',
- *          types: ('ttf', 'woff', 'eot'),
- *          // Below attributes are optional.
+ *          formats: ('ttf', 'woff', 'eot'),
+ *
+ *          // Optional attributes for the font face:
  *          weight: 'normal',
  *          style: 'normal',
  *          stretch: 'condensed'
- *      );
- *
- * Then call with: 
- * 
- *      @include font-face($open-sans);
+ *      ));
  *
  * @param   map         $font           Map of typeface information.
  */
@@ -83,7 +78,7 @@
     $family: map-get($font, family);
     $path: map-get($font, path);
     $file: map-get($font, filename);
-    $formats: map-get($font, types);
+    $formats: map-get($font, formats);
     $src: '';
 
     $path: '#{$path}#{$file}.';
