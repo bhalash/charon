@@ -150,7 +150,7 @@ $sh-assets-map: () !default;
  * @param   int     $green          Green value.
  * @param   int     $blue           Blue value. 
  * @param   int     $alpha          Alpha value. 
- @ @return  map                     Inverted RGBA.
+ * @return  map                     Inverted RGBA.
  */
 
 @function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
