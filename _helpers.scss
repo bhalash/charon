@@ -33,14 +33,16 @@
 // Decimal Unit Sizing
 @import 'decimal';
 
+// Math Operations
+@import 'math';
+
 // Box Elements
 @import 'boxes';
 
 // Mixins and Functions
 @import 'mixins';
 
-// Fonts
-// Manage @font-face declarations.
+// Manage @font-face Declarations
 @import 'fonts';
 
 // Columns
@@ -49,8 +51,7 @@
 // Media Queries
 @import 'media';
 
-// Buttons
-// Spritesheet buttons.
+// Spritesheet Buttons
 @import 'buttons';
 
 // Social Links

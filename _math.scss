@@ -1,0 +1,180 @@
+/**
+ * Sass Math Functions
+ * -----------------------------------------------------------------------------
+ * @category   Stylesheet
+ * @package    Scss Helpers
+ * @author     Mark Grealish <mark@bhalash.com>
+ * @copyright  Copyright (c) 2015, Mark Grealish
+ * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version    1.0
+ * @link       https://github.com/bhalash/scss-helpers
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * Sqaure Root
+ * -----------------------------------------------------------------------------
+ * @link    http://www.antimath.info/css/sass-sqrt-function/
+ * @param   number      $number         
+ * @return  number      $x1             Sqaure root of $number.
+ */
+
+@function sqrt($r) {
+    $x0: 1;
+    $x1: $x0;
+
+    @for $i from 1 through 10 {
+        $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
+        $x0: $x1;
+    }
+
+    @return $x1;
+}
+
+/**
+ * Exponential Number
+ * -----------------------------------------------------------------------------
+ * @param   number      $number
+ * @param   number      $power
+ * @return  number      $exponent
+ */
+
+@function pow($number, $power) {
+    $exponent: 1;
+
+    @for $i from 1 through $power {
+        $exponent: $exponent * 10;
+    }
+
+    $exponent: $number * $exponent;
+
+    @return $exponent;
+}
+
+/**
+ * Square Number
+ * -----------------------------------------------------------------------------
+ * @param   number      $number
+ * @return  number      $number         Number squared.
+ */
+
+@function square($number) {
+    @return $number * $number;
+}
+
+/**
+ * Hexagon Height
+ * -----------------------------------------------------------------------------
+ * Return the height of a hexagon from the length of one side. This is not
+ * entirely precise because of Sass' rounding.
+ *
+ * @param   number      $side           Hexagon side.
+ * @return  number      $number         Approximate height of the hexagon.
+ */
+
+@function hex-height($side) {
+    @return $side * sqrt(3);
+}
+
+/**
+ * Hexagon Width
+ * -----------------------------------------------------------------------------
+ * Return the width of a hexagon from the length of one side.
+ *
+ * @param   number      $side           Hexagon side.
+ * @return  number      $number         Approximate height of the hexagon.
+ */
+
+@function hex-width($side) {
+    @return $side * 2;
+}
+
+/**
+ * Length of One side of Pythagorean Triangle
+ * -----------------------------------------------------------------------------
+ * c = squrt($a($a) + $b($b));
+ *
+ * @param   number      $opposite       Opposite side of triangle.
+ * @param   number      $adjacent       Adjacent side of a triangle.
+ * @return  number                      Length of the third side of the triangle.
+ */
+
+@function triangle-side-length($opposite, $adjacent) {
+    @return sqrt(square($opposite) + square($adjacent));
+}
+
+/**
+ * Generate Hexagon Shape
+ * -----------------------------------------------------------------------------
+ * Inspired by the link below. HTML structure must be:
+ *
+ * .foo
+ *      .foo__hex--left
+ *      .foo__hex--center
+ *      .foo__hex--right
+ *
+ * @link    https://jtauber.github.io/articles/css-hexagon.html
+ * @param   number      $opposite       Opposite side of triangle.
+ * @param   number      $adjacent       Adjacent side of a triangle.
+ * @return  number                      Length of the third side of the triangle.
+ */
+
+@mixin hexagon($color, $width) {
+    @if unit($width) == '%' {
+        @error "Error: A non-percentage number must be used for hexagon length.";
+    }
+
+    $width: if(unitless($width), to-rem($width), $width);
+
+    $side: $width * 0.5;
+    $height: hex-height($side);
+
+    $border--height: $height * 0.5;
+    $border--width: $side * 0.5;
+
+    @debug $height;
+
+    & {
+        height: $height;
+        width: $width;
+        @include clearfix;
+
+        &__hex--left {
+            float: left;
+            border-right: $border--width solid $color;
+            border-top: $border--height solid transparent;
+            border-bottom: $border--height solid transparent;
+        }
+
+        &__hex--center {
+            float: left;
+            background: $color;
+            height: $height;
+            width: $side;
+        }
+
+        &__hex--right {
+            border-left: $border--width solid $color;
+            border-top: $border--height solid transparent;
+            border-bottom: $border--height solid transparent;
+            float: left;
+        }
+    }
+}
