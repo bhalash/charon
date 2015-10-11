@@ -183,8 +183,6 @@
     // Only rest and active states are supported.
     $parent: #{&};
 
-    @debug $height;
-
     & {
         height: $height;
         width: $width;
