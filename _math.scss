@@ -121,134 +121,93 @@
 }
 
 /**
- * Parse Hexagon State Colors from Color or List
- * -----------------------------------------------------------------------------
- * @param   list/number     $color          Candidate color.
- * @return  map             $hex-colors     Hexagon colors map.
- */
-
-@function hex-state-colors($color) {
-    $hex-colors: ();
-
-    @if type-of($color) == 'color' {
-        $hex-colors: (rest: $color);
-    } @else if type-of($color) == 'list' {
-        @if length($color) != 2 {
-            @error "Error: A list of two colours must be given to the hexagon!";
-        }
-
-        $hex-colors: (
-            rest: nth($color, 1),
-            hover: nth($color, 2)
-        );
-    }
-
-    @return $hex-colors;
-}
-
-/**
  * Generate Hexagon Shape
  * -----------------------------------------------------------------------------
  * Width is input, height is calculated. It will be a little less than the
- * width. Inspired by the link below. HTML structure must be:
+ * width. Inspired by the link below.
  *
- * .foo
- *      .foo__hex--left
- *      .foo__hex--center
- *      .foo__hex--right
+ * This should work great back to ~IE9.
  *
  * @link    https://jtauber.github.io/articles/css-hexagon.html
- * @param   color/map       $colors     Colors to be used. Rest and hover state.
+ * @param   color/map       $colors     Colors to be used. Rest, hover and active.
  * @param   number          $width      Width of the hexagon.
  */
 
-@mixin hexagon($colors, $width) {
-    @if unit($width) == '%' {
-        @error "Error: A non-percentage number must be used for hexagon length.";
+@mixin hexagon($colors, $size--width) {
+    @if unit($size--width) == '%' {
+        // CSS border elements may not use a percentage as its width unit.
+        // *Anything* else is acceptable.
+        @error "Error: A non-percentage number must be used for a hexagon's size.";
     }
 
-    // Hover and active state colours.
-    $colors:  hex-state-colors($colors);
+    // Rest, hover, active.
+    $color--rest: nth($colors, 1);
 
     // Any measurable unit but percentage is okay!
-    $width: if(unitless($width), to-rem($width), $width);
+    $size--width: if(unitless($size--width), to-rem($size--width), $size--width);
 
     // Sides and height of the hexagon.
-    $side: $width * 0.5;
-    $height: hex-height($side);
-    $border--height: $height * 0.5;
-    $border--width: $side * 0.5;
+    $size--side: $size--width * 0.5;
+    $size--height: hex-height($size--side);
+
+    $border--height: $size--height * 0.5;
+    $border--width: $size--side * 0.5;
 
     // I nest the parent selector in the children for neatness.
     // Only rest and active states are supported.
     $parent: #{&};
 
     & {
-        height: $height;
-        width: $width;
-        @include clearfix;
+        // Constrain the background color inside the padding.
+        background-clip: content-box;
+        display: inline-block;
+        height: $size--height;
+        padding: 0 $size--side * 0.5;
+        position: relative;
+        width: $size--side;
 
-        &__hex--left {
-            float: left;
-            border-right: $border--width solid map-get($colors, rest);
-            border-top: $border--height solid transparent;
-            border-bottom: $border--height solid transparent;
+        // Center color.
+        background-color: $color--rest;
+        // :before and :after inherit this.
+        border-color: $color--rest;
 
-            @if map-has-key($colors, hover) {
-                #{$parent}:hover & {
-                    border-right-color: map-get($colors, hover);
-                }
+        &:before, &:after {
+            border-color: transparent;
+            border-style: solid;
+            content: '';
+            width: 0;
+        }
+
+        @if length($colors) >= 2 {
+            $color--hover: nth($colors, 2);
+
+            &:hover {
+                background-color: $color--hover;
+                border-color: $color--hover;
             }
         }
 
-        &__hex--center {
-            float: left;
-            background: map-get($colors, rest);
-            height: $height;
-            width: $side;
+        @if length($colors) >= 3 {
+            $color--active: nth($colors, 3);
 
-            @if map-has-key($colors, hover) {
-                #{$parent}:hover & {
-                    background: map-get($colors, hover);
-                }
+            &:active {
+                background-color: $color--active;
+                border-color: $color--active;
             }
         }
 
-        &__hex--right {
-            border-left: $border--width solid map-get($colors, rest);
-            border-top: $border--height solid transparent;
-            border-bottom: $border--height solid transparent;
-            float: left;
-
-            @if map-has-key($colors, hover) {
-                #{$parent}:hover & {
-                    border-left-color: map-get($colors, hover);
-                }
-            }
+        &:before {
+            // Left.
+            border-right-color: inherit;
+            border-width: $border--height $border--width $border--height 0;
+            @include absolute(0 auto 0 0);
         }
-    }
-}
 
-/**
- * Override Hexagon Color
- * -----------------------------------------------------------------------------
- * :active states don't work for hexagons, since the color styles are in the
- * children. A workaround is to override colours via this, and a toggleable HTML
- * class.
- *
- * @param   color       $color
- */
-
-@mixin hex-class-color($color) {
-    [class*=hex--left] {
-        border-right-color: $color;
-    }
-
-    [class*=hex--center] {
-        background: $color;
-    }
-
-    [class*=hex--right] {
-        border-left-color: $color;
+        &:after {
+            // Right.
+            border-left-color: inherit;
+            border-width: $border--height 0 $border--height $border--width;
+            @include absolute(0 0 0 auto);
+        }
     }
 }
