@@ -149,7 +149,8 @@
 /**
  * Generate Hexagon Shape
  * -----------------------------------------------------------------------------
- * Inspired by the link below. HTML structure must be:
+ * Width is input, height is calculated. It will be a little less than the
+ * width. Inspired by the link below. HTML structure must be:
  *
  * .foo
  *      .foo__hex--left
@@ -157,9 +158,8 @@
  *      .foo__hex--right
  *
  * @link    https://jtauber.github.io/articles/css-hexagon.html
- * @param   number      $opposite       Opposite side of triangle.
- * @param   number      $adjacent       Adjacent side of a triangle.
- * @return  number                      Length of the third side of the triangle.
+ * @param   color/map       $colors     Colors to be used. Rest and hover state.
+ * @param   number          $width      Width of the hexagon.
  */
 
 @mixin hexagon($colors, $width) {
