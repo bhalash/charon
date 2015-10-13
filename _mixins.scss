@@ -33,18 +33,41 @@ $sh-assets-map: () !default;
 /**
  * Recursive Map Get
  * -----------------------------------------------------------------------------
+ * There's a situation where 'null' can be passed to a list, and interpreted
+ * literally, e.g, it isn't a null value, but literally a string 'null'.
+ *
+ * @param   list        $keys       List of keys.
+ * @return  list        $keys       Cleaned list of keys.
+ */
+
+@function clean-keys($keys) {
+    $clean-keys: ();
+
+    @each $key in $keys {
+        @if $key {
+            $clean-keys: append($clean-keys, $key);
+        }
+    }
+    
+    @return $clean-keys;
+}
+
+/**
+ * Recursive Map Get
+ * -----------------------------------------------------------------------------
  * @param   map         $map        Map to search.
- * @param   list        $terms      Terms to search for wtihin the map.
+ * @param   list        $keys       Terms to search for wtihin the map.
  * @param   map         $map        Recursively-fetched results.
  */
 
 @function map-seek($map, $keys: default) {
+    $keys: clean-keys($keys);
+
     @each $key in $keys {
         @if map-has-key($map, $key) {
             $map: map-get($map, $key);
         } @else {
-            @error "Key \"#{$key}\" was not found in map \"#{$map}\"";
-            $map: null;
+            @warn "Value #{$key} was not found in map";
         }
     }
 
@@ -78,7 +101,7 @@ $sh-assets-map: () !default;
     $asset: map-seek($sh-assets-map, $variants);
 
     @if not $asset {
-        @error "Error: Asset variants \"#{$variants}\" not found!";
+        @error "Error: Asset variants #{$variants} not found!";
     }
 
     @return url($asset);
