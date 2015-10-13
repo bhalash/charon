@@ -107,16 +107,14 @@
 }
 
 /**
- * Length of One side of Pythagorean Triangle
+ * Length of Hypotenuse of Pythagorean Triangle
  * -----------------------------------------------------------------------------
- * c = squrt($a($a) + $b($b));
- *
  * @param   number      $opposite       Opposite side of triangle.
  * @param   number      $adjacent       Adjacent side of a triangle.
- * @return  number                      Length of the third side of the triangle.
+ * @return  number                      Length of the hypotenuse;
  */
 
-@function triangle-side-length($opposite, $adjacent) {
+@function hypotenuse-length($opposite, $adjacent) {
     @return sqrt(square($opposite) + square($adjacent));
 }
 
@@ -136,8 +134,10 @@
 @mixin hexagon($colors, $size--width) {
     @if unit($size--width) == '%' {
         // CSS border elements may not use a percentage as its width unit.
+        // Hexagon will be malformed if you use a percentage.
         // *Anything* else is acceptable.
-        @warn "Ppercentage number #{$ize--width} was used for hexagon width. Hexagon will be malformed";
+        @warn "Percentage #{$ize--width} was used for hexagon width.";
+        @warn "Hexagon will be malformed";
     }
 
     // Rest, hover, active.
@@ -152,10 +152,6 @@
 
     $border--height: $size--height * 0.5;
     $border--width: $size--side * 0.5;
-
-    // I nest the parent selector in the children for neatness.
-    // Only rest and active states are supported.
-    $parent: #{&};
 
     & {
         // Constrain the background color inside the padding.
