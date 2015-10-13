@@ -68,11 +68,12 @@ $sh-social-sprites: sh-add-spritesheet(social, (
 
 @mixin social($size: null, $selector: null, $split: false, $networks: null) {
     @if not $networks {
-        $networks: (
-            beard, discuss, email, facebook, flickr, github, google, instagram,
-            linkedin, pinterest, print, reddit, rss, search, share, tumblr,
-            twitter, menu, close, youtube
-        );
+        // If no network was passed, default to all sprite icons.
+        $networks: ();
+
+        @each $key, $value in sh-spritesheet(sprite, social) {
+            $networks: append($networks, $key);
+        }
     }
 
     // Parse selector, if any.
