@@ -67,8 +67,6 @@ $sh-social-sprites: sh-add-spritesheet(social, (
  */
 
 @mixin social($size: null, $selector: null, $split: false, $networks: null) {
-    // @debug spritesheet(seek, social sprites);
-
     @if not $networks {
         $networks: (
             beard, discuss, email, facebook, flickr, github, google, instagram,

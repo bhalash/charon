@@ -121,7 +121,7 @@
         @if $gutter != 0 and is-decimal($gutter) {
             $gutter: percentage(strip-unit($gutter) * 0.01);
         } @else if not is-percent($gutter) {
-            @error 'Margin should be supplied as a decimal or a percentage!';
+            @error "Margin should be supplied as a decimal or a percentage!";
         }
     }
 
@@ -220,19 +220,19 @@
 
 @function check-odd-columns($columns) {
     @if not is-list($columns) {
-        @error 'Asymmetrical columns should be supplied a list!'; 
+        @error "Asymmetrical columns should be supplied a list!"; 
     }
 
     @each $col in $columns {
         @if not is-percent($col) and not is-keyword($col) {
             // Check for appropraite units.
-            @error 'Supplied units should be either a percentage or \'auto!\'';
+            @error "Supplied units should be either a percentage or \"auto!\"";
         }
     }
 
     @if list-greater-than($columns, 100) { 
         // Check for appropriate size.
-        @error 'Column percentages should total < 100%!';
+        @error "Column percentages should total < 100%!";
     }
 
     @return $columns;
@@ -250,7 +250,7 @@
 
 @function column-type($type) {
     @if $type != 'float' and $type != 'flex' {
-        @error "Type must be either 'float' or 'flex'!"
+        @error "Type must be either \"float\" or \"flex\"!"
     }
 
     @return $type;
@@ -341,7 +341,7 @@
             @content;
         }
     } @else {
-        @error 'Columns should be either a list or a a number';
+        @error "Columns should be either a list or a a number";
     }
 }
 

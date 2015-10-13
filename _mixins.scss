@@ -43,7 +43,7 @@ $sh-assets-map: () !default;
         @if map-has-key($map, $key) {
             $map: map-get($map, $key);
         } @else {
-            @error "Key '#{$key}' was not found in map '#{$map}'";
+            @error "Key \"#{$key}\" was not found in map \"#{$map}\"";
             $map: null;
         }
     }
@@ -78,7 +78,7 @@ $sh-assets-map: () !default;
     $asset: map-seek($sh-assets-map, $variants);
 
     @if not $asset {
-        @error "Error: Asset variants '#{$variants}' not found!";
+        @error "Error: Asset variants \"#{$variants}\" not found!";
     }
 
     @return url($asset);

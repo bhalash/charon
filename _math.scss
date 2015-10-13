@@ -137,7 +137,7 @@
     @if unit($size--width) == '%' {
         // CSS border elements may not use a percentage as its width unit.
         // *Anything* else is acceptable.
-        @error "Error: A non-percentage number must be used for a hexagon's size.";
+        @error "A non-percentage number must be used for hexagon width.";
     }
 
     // Rest, hover, active.

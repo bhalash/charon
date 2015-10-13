@@ -57,7 +57,7 @@ $sh-spritesheet: () !default;
         $results: sh-map-seek($sh-spritesheet, $sheet sprites $arg); 
 
         @if not $results {
-            @error "Sprite '#{$arg}' not found in sheet '#{$sheet}'!";
+            @error "Sprite \"#{$arg}\" not found in sheet \"#{$sheet}\"!";
         }
     }
 
@@ -118,7 +118,7 @@ $sh-spritesheet: () !default;
             $n: if($axis == x, 1, 2);
             $dimension: nth($dimension, $n);
         } @else {
-            @error "Imaginary axis #{$axis} requested!"    
+            @error "Imaginary axis \"#{$axis}\" requested!"    
         }
     }
 
