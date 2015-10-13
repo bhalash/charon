@@ -145,14 +145,14 @@ $default-multipliers: (
     $multiplier: '';
 
     @if not map-has-key($multipliers, $type) {
-        @error "Invalid type: Type should be one of rem, em or px.";
+        @error "Target unit should be one of rem, em or px.";
     }
 
     $multiplier: map-get($multipliers, $type);
 
     @each $value in $values {
         @if not unitless($value) {
-            @error "Invalid value: Property should be a unitless decimal.";
+            @error "Invalid value - property should be a unitless decimal.";
         }
 
         // Do not attach units to a 0 value. Looks ugly.
