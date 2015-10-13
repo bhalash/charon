@@ -273,6 +273,8 @@ $default-multipliers: (
  */
 
 @mixin size($sizes...) {
+    $sizes: if(length($sizes) == 1, nth($sizes, 1), $sizes);
+
     $width: nth($sizes, 1);
     $height: nth($sizes, 2);
 
