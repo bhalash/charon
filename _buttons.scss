@@ -9,21 +9,15 @@ $sh-spritesheet: () !default;
 /**
  * Recursive Map Get
  * -----------------------------------------------------------------------------
+ * Wrapper under a different name for namespacing. 
+ *
  * @param   map         $map        Map to search.
- * @param   list        $terms      Terms to search for wtihin the map.
- * @param   map         $map        Recursively-fetched results.
+ * @param   list        $keys       Terms to search for wtihin the map.
+ * @param   map                     Recursively-fetched results.
  */
 
-@function sh-map-seek($map, $terms: default) {
-    @each $term in $terms {
-        @if map-has-key($map, $term) {
-            $map: map-get($map, $term);
-        } @else {
-            $map: null;
-        }
-    }
-
-    @return $map;
+@function sh-map-seek($map, $keys: default) {
+    @return map-seek($map, $keys);
 }
 
 /**
@@ -51,14 +45,10 @@ $sh-spritesheet: () !default;
  */
 
 @function sh-spritesheet($command, $sheet: null, $arg: null) {
-    $results: '';
+    $results: ();
 
     @if $command == sprite {
         $results: sh-map-seek($sh-spritesheet, $sheet sprites $arg); 
-
-        @if not $results {
-            @error "Sprite \"#{$arg}\" not found in sheet \"#{$sheet}\"!";
-        }
     }
 
     @if $command == path {
@@ -71,10 +61,6 @@ $sh-spritesheet: () !default;
 
     @if $command == dimensions {
         $results: sh-map-seek($sh-spritesheet, $sheet dimensions);
-    }
-
-    @if $command == seek {
-        $reults: sh-map-seek($sh-spritesheet, $sheet $arg);
     }
 
     @return $results;
