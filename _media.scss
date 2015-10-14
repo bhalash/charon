@@ -69,7 +69,7 @@ $sh-media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function sh-size-range($min, $max, $property: 'devish-width') {
+@function sh-size-range($min, $max, $property: 'device-width') {
    @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
@@ -94,6 +94,7 @@ $sh-media-presets: (
 
 @function sh-add-media-presets($map) {
     $sh-media-presets: map-merge($sh-media-presets, $map) !global;
+    @debug $sh-media-presets;
     @return $sh-media-presets;
 }
 
