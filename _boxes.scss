@@ -130,19 +130,25 @@
  * Flexible Square Boxes
  * -----------------------------------------------------------------------------
  * Generate a box whose height is equal to the given ratio of the width.
- * Width can be of any size.
- * Ratio should be between 0 and foo.
+ * Width can be of any size. Ratio should be between 0 and foo.
+ *
+ * Any unit, fixed or percentage, is acceptable.
  * 
- * @param   map     $size           Horizontal width and height ratio.
  * @link http://stackoverflow.com/a/13625843/1433400
  * @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
+ * @param   map     $size           Horizontal width and height ratio.
  */
 
 @mixin square-flex($size: 100% 1) {
     $width: nth($size, 1);
     $ratio: nth($size, 2);
 
+    $ratio: $width * $ratio;
+
+    $ratio: if(unitless($ratio), rem($ratio), $ratio);
+    $width: if(unitless($width), rem($width), $width);
+
     height: 0;
-    padding-bottom: $width * $ratio;
+    padding-bottom: $ratio;
     width: $width;
 }
