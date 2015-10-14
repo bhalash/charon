@@ -94,7 +94,6 @@ $sh-media-presets: (
 
 @function sh-add-media-presets($map) {
     $sh-media-presets: map-merge($sh-media-presets, $map) !global;
-    @debug $sh-media-presets;
     @return $sh-media-presets;
 }
 
