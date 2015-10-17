@@ -309,31 +309,3 @@ $sh-assets-map: () !default;
         background: linear-gradient(to bottom, $start 0%, $end 100%);
     }
 }
-
-/**
- * Modular Scale Values
- * -----------------------------------------------------------------------------
- * Either increase (increment > 0) or decrease (increment >= 0) $base-size by 
- * $ratio through the given number of $increment units.
- * 
- * @link https://www.bhalash.com/archives/13544805638
- * @link http://www.modularscale.com/
- * @link http://sassmeister.com/gist/22918b6519a2f15354d0
- *
- * @param   number      $increment          Which ratio increment to return.
- * @param   number      $size               Base size of unit.
- * @param   number      $ratio              Ratio of increment/decrement.
- * @return  number      $size               Increment/decremented size.
- */
-
-@function modular-scale($increment, $size, $ratio) {
-    @for $i from 1 through $increment {
-        @if $increment > 0 {
-            $size: $size * $ratio;    
-        } @else {
-            $size: $size / $ratio;
-        }
-    }
-
-    @return $size;
-}

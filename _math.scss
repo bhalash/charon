@@ -29,6 +29,47 @@
  */
 
 /**
+ * Modular Scale Values
+ * -----------------------------------------------------------------------------
+ * Either increase (increment > 0) or decrease (increment >= 0) $base-size by 
+ * $ratio through the given number of $increment units.
+ * 
+ * @link https://www.bhalash.com/archives/13544805638
+ * @link http://www.modularscale.com/
+ * @link http://sassmeister.com/gist/22918b6519a2f15354d0
+ *
+ * @param   number      $step               Ratio step to return.
+ * @param   number      $base-size          Base size of unit to raise.
+ * @param   number      $ratio              Ratio of increment/decrement.
+ * @return  number      $size               Increment/decremented size.
+ */
+
+@function modular-scale($step, $base-size, $ratio) {
+    @for $i from 1 through $step {
+        @if $step > 0 {
+            $base-size: $base-size * $ratio;    
+        } @else {
+            $base-size: $base-size / $ratio;
+        }
+    }
+
+    @return $base-size;
+}
+
+/**
+ * Golden Ratio Modular Scale Step
+ * -----------------------------------------------------------------------------
+ * @param   number      $step               Ratio step to return.
+ * @param   number      $base-size          Base size of unit to raise.
+ * @return  number                          $step incremented per the GR.
+ */
+
+@function gstep($step, $base-size) {
+    $golden-ratio: 1.61803398875;
+    @return modular-scale($step, $base-size, $golden-ratio);
+}
+
+/**
  * Sqaure Root
  * -----------------------------------------------------------------------------
  * @link    http://www.antimath.info/css/sass-sqrt-function/
