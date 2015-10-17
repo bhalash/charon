@@ -55,6 +55,7 @@
  *
  * @param   number      $number         Number to riase.
  * @param   nubmer      $power          Power to which it should be raised.
+ * @return  number      $exponent       Number raised to exponent.
  */
 
 @function power($number, $power) {
