@@ -86,9 +86,9 @@
  * Sass only rounds to 5 digits of percision, so don't try to use the
  * gravitational constant as a font size. :) 
  *
- * @param   number      $number
- * @param   number      $power
- * @return  number      $exponent
+ * @param   number      $number         Number to riase.
+ * @param   nubmer      $power          Power to which it should be raised.
+ * @return  number      $exponent       Number raised to exponent.
  */
 
 @function raise-ten($number, $power) {
