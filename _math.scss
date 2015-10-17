@@ -51,6 +51,31 @@
 /**
  * Exponential Number
  * -----------------------------------------------------------------------------
+ * Raise a number to a given power.
+ *
+ * @param   number      $number         Number to riase.
+ * @param   nubmer      $power          Power to which it should be raised.
+ */
+
+@function power($number, $power) {
+    $exponent: 1;
+
+    @if $power > 0 {
+        @for $i from 1 through $power {
+            $exponent: $exponent * $number;
+        }
+    } @else if $power < 0 {
+        @for $i from 1 through $power {
+            $exponent: $exponent / $number;
+        }
+    }
+
+    @return $exponent;
+}
+
+/**
+ * Exponential Number
+ * -----------------------------------------------------------------------------
  * Raise a number to an exponent of 10. So:
  *
  * raise(3,2) = 3 x 10^2 = 300
@@ -66,21 +91,7 @@
  */
 
 @function raise-ten($number, $power) {
-    $exponent: 1;
-
-    @if $power >= 0 {
-        @for $i from 1 through $power {
-            $exponent: $exponent * 10;
-        }
-    } @else {
-        @for $i from 1 through -$power {
-            $exponent: $exponent / 10;
-        }
-    }
-
-    $exponent: $number * $exponent;
-
-    @return $exponent;
+    @return $number * power(10, $power);
 }
 
 /**
