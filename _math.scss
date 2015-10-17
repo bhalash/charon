@@ -51,16 +51,31 @@
 /**
  * Exponential Number
  * -----------------------------------------------------------------------------
+ * Raise a number to an exponent of 10. So:
+ *
+ * raise(3,2) = 3 x 10^2 = 300
+ * raise(4,1) = 4 x 10^1 = 40
+ * raise(2.75,3) = 2.75 x 10*3 = 2750
+ *
+ * Sass only rounds to 5 digits of percision, so don't try to use the
+ * gravitational constant as a font size. :) 
+ *
  * @param   number      $number
  * @param   number      $power
  * @return  number      $exponent
  */
 
-@function pow($number, $power) {
+@function raise-ten($number, $power) {
     $exponent: 1;
 
-    @for $i from 1 through $power {
-        $exponent: $exponent * 10;
+    @if $power >= 0 {
+        @for $i from 1 through $power {
+            $exponent: $exponent * 10;
+        }
+    } @else {
+        @for $i from 1 through -$power {
+            $exponent: $exponent / 10;
+        }
     }
 
     $exponent: $number * $exponent;
