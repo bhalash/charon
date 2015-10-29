@@ -21,13 +21,13 @@ $sh-social-sprites: sh-add-spritesheet(social, (
         print: (4, 1, #007aaf),
         reddit: (5, 1, #ff5700),
         rss: (0, 2, #ff6600),
-        search: (1, 2, #000000),
-        share: (2, 2, #000000),
+        search: (1, 2, transparent),
+        share: (2, 2, transparent),
         tumblr: (3, 2, #35465c),
         twitter: (4, 2, #55acee),
         youtube: (5, 2, #b31217),
-        menu: (0, 3, #000000),
-        close: (1, 3, #000000)
+        menu: (0, 3, transparent),
+        close: (1, 3, transparent)
     )
 )) !default;
 
