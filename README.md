@@ -1,5 +1,5 @@
-# scss-helpers
-These files are a small set of helper functions, mixins and partials that I reuse across projects. Becasue I work on proprietary projects I chose to use the MIT License instead of the GPL in order to sidestep any headaches about needing to open code. 
+# Charon
+Charon is a Sass (SCSS) library. Becasue I work on proprietary projects I chose to use the MIT License instead of the GPL in order to sidestep any headaches about needing to open code. 
 
 ## Files
 #### [\_boxes.scss](/_boxes.scss)
