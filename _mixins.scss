@@ -319,10 +319,10 @@ $sh-assets-map: () !default;
  */
 
 @mixin counter($counter, $element, $before: null, $after: null) {
-    counter-reset: #{$counter};
+    counter-reset: $counter;
     
     & #{$element}:before {
-        counter-increment: #{$counter};
-        content: "#{$before}counter({$counter})#{$after}";
+        counter-increment: $counter;
+        content: "#{$before}" counter($counter) "#{$after}";
     }
 }
