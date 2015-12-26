@@ -9,7 +9,7 @@ $sh-spritesheet: () !default;
 /**
  * Recursive Map Get
  * -----------------------------------------------------------------------------
- * Wrapper under a different name for namespacing. 
+ * Wrapper under a different name for namespacing.
  *
  * @param   map         $map        Map to search.
  * @param   list        $keys       Terms to search for wtihin the map.
@@ -48,7 +48,7 @@ $sh-spritesheet: () !default;
     $results: ();
 
     @if $command == sprite {
-        $results: sh-map-seek($sh-spritesheet, $sheet sprites $arg); 
+        $results: sh-map-seek($sh-spritesheet, $sheet sprites $arg);
     }
 
     @if $command == path {
@@ -104,7 +104,7 @@ $sh-spritesheet: () !default;
             $n: if($axis == x, 1, 2);
             $dimension: nth($dimension, $n);
         } @else {
-            @error "Imaginary axis \"#{$axis}\" requested!"    
+            @error "Imaginary axis \"#{$axis}\" requested!"
         }
     }
 
@@ -191,11 +191,11 @@ $sh-spritesheet: () !default;
 /**
  * Include Sprite Main Mixin
  * -----------------------------------------------------------------------------
- * Main entry point for this library. TL;DR: This makes a square(ish) sprite the 
- * centered background image of a square container. If either or both is square 
+ * Main entry point for this library. TL;DR: This makes a square(ish) sprite the
+ * centered background image of a square container. If either or both is square
  * weird things will occur. WARE YE.
- * 
- * Square is good. All hail the squre. 
+ *
+ * Square is good. All hail the squre.
  *
  * @param   string      $sheet          Target spritesheet.
  * @param   string      $sprite         Sprite to fetch.

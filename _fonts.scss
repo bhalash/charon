@@ -44,20 +44,20 @@
 /**
  * @font-face Declaration
  * -----------------------------------------------------------------------------
- * There are a bunch of Sass/Scss @font-face mixins available on the Internet, 
+ * There are a bunch of Sass/Scss @font-face mixins available on the Internet,
  * but each of them is fundamentally inflexible. They variously:
- * 
+ *
  * 1. Require a fixed file path.
- * 2. Fixed existence of files, by which I mean each and every possible type of 
+ * 2. Fixed existence of files, by which I mean each and every possible type of
  *    file (eot, woff, etc).
  * 3. Fixed order of declaration.
- * 
- * With font-face, I hopefully have provided something a little bit more 
+ *
+ * With font-face, I hopefully have provided something a little bit more
  * flexible: declare all of the attributes of your @font-face in a map, and then
  * call the font-face mixin.
- * 
+ *
  * Weight, stretch and style are all optional.
- * 
+ *
  *      @include font-face((
  *          family: 'font-name',
  *          path: '/path/to/folder/',
@@ -74,7 +74,7 @@
  */
 
 
-@mixin font-face($font) { 
+@mixin font-face($font) {
     $family: map-get($font, family);
     $path: map-get($font, path);
     $file: map-get($font, filename);
@@ -98,7 +98,7 @@
         // Optionally override CSS text defaults:
 
         @if map-has-key($font, weight) {
-            font-weight: map-get($font, weight);    
+            font-weight: map-get($font, weight);
         }
 
         @if map-has-key($font, style) {
@@ -111,6 +111,6 @@
         }
 
         @content;
-    } 
+    }
 }
 

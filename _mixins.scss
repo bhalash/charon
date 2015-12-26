@@ -8,17 +8,17 @@
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
  * @version    1.0
  * @link       https://github.com/bhalash/scss-helpers
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -48,7 +48,7 @@ $sh-assets-map: () !default;
             $clean-keys: append($clean-keys, $key);
         }
     }
-    
+
     @return $clean-keys;
 }
 
@@ -110,10 +110,10 @@ $sh-assets-map: () !default;
 /**
  * Prefix Attribute
  * -----------------------------------------------------------------------------
- * Automatically vendor prefixes to CSS properties. You should use autoprefixer! 
- * 
+ * Automatically vendor prefixes to CSS properties. You should use autoprefixer!
+ *
  * @param   string      $attribute       CSS attribute to be prefixed.
- * @param   string      $value           CSS value. 
+ * @param   string      $value           CSS value.
  * @param   map         $prefixes        Map of prefixes to be applied.
  */
 
@@ -128,8 +128,8 @@ $sh-assets-map: () !default;
 /**
  * Prefix Value
  * -----------------------------------------------------------------------------
- * Automatically vendor prefixes to CSS values. You should use autoprefixer! 
- * 
+ * Automatically vendor prefixes to CSS values. You should use autoprefixer!
+ *
  * @param   string      $attribute       CSS attribute.
  * @param   string      $value           CSS value to be prefixed.
  * @param   map         $prefixes        Map of prefixes to be applied.
@@ -153,7 +153,7 @@ $sh-assets-map: () !default;
     z-index: -1;
     @include fixed(0);
 }
- 
+
 /**
  * Vertical Center
  * -----------------------------------------------------------------------------
@@ -169,10 +169,10 @@ $sh-assets-map: () !default;
 /**
  * Invert RGBA
  * -----------------------------------------------------------------------------
- * @param   int     $red            Red value. 
+ * @param   int     $red            Red value.
  * @param   int     $green          Green value.
- * @param   int     $blue           Blue value. 
- * @param   int     $alpha          Alpha value. 
+ * @param   int     $blue           Blue value.
+ * @param   int     $alpha          Alpha value.
  * @return  map                     Inverted RGBA.
  */
 
@@ -188,9 +188,9 @@ $sh-assets-map: () !default;
 /**
  * Placeholder Styles
  * -----------------------------------------------------------------------------
- * Generate styles for input placeholders in Internet Explorer, Firefox and 
+ * Generate styles for input placeholders in Internet Explorer, Firefox and
  * Webkit browsers. Use as follows:
- * 
+ *
  *      input {
  *          @include placeholder-style() {
  *              foo: bar;
@@ -248,10 +248,10 @@ $sh-assets-map: () !default;
 /**
  * Solid Background Mask
  * -----------------------------------------------------------------------------
- * @param   int     $red            Red value. 
+ * @param   int     $red            Red value.
  * @param   int     $green          Green value.
- * @param   int     $blue           Blue value. 
- * @param   int     $alpha          Alpha value. 
+ * @param   int     $blue           Blue value.
+ * @param   int     $alpha          Alpha value.
  */
 
 @mixin solid-mask($red: 255, $green: 255, $blue: 255, $alpha: 1) {

@@ -8,17 +8,17 @@
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
  * @version    1.0
  * @link       https://github.com/bhalash/scss-helpers
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -37,7 +37,7 @@ $sh-media-terms: (
     mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: (
-        'all', 'aural', 'braille', 'handheld', 'print', 'projection', 
+        'all', 'aural', 'braille', 'handheld', 'print', 'projection',
         'screen', 'tty', 'tv', 'embossed'
     ),
     // Non-browser-prefixed @media features.
@@ -144,7 +144,7 @@ $sh-media-presets: (
     @if $property == landscape or $property == portrait {
         // orientation: landscape/portrait
         $shorthand: 'only screen and (orientation: #{$property})';
-    } @else if $property == progressive or $property == interlace {   
+    } @else if $property == progressive or $property == interlace {
         // scan: progressive/interlace
         $shorthand: 'only tv and (scan: #{$property})';
     } @else if $property == monochrome {
@@ -250,7 +250,7 @@ $sh-media-presets: (
 
     @if property-has-value($property) {
         @if sh-has-prefix($property) and $prefix {
-            $prefix: '#{$prefix}-'; 
+            $prefix: '#{$prefix}-';
         } @else {
             $prefix: '';
         }
@@ -269,7 +269,7 @@ $sh-media-presets: (
  * @media Query Function
  * -----------------------------------------------------------------------------
  * Order of resolution:
- * 
+ *
  * 1. User-added presets.
  * 2. Existing shorthand rules.
  * 3. All other arbitrary queries.
@@ -317,7 +317,7 @@ $sh-media-presets: (
 
     @media #{$query} {
          @content;
-    }   
+    }
 }
 
 /**
@@ -333,7 +333,7 @@ $sh-media-presets: (
     screen and (-o-min-devish-pixel-ratio: $density/1),
     screen and (min-devish-pixel-ratio: $density),
     screen and (min-resolution: #{$density * 96} + dpi),
-    screen and (min-resolution: #{$density} + dppx) {  
+    screen and (min-resolution: #{$density} + dppx) {
         @content;
     }
 }
@@ -345,14 +345,14 @@ $sh-media-presets: (
  *
  * I am happy to exclude Internet Explorer 11 because it is decently good. My
  * IE problems inecrease exponentially as I work backwards in time.
- * 
+ *
  * @link http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/
  * @link http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/media-tests/
  * @link http://www.limecanvas.com/css-hacks-targeting-ie-10/
  * @link http://www.paulirish.com/2009/browser-specific-css-hacks/
- * 
- * DO NOT USE THIS. 
- * 
+ *
+ * DO NOT USE THIS.
+ *
  * Wait...what? It's a bad idea to mix conditional IE CSS and regular CSS. It's
  * here if you need it, but ask yourself first: should I really do this?
  */

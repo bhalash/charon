@@ -45,22 +45,22 @@ $sh-social-sprites: sh-add-spritesheet(social, (
 /**
  * Social Images and Colours
  * -----------------------------------------------------------------------------
- * I wanted to reduce the work (and load time) of ubiqui-cancerous social 
- * icons. This mixin generates uses an SVG spritemap with PNG fallback to 
+ * I wanted to reduce the work (and load time) of ubiqui-cancerous social
+ * icons. This mixin generates uses an SVG spritemap with PNG fallback to
  * generate social icons for popular networks. Have a look at _defaults.scss to
- * see the list of currently supported services, as well as the format used. 
- * 
+ * see the list of currently supported services, as well as the format used.
+ *
  * I have included black and white minimal icons; the background colours of the
  * element will be that for the relevant network.
- * 
- * On $selector: There were some cases where I want the social style 
- * to be attached to the parent, and on other occasions to an arbitrary child 
- * instead. 
- * 
+ *
+ * On $selector: There were some cases where I want the social style
+ * to be attached to the parent, and on other occasions to an arbitrary child
+ * instead.
+ *
  * If $selector for the background image exists, it is attached to selector,
  * elsewise to the parent.
- * 
- * @param   map         $size           Sizes for square-flex(). 
+ *
+ * @param   map         $size           Sizes for square-flex().
  * @param   string      $selector       Optional selector.
  * @param   bool        $split          Seperate icon colour from icon.
  * @param   map         $networks       Social networks to output.

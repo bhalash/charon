@@ -8,17 +8,17 @@
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
  * @version    1.0
  * @link       https://github.com/bhalash/scss-helpers
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -33,12 +33,12 @@
  * -----------------------------------------------------------------------------
  * Used when you convert decimal to any of the given units. Add more as you wish!
  * See here for more information on comparitive multipliers:
- * 
+ *
  * @link https://www.bhalash.com/archives/13544803803
  */
 
 $default-multipliers: (
-    px: 10, 
+    px: 10,
     rem: 0.625,
     em: 0.625
 ) !default;
@@ -57,7 +57,7 @@ $default-multipliers: (
 /**
  * Validate Units
  * -----------------------------------------------------------------------------
- * Build evaluation from units to types. 
+ * Build evaluation from units to types.
  *
  * @link    http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
  */
@@ -133,10 +133,10 @@ $default-multipliers: (
  * Convert Decimal Unit to Given Output Unit
  * -----------------------------------------------------------------------------
  * Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
- * output unit. Currently I support any one of: rem, em, and px, because my 
+ * output unit. Currently I support any one of: rem, em, and px, because my
  * focus is on screen appearance. The W3C themselves discourage the use of units
  * except rem, em, px, vw, vh, vmin and vmax for screens:
- * 
+ *
  * @link http://www.w3.org/Style/Examples/007/units.en.html#units
  */
 
@@ -196,9 +196,9 @@ $default-multipliers: (
 }
 
 /**
- * rem Mixins 
+ * rem Mixins
  * -----------------------------------------------------------------------------
- * General property/value mixin and specific rem mixins for line-height and 
+ * General property/value mixin and specific rem mixins for line-height and
  * font-size.
  */
 
@@ -227,9 +227,9 @@ $default-multipliers: (
  * -----------------------------------------------------------------------------
  * These two don't do too much except make life easier: Set margin or padding as
  * a multiplier of the base margin and padding. The side can be appended through
- * an optional operator. If you do set a side, every margin or padding except 
+ * an optional operator. If you do set a side, every margin or padding except
  * the first passed will be silently discarded.
- * 
+ *
  * @param   string      $attribute      Attribute to set sizes for.
  * @param   list        $values         Values, either singlar or plural.
  * @param   list        $sides          Sides (top, left, etc.).
@@ -260,11 +260,11 @@ $default-multipliers: (
 
 @mixin width($width, $sides: null) {
     @include box-size(width, $width);
-} 
+}
 
 @mixin height($height, $sides: null) {
     @include box-size(height, $height);
-} 
+}
 
 /**
  * Quickly Set Width and Height
