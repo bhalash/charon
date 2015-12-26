@@ -315,12 +315,12 @@ $sh-assets-map: () !default;
  * -----------------------------------------------------------------------------
  * @param   string      $counter        Name of the counter.
  * @param   string      $element        Target element.
- * @param   
+ * @param
  */
 
 @mixin counter($counter, $element, $before: null, $after: null) {
     counter-reset: $counter;
-    
+
     & #{$element}:before {
         counter-increment: $counter;
         content: "#{$before}" counter($counter) "#{$after}";
