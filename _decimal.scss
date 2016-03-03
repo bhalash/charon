@@ -196,10 +196,10 @@ $default-multipliers: (
 }
 
 /**
- * rem Mixins
+ * Convert Values to REM Units
  * -----------------------------------------------------------------------------
  * General property/value mixin and specific rem mixins for line-height and
- * font-size.
+ * font-size. Useful for IE8-9, which lacks complete REM support.
  */
 
 @mixin rem($property, $values) {
