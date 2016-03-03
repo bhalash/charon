@@ -199,7 +199,7 @@ $sh-media-presets: (
     }
 
     @if not map-has-key($split, property) {
-        @error "Media condition \"#{$condition}\" is missing a media query property (e.g. min-width, height)!";
+        @error "Media condition '#{$condition}' is missing a media query property (e.g. min-width, height)!";
     }
 
     @if not map-has-key($split, mod) {
@@ -219,7 +219,7 @@ $sh-media-presets: (
 
     @if not map-has-key($split, value) and property-has-value(map-get($split, property)) {
         // Test for missing valie, if property has value.
-        @error "Media condition \"#{$condition}\" is missing a media query value (e.g., 300px, 10rem)!";
+        @error "Media condition '#{$condition}' is missing a media query value (e.g., 300px, 10rem)!";
     }
 
     @return $split;
