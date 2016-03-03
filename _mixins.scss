@@ -200,7 +200,7 @@ $sh-assets-map: () !default;
 
 @mixin placeholder-style {
     &::-webkit-input-placeholder {
-       @content;
+        @content;
     }
 
     &::-webkit-input-placeholder {

@@ -70,7 +70,7 @@ $sh-media-terms: (
  */
 
 @function sh-size-range($min, $max, $property: 'device-width') {
-   @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
+    @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
 /**
