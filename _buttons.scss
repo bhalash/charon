@@ -116,7 +116,7 @@ $sh-spritesheet: () !default;
             $n: if($axis == x, 1, 2);
             $dimension: nth($dimension, $n);
         } @else {
-            @error "Imaginary axis \"#{$axis}\" requested!"
+            @error "Imaginary axis '#{$axis}' requested!"
         }
     }
 

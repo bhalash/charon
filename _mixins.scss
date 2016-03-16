@@ -83,7 +83,7 @@ $sh-assets-map: () !default;
     $asset: map-seek($sh-assets-map, $variants);
 
     @if not $asset {
-        @error "Error: Asset variants #{$variants} not found!";
+        @error "Error: Asset variants '#{$variants}' not found!";
     }
 
     @return url($asset);
@@ -182,7 +182,7 @@ $sh-assets-map: () !default;
 
 @mixin placeholder-style {
     &::-webkit-input-placeholder {
-       @content;
+        @content;
     }
 
     &::-webkit-input-placeholder {

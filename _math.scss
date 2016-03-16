@@ -13,7 +13,7 @@
 /**
  * Modular Scale Values
  * -----------------------------------------------------------------------------
- * Either increase (increment > 0) or decrease (increment >= 0) $base-size by
+ * Either increase (increment > 0) or decrease (increment <= 0) $base-size by
  * $ratio through the given number of $increment units.
  *
  * @link https://www.bhalash.com/archives/13544805638
@@ -47,8 +47,7 @@
  */
 
 @function gstep($step, $base-size) {
-    $golden-ratio: 1.61803398875;
-    @return modular-scale($step, $base-size, $golden-ratio);
+    @return modular-scale($step, $base-size, 1.61803398875);
 }
 
 /**
@@ -56,19 +55,19 @@
  * -----------------------------------------------------------------------------
  * @link    http://www.antimath.info/css/sass-sqrt-function/
  * @param   number      $number
- * @return  number      $x1             Sqaure root of $number.
+ * @return  number      $sqrt           Sqaure root of $number.
  */
 
-@function sqrt($r) {
-    $x0: 1;
-    $x1: $x0;
+@function sqrt($number) {
+    $temp: 1;
+    $sqrt: 1;
 
     @for $i from 1 through 10 {
-        $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
-        $x0: $x1;
+        $sqrt: $temp - ($temp * $temp - abs($number)) / (2 * $temp);
+        $temp: $sqrt;
     }
 
-    @return $x1;
+    @return $sqrt;
 }
 
 /**
