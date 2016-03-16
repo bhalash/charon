@@ -1,0 +1,147 @@
+/**
+ * Asset Management
+ * -----------------------------------------------------------------------------
+ * @category   Stylesheet
+ * @package    Charon
+ * @author     Mark Grealish <mark@bhalash.com>
+ * @copyright  Copyright (c) 2015, Mark Grealish
+ * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
+ * @version    1.0
+ * @link       https://github.com/bhalash/charon
+ */
+
+/**
+ * Default Colors
+ * -----------------------------------------------------------------------------
+ * Default grey (I use gray because "grey" highlights annoyingly) came from a
+ * simple rounded scale. Formula:
+ *
+ * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+ */
+
+
+$sh-assets-map: (
+    colors: (
+        black: (
+            x-dark: #000000,
+            dark: #121212,
+            mid-dark: #242424,
+            base: #373737,
+            mid-light: #494949,
+            light: #5b5b5b,
+            x-light: #6d6d6d
+        ),
+        white: (
+            x-dark: #939393,
+            dark: #a5a5a5,
+            mid-dark: #b7b7b7,
+            base: #c8c8c8,
+            mid-light: #dcdcdc,
+            light: #ededed,
+            x-light: #ffffff
+        ),
+    )
+) !default;
+
+/**
+ * Recursive Map Get
+ * -----------------------------------------------------------------------------
+ * There's a situation where 'null' can be passed to a list, and interpreted
+ * literally, e.g, it isn't a null value, but literally a string 'null'.
+ *
+ * @param   list        $keys       List of keys.
+ * @return  list        $keys       Cleaned list of keys.
+ */
+
+@function clean-keys($keys) {
+    $clean-keys: ();
+
+    @each $key in $keys {
+        @if $key {
+            $clean-keys: append($clean-keys, $key);
+        }
+    }
+
+    @return $clean-keys;
+}
+
+/**
+ * Recursive Map Get
+ * -----------------------------------------------------------------------------
+ * @param   map         $map        Map to search.
+ * @param   list        $keys       Terms to search for wtihin the map.
+ * @param   map         $map        Recursively-fetched results.
+ */
+
+@function map-seek($map, $keys: default) {
+    $keys: clean-keys($keys);
+
+    @each $key in $keys {
+        @if map-has-key($map, $key) {
+            $map: map-get($map, $key);
+        } @else {
+            @warn "Value #{$key} was not found in map";
+        }
+    }
+
+    @return $map;
+}
+
+/**
+ * Add Color Palettes
+ * -----------------------------------------------------------------------------
+ * @param   map         $map                Map of palettes to add.
+ * @return  map         $sh-color-palette   New palette.
+ */
+
+@function add-palettes($map) {
+    $sh-color-palette: map-merge($sh-color-palette, $map) !global;
+    @return $sh-color-palette;
+}
+
+/**
+ * Add Assets to List
+ * -----------------------------------------------------------------------------
+ * These aassets are separate to the spritesheet buttons - it is a list of
+ * keyworded assets that you can call up on demand wrapped as url($asset);
+ *
+ * @param   map         $map            Map of assets to add.
+ * @return  map         $sh-assets-map  Updated map of assets.
+ */
+
+@function add-asset($type, $map) {
+    $sh-assets-map: map-merge($sh-assets-map, $map) !global;
+    @return $sh-assets-map;
+}
+
+/**
+ * Fetch Named Asset
+ * -----------------------------------------------------------------------------
+ * @param   string      $variants   Asset to fetch.
+ * @return  string      $asset      Returned image asset.
+ * @link https://www.bhalash.com/archives/13544804892
+ */
+
+@function asset($type, $variants: null) {
+    $asset: map-seek($sh-assets-map, $variants);
+
+    @if not $asset {
+        @error "Error: Asset variants #{$variants} not found!";
+    }
+
+    @return url($asset);
+}
+
+/**
+ * Fetch from Color Palette
+ * -----------------------------------------------------------------------------
+ */
+
+@function palette($color, $tone: 'base') {
+    @return map-get(map-get($sh-color-palette, $color), $tone);
+    // @return map-seek($assets-map, 'colors';
+}
+
+@function image($image, $variants: null) {
+    @return url(map-seek($assets-map, $variants));
+}
