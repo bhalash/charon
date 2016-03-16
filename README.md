@@ -1,29 +1,10 @@
 # Charon
-Charon is a Sass (SCSS) library. Becasue I work on proprietary projects I chose to use the MIT License instead of the GPL in order to sidestep any headaches about needing to open code. 
+Charon is a set of Sass helper libraries to which I have incrementally added as my work requires.
 
-## Files
-#### [\_boxes.scss](/_boxes.scss)
-`_boxes.scss` contains rules for the CSS box model: shorthand functions for `absolute`, `fixed`, and `relative` positions, and [fluid square](http://absolide.tumblr.com/post/7317210512/full-css-fluid-squares) boxes.
-
-#### [\_colours.scss](/_colours.scss)
-Contains expandable map of colours and function to return a given colour and tone on demand.
-
-#### [\_columns.scss](/_columns.scss)
-Create a dynamic [flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) or floated grid layout upon demand. 
-
-#### [\_decimal.scss](/_decimal.scss)
-Manage element sizes with unitless demical values that are automatically compiled to `rem` sizes with a `px` fallback. Also includes mixins and functions to convert between arbitrary unit types. 
-
-#### [\_media.scss](/_media.scss)
-`@media` rules shorthand mixin.
-
-#### [\_social.scss](/_social.scss)
-Generate social media icons from the [included vector](https://github.com/bhalash/scss-helpers/tree/master/assets/svg) spritesheet.
-
-## License and Copyright
+## License
 The MIT License (MIT)
 
-Copyright (c) 2015 Mark Grealish
+Copyright (c) 2015-2016 Mark Grealish (<mark@bhalash.com>)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -44,4 +25,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ## Credit
-Some mixins were derived from examples and concepts already present on the Internet, so I cannot make any claim to being an original creator. Something something truer to say that I stand upon the shoulder of giants.
+Many ideas were not mine alone-credit is given and sourced for inspiration where appropriate. All code is mine alone.
+
+[1]: http://absolide.tumblr.com/post/7317210512/full-css-fluid-squares
+[2]: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+[3]: https://github.com/bhalash/scss-helpers/tree/master/assets/svg
