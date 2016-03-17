@@ -15,7 +15,7 @@
  * -----------------------------------------------------------------------------
  */
 
-$sh-media-terms: (
+$media-terms: (
     mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: (
@@ -24,7 +24,7 @@ $sh-media-terms: (
     ),
     // Non-browser-prefixed @media features.
     property: (
-        'height', 'width', 'devish-width', 'devish-height', 'aspect-ratio',
+        'height', 'width', 'deviwidth', 'deviheight', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid',
         'orientation'
     ),
@@ -51,7 +51,7 @@ $sh-media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function sh-size-range($min, $max, $property: 'device-width') {
+@function size-range($min, $max, $property: 'device-width') {
     @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
@@ -60,23 +60,23 @@ $sh-media-terms: (
  * -----------------------------------------------------------------------------
  */
 
-$sh-media-presets: (
+$charon-media-map: (
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
-    watch: sh-size-range(218px, 281px),
-    smartphone: sh-size-range(320px, 667px),
-    tablet: sh-size-range(600px, 1280px)
+    watch: size-range(218px, 281px),
+    smartphone: size-range(320px, 667px),
+    tablet: size-range(600px, 1280px)
 );
 
 /**
  * Add to Template Presets
  * -----------------------------------------------------------------------------
  * @param   map         $map                    Map of presets to add.
- * @return  map         $sh-media-presets       Library media preset.
+ * @return  map         $charon-media-map       Library media preset.
  */
 
-@function sh-add-media-presets($map) {
-    $sh-media-presets: map-merge($sh-media-presets, $map) !global;
-    @return $sh-media-presets;
+@function add-media-presets($map) {
+    $charon-media-map: map-merge($charon-media-map, $map) !global;
+    @return $charon-media-map;
 }
 
 /**
@@ -86,8 +86,8 @@ $sh-media-presets: (
  * @return  bool                        Property is a preset, true/false.
  */
 
-@function sh-get-preset($condition) {
-    @return map-has-key($sh-media-presets, $condition);
+@function get-preset($condition) {
+    @return map-has-key($charon-media-map, $condition);
 }
 
 /**
@@ -97,8 +97,8 @@ $sh-media-presets: (
  * @param   string                      Preset property.
  */
 
-@function sh-get-preset($condition) {
-    @return map-get($sh-media-presets, $condition);
+@function get-preset($condition) {
+    @return map-get($charon-media-map, $condition);
 }
 
 /**
@@ -108,8 +108,8 @@ $sh-media-presets: (
  * @return  bool                        Property is shorthand/true false.
  */
 
-@function sh-is-media-shorthand($property) {
-    @return length($property) == 1 and not sh-get-preset($property);
+@function is-media-shorthand($property) {
+    @return length($property) == 1 and not get-preset($property);
 }
 
 /**
@@ -119,7 +119,7 @@ $sh-media-presets: (
  * @return  string      $shorthand      Expanded media shorthand term.
  */
 
-@function sh-media-shorthand($property) {
+@function media-shorthand($property) {
     $shorthand: '';
     $property: nth($property, 1);
 
@@ -132,7 +132,7 @@ $sh-media-presets: (
     } @else if $property == monochrome {
         // monochrome
         $shorthand: 'all and (#{$property})';
-    } @else if index(map-get($sh-media-terms, media), $property) != null {
+    } @else if index(map-get($media-terms, media), $property) != null {
         $shorthand: $property;
     }
 
@@ -146,8 +146,8 @@ $sh-media-presets: (
  * @return  bool                        Property is prefixed, true/false.
  */
 
-@function sh-has-prefix($property) {
-    @return index(map-get($sh-media-terms, prefixed), $property) != false;
+@function has-prefix($property) {
+    @return index(map-get($media-terms, prefixed), $property) != false;
 }
 
 /**
@@ -157,8 +157,8 @@ $sh-media-presets: (
  * @return  map         $split          Split up condition.
  */
 
-@function sh-split-condition($condition) {
-    $map: $sh-media-terms;
+@function split-condition($condition) {
+    $map: $media-terms;
     $split: ();
 
     @each $term in $condition {
@@ -221,8 +221,8 @@ $sh-media-presets: (
  * @return  string      $condition  Parsed condition appended to query.
  */
 
-@function sh-parse-condition($condition) {
-    $split: sh-split-condition($condition);
+@function parse-condition($condition) {
+    $split: split-condition($condition);
 
     $media: map-get($split, media);
     $mod: map-get($split, mod);
@@ -231,7 +231,7 @@ $sh-media-presets: (
     $value: map-get($split, value);
 
     @if property-has-value($property) {
-        @if sh-has-prefix($property) and $prefix {
+        @if has-prefix($property) and $prefix {
             $prefix: '#{$prefix}-';
         } @else {
             $prefix: '';
@@ -260,13 +260,13 @@ $sh-media-presets: (
  * @return  string      $condition      Parsed media query.
  */
 
-@function sh-query($condition) {
-    @if sh-get-preset($condition) {
-        $condition: sh-get-preset($condition);
-    } @else if sh-is-media-shorthand($condition) {
-        $condition: sh-media-shorthand($condition);
+@function query($condition) {
+    @if get-preset($condition) {
+        $condition: get-preset($condition);
+    } @else if is-media-shorthand($condition) {
+        $condition: media-shorthand($condition);
     } @else {
-        $condition: sh-parse-condition($condition);
+        $condition: parse-condition($condition);
     }
 
     @return $condition;
@@ -294,7 +294,7 @@ $sh-media-presets: (
             $query: '#{$query}#{$bool} ';
         }
 
-        $query: '#{$query} #{sh-query($con)}';
+        $query: '#{$query} #{query($con)}';
     }
 
     @media #{$query} {
@@ -310,10 +310,10 @@ $sh-media-presets: (
 
 @mixin density($density) {
     @media
-    screen and (-webkit-min-devish-pixel-ratio: $density),
-    screen and (min--moz-devish-pixel-ratio: $density),
-    screen and (-o-min-devish-pixel-ratio: $density/1),
-    screen and (min-devish-pixel-ratio: $density),
+    screen and (-webkit-min-devipixel-ratio: $density),
+    screen and (min--moz-devipixel-ratio: $density),
+    screen and (-o-min-devipixel-ratio: $density/1),
+    screen and (min-devipixel-ratio: $density),
     screen and (min-resolution: #{$density * 96} + dpi),
     screen and (min-resolution: #{$density} + dppx) {
         @content;

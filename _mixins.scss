@@ -10,85 +10,6 @@
  * @link       https://github.com/bhalash/charon
  */
 
-$sh-assets-map: () !default;
-
-/**
- * Recursive Map Get
- * -----------------------------------------------------------------------------
- * There's a situation where 'null' can be passed to a list, and interpreted
- * literally, e.g, it isn't a null value, but literally a string 'null'.
- *
- * @param   list        $keys       List of keys.
- * @return  list        $keys       Cleaned list of keys.
- */
-
-@function clean-keys($keys) {
-    $clean-keys: ();
-
-    @each $key in $keys {
-        @if $key {
-            $clean-keys: append($clean-keys, $key);
-        }
-    }
-
-    @return $clean-keys;
-}
-
-/**
- * Recursive Map Get
- * -----------------------------------------------------------------------------
- * @param   map         $map        Map to search.
- * @param   list        $keys       Terms to search for wtihin the map.
- * @param   map         $map        Recursively-fetched results.
- */
-
-@function map-seek($map, $keys: default) {
-    $keys: clean-keys($keys);
-
-    @each $key in $keys {
-        @if map-has-key($map, $key) {
-            $map: map-get($map, $key);
-        } @else {
-            @warn "Value #{$key} was not found in map";
-        }
-    }
-
-    @return $map;
-}
-
-/**
- * Add Assets to List
- * -----------------------------------------------------------------------------
- * These aassets are separate to the spritesheet buttons - it is a list of
- * keyworded assets that you can call up on demand wrapped as url($asset);
- *
- * @param   map         $map            Map of assets to add.
- * @return  map         $sh-assets-map  Updated map of assets.
- */
-
-@function sh-add-assets($map) {
-    $sh-assets-map: map-merge($sh-assets-map, $map) !global;
-    @return $sh-assets-map;
-}
-
-/**
- * Fetch Named Asset
- * -----------------------------------------------------------------------------
- * @param   string      $variants   Asset to fetch.
- * @return  string      $asset      Returned image asset.
- * @link https://www.bhalash.com/archives/13544804892
- */
-
-@function asset($variants: null) {
-    $asset: map-seek($sh-assets-map, $variants);
-
-    @if not $asset {
-        @error "Error: Asset variants '#{$variants}' not found!";
-    }
-
-    @return url($asset);
-}
-
 /**
  * Prefix Attribute
  * -----------------------------------------------------------------------------
@@ -159,12 +80,7 @@ $sh-assets-map: () !default;
  */
 
 @function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
-    $red: 255 - $red;
-    $green: 255 - $green;
-    $blue: 255 - $blue;
-    $alpha: 1 - $alpha;
-
-    @return rgba($red, $green, $blue, $alpha);
+    @return rgba(255 - $red, 255 - $green, 255 - $blue, 1 - $alpha);
 }
 
 /**
@@ -174,7 +90,7 @@ $sh-assets-map: () !default;
  * Webkit browsers. Use as follows:
  *
  *      input {
- *          @include placeholder-style() {
+ *          @include placeholder-style {
  *              foo: bar;
  *          }
  *      }
@@ -280,11 +196,11 @@ $sh-assets-map: () !default;
 /**
  * Gradient Background Mask
  * -----------------------------------------------------------------------------
- * @param   map     $start          Gradient start point.
- * @param   map     $end            Gradient end point.
+ * @param   map     $start          Gradient start color and opacity.
+ * @param   map     $end            Gradient end color and opacity.
  */
 
-@mixin gradient-mask ($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
+@mixin gradient-mask($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
     @extend %background-mask;
 
     &:after {
@@ -297,7 +213,8 @@ $sh-assets-map: () !default;
  * -----------------------------------------------------------------------------
  * @param   string      $counter        Name of the counter.
  * @param   string      $element        Target element.
- * @param
+ * @param   string      $before         String preceding counter;
+ * @param   string      $after          String anteceding counter;
  */
 
 @mixin counter($counter, $element, $before: null, $after: null) {

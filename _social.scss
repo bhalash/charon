@@ -16,7 +16,7 @@
  * Gaps separate rows. Currently 6 columns by 4 rows in size.
  */
 
-$sh-social-sprites: sh-add-spritesheet(social, (
+$social-sprites: add-spritesheet(social, (
     path: 'vectors/button-sprites.svg',
     dimensions: (6, 4),
     sprites: (
@@ -50,8 +50,8 @@ $sh-social-sprites: sh-add-spritesheet(social, (
  * @return  string                      Network colour.
  */
 
-@function sh-social-color($network) {
-    @return nth(sh-get-sprite(social, $network), 3);
+@function social-color($network) {
+    @return nth(get-sprite(social, $network), 3);
 }
 
 /**
@@ -83,7 +83,7 @@ $sh-social-sprites: sh-add-spritesheet(social, (
         // If no network was passed, default to all sprite icons.
         $networks: ();
 
-        @each $key, $value in sh-spritesheet(sprite, social) {
+        @each $key, $value in spritesheet(sprite, social) {
             $networks: append($networks, $key);
         }
     }
@@ -99,7 +99,7 @@ $sh-social-sprites: sh-add-spritesheet(social, (
 
     @each $network in $networks {
         // Iterate, one class per nework.
-        $colour: sh-social-color($network);
+        $colour: social-color($network);
 
         @if $split {
             &.#{$network} {

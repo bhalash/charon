@@ -27,7 +27,7 @@
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
  */
 
-$sh-color-palette: (
+$charon-palette-map: (
     black: (
         x-dark: #000000,
         dark: #121212,
@@ -51,13 +51,13 @@ $sh-color-palette: (
 /**
  * Add Color Palettes
  * -----------------------------------------------------------------------------
- * @param   map         $map                Map of palettes to add.
- * @return  map         $sh-color-palette   New palette.
+ * @param   map         $map                        Map of palettes to add.
+ * @return  map         $charon-palette-map     New palette.
  */
 
-@function sh-add-palettes($map) {
-    $sh-color-palette: map-merge($sh-color-palette, $map) !global;
-    @return $sh-color-palette;
+@function add-to-palette($map) {
+    $charon-palette-map: map-merge($charon-palette-map, $map) !global;
+    @return $charon-palette-map;
 }
 
 /**
@@ -90,5 +90,5 @@ $sh-color-palette: (
  */
 
 @function palette($color, $tone: 'base') {
-    @return map-get(map-get($sh-color-palette, $color), $tone);
+    @return map-get(map-get($charon-palette-map, $color), $tone);
 }

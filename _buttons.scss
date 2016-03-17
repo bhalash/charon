@@ -13,23 +13,53 @@
 /**
  * Spritesheet
  * -----------------------------------------------------------------------------
- * Add your own map to this with add-sh-spritesheet().
+ * Add your own map to this with add-spritesheet().
  */
 
-$sh-spritesheet: () !default;
+$charon-spritesheet: () !default;
 
 /**
  * Recursive Map Get
  * -----------------------------------------------------------------------------
- * Wrapper under a different name for namespacing.
+ * There's a situation where 'null' can be passed to a list, and interpreted
+ * literally, e.g, it isn't a null value, but literally a string 'null'.
  *
- * @param   map         $map        Map to search.
- * @param   list        $keys       Terms to search for wtihin the map.
- * @param   map                     Recursively-fetched results.
+ * @param   list        $keys       List of keys.
+ * @return  list        $keys       Cleaned list of keys.
  */
 
-@function sh-map-seek($map, $keys: default) {
-    @return map-seek($map, $keys);
+@function clean-keys($keys) {
+    $clean-keys: ();
+
+    @each $key in $keys {
+        @if $key {
+            $clean-keys: append($clean-keys, $key);
+        }
+    }
+
+    @return $clean-keys;
+}
+
+/**
+ * Recursive Map Get
+ * -----------------------------------------------------------------------------
+ * @param   map         $map        Map to search.
+ * @param   list        $keys       Terms to search for wtihin the map.
+ * @param   map         $map        Recursively-fetched results.
+ */
+
+@function map-seek($map, $keys: default) {
+    $keys: clean-keys($keys);
+
+    @each $key in $keys {
+        @if map-has-key($map, $key) {
+            $map: map-get($map, $key);
+        } @else {
+            @warn "Value #{$key} was not found in map";
+        }
+    }
+
+    @return $map;
 }
 
 /**
@@ -37,12 +67,12 @@ $sh-spritesheet: () !default;
  * -----------------------------------------------------------------------------
  * @param   string      $key                Associative key for added map.
  * @param   map         $map                Spritesheet map.
- * @return  map         $sh-spritesheet     Complete map of sprites.
+ * @return  map         $charon-spritesheet     Complete map of sprites.
  */
 
-@function sh-add-spritesheet($key, $map) {
-    $sh-spritesheet: map-merge($sh-spritesheet, ($key: $map)) !global;
-    @return $sh-spritesheet;
+@function add-spritesheet($key, $map) {
+    $charon-spritesheet: map-merge($charon-spritesheet, ($key: $map)) !global;
+    @return $charon-spritesheet;
 }
 
 /**
@@ -56,23 +86,23 @@ $sh-spritesheet: () !default;
  * @param   map         $results        Requested information.
  */
 
-@function sh-spritesheet($command, $sheet: null, $arg: null) {
+@function spritesheet($command, $sheet: null, $arg: null) {
     $results: ();
 
     @if $command == sprite {
-        $results: sh-map-seek($sh-spritesheet, $sheet sprites $arg);
+        $results: map-seek($charon-spritesheet, $sheet sprites $arg);
     }
 
     @if $command == path {
-        $results: sh-map-seek($sh-spritesheet, $sheet path);
+        $results: map-seek($charon-spritesheet, $sheet path);
     }
 
     @if $command == count {
-        $results: length(sh-map-seek($sh-spritesheet, $sheet));
+        $results: length(map-seek($charon-spritesheet, $sheet));
     }
 
     @if $command == dimensions {
-        $results: sh-map-seek($sh-spritesheet, $sheet dimensions);
+        $results: map-seek($charon-spritesheet, $sheet dimensions);
     }
 
     @return $results;
@@ -85,8 +115,8 @@ $sh-spritesheet: () !default;
  * @return  number                      Count of sprites in sheet.
  */
 
-@function sh-count($sheet) {
-    @return sh-spritesheet(count, $sheet);
+@function count($sheet) {
+    @return spritesheet(count, $sheet);
 }
 
 /**
@@ -96,8 +126,8 @@ $sh-spritesheet: () !default;
  * @return  string                      Path to spritesheet.
  */
 
-@function sh-path($sheet) {
-    @return sh-spritesheet(path, $sheet);
+@function path($sheet) {
+    @return spritesheet(path, $sheet);
 }
 
 /**
@@ -105,11 +135,11 @@ $sh-spritesheet: () !default;
  * -----------------------------------------------------------------------------
  * @param   string      $sheet          Target spritesheet.
  * @param   string      $axis           Optional axis to return.
- * @return  number      $dimension      Spritesheet sh-dimension(s).
+ * @return  number      $dimension      Spritesheet dimension(s).
  */
 
-@function sh-dimension($sheet, $axis: null) {
-    $dimension: sh-spritesheet(dimensions, $sheet);
+@function dimension($sheet, $axis: null) {
+    $dimension: spritesheet(dimensions, $sheet);
 
     @if $axis {
         @if $axis == x or $axis == y {
@@ -131,12 +161,12 @@ $sh-spritesheet: () !default;
  * @return  map                         Sprite information.
  */
 
-@function sh-get-sprite($sheet, $sprite) {
+@function get-sprite($sheet, $sprite) {
     @if length($sprite) > 1 {
         $sprite: nth($sprite, 1);
     }
 
-    @return sh-spritesheet(sprite, $sheet, $sprite);
+    @return spritesheet(sprite, $sheet, $sprite);
 }
 
 /**
@@ -149,10 +179,10 @@ $sh-spritesheet: () !default;
  * @return  map         $x $y           Percentage position of sprite.
  */
 
-@function sh-sprite-position($sheet, $sprite) {
+@function sprite-position($sheet, $sprite) {
 
-    $sprite: sh-get-sprite($sheet, $sprite);
-    $sheet: sh-dimension($sheet);
+    $sprite: get-sprite($sheet, $sprite);
+    $sheet: dimension($sheet);
 
     $sprite-x: nth($sprite, 1);
     $sprite-y: nth($sprite, 2);
@@ -175,8 +205,8 @@ $sh-spritesheet: () !default;
  * @return  map         $x $y           Percentage size of sprite.
  */
 
-@function sh-sprite-size($sheet, $sprite) {
-    $sheet: sh-dimension($sheet);
+@function sprite-size($sheet, $sprite) {
+    $sheet: dimension($sheet);
 
     $x: percentage(nth($sheet, 1));
     $y: percentage(nth($sheet, 2));
@@ -193,9 +223,9 @@ $sh-spritesheet: () !default;
  */
 
 @function sprite($sheet, $sprite) {
-    $position: sh-sprite-position($sheet, $sprite);
-    $size: sh-sprite-size($sheet, $sprite);
-    $path: url(sh-path($sheet));
+    $position: sprite-position($sheet, $sprite);
+    $size: sprite-size($sheet, $sprite);
+    $path: url(path($sheet));
 
     @return $position/$size no-repeat $path;
 }
