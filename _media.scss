@@ -17,7 +17,7 @@
 
 $media-terms: (
     mod: ('only', 'not'),
-    // Non-deprecated media query device-ces.
+    // Non-deprecated media query devices.
     media: (
         'all', 'aural', 'braille', 'handheld', 'print', 'projection',
         'screen', 'tty', 'tv', 'embossed'
@@ -32,7 +32,7 @@ $media-terms: (
     prefix: ('min', 'max'),
     // @media featured with a min/max prefix.
     prefixed: (
-        'height', 'width', 'device-ce-width', 'device-ce-height', 'aspect-ratio',
+        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution'
     ),
     noval: (
@@ -51,7 +51,7 @@ $media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function size-range($min, $max, $property: 'device-ce-width') {
+@function size-range($min, $max, $property: 'device-width') {
     @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
