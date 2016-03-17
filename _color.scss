@@ -27,7 +27,7 @@
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
  */
 
-$charon-palette-map: (
+$charon-color-map: (
     black: (
         x-dark: #000000,
         dark: #121212,
@@ -51,24 +51,24 @@ $charon-palette-map: (
 /**
  * Add Color Palettes
  * -----------------------------------------------------------------------------
- * @param   map         $map                        Map of palettes to add.
- * @return  map         $charon-palette-map     New palette.
+ * @param   map         $map                        Map of colors to add.
+ * @return  map         $charon-color-map     New color.
  */
 
-@function add-to-palette($map) {
-    $charon-palette-map: map-merge($charon-palette-map, $map) !global;
-    @return $charon-palette-map;
+@function add-color($map) {
+    $charon-color-map: map-merge($charon-color-map, $map) !global;
+    @return $charon-color-map;
 }
 
 /**
  * Fetch from Color Palette
  * -----------------------------------------------------------------------------
- * In short, the post advocates a mapped palette of colors and tones using a
+ * In short, the post advocates a mapped color of colors and tones using a
  * set schema, and then using this function to return the colors.
  *
  *      $_color-base-gray: rgb(229,231,234);
  *
- *      $palettes: (
+ *      $colors: (
  *          purple: (
  *              base: rgb(42,40,80),
  *              light: rgb(51,46,140),
@@ -83,12 +83,12 @@ $charon-palette-map: (
  *
  * @param   string      $color          Color to be used from map.
  * @param   string      $tone           Default tone to be used.
- * @param   map         $palette        Palette of colors.
+ * @param   map         $color        Palette of colors.
  * @return  string                      Color chen from map.
  *
  * @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
  */
 
-@function palette($color, $tone: 'base') {
-    @return map-get(map-get($charon-palette-map, $color), $tone);
+@function color($color, $tone: 'base') {
+    @return map-get(map-get($charon-color-map, $color), $tone);
 }
