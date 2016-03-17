@@ -17,14 +17,14 @@
 
 $media-terms: (
     mod: ('only', 'not'),
-    // Non-deprecated media query devices.
+    // Non-deprecated media query device-ces.
     media: (
         'all', 'aural', 'braille', 'handheld', 'print', 'projection',
         'screen', 'tty', 'tv', 'embossed'
     ),
     // Non-browser-prefixed @media features.
     property: (
-        'height', 'width', 'deviwidth', 'deviheight', 'aspect-ratio',
+        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid',
         'orientation'
     ),
@@ -32,7 +32,7 @@ $media-terms: (
     prefix: ('min', 'max'),
     // @media featured with a min/max prefix.
     prefixed: (
-        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
+        'height', 'width', 'device-ce-width', 'device-ce-height', 'aspect-ratio',
         'color', 'color-index', 'monochrome', 'resolution'
     ),
     noval: (
@@ -51,7 +51,7 @@ $media-terms: (
  * @return  string              Parsed media query range condition.
  */
 
-@function size-range($min, $max, $property: 'device-width') {
+@function size-range($min, $max, $property: 'device-ce-width') {
     @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
@@ -310,10 +310,10 @@ $charon-media-map: (
 
 @mixin density($density) {
     @media
-    screen and (-webkit-min-devipixel-ratio: $density),
-    screen and (min--moz-devipixel-ratio: $density),
-    screen and (-o-min-devipixel-ratio: $density/1),
-    screen and (min-devipixel-ratio: $density),
+    screen and (-webkit-min-device-pixel-ratio: $density),
+    screen and (min--moz-device-pixel-ratio: $density),
+    screen and (-o-min-device-pixel-ratio: $density/1),
+    screen and (min-device-pixel-ratio: $density),
     screen and (min-resolution: #{$density * 96} + dpi),
     screen and (min-resolution: #{$density} + dppx) {
         @content;
