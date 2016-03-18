@@ -6,7 +6,7 @@
  * @author     Mark Grealish <mark@bhalash.com>
  * @copyright  Copyright (c) 2015, Mark Grealish
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    1.0
+ * @version    2.0.1
  * @link       https://github.com/bhalash/charon
  */
 
@@ -195,80 +195,9 @@ $default-multipliers: (
 }
 
 @mixin font-size($value: 1) {
-    // font-value in rem with px fallback.
     @include rem(font-size, $value);
 }
 
 @mixin line-height($value: 1) {
-    // line-height in rem with px fallback.
     @include rem(line-height, $value);
-}
-
-/**
- * Decimal Margin and Padding
- * -----------------------------------------------------------------------------
- * These two don't do too much except make life easier: Set margin or padding as
- * a multiplier of the base margin and padding. The side can be appended through
- * an optional operator. If you do set a side, every margin or padding except
- * the first passed will be silently discarded.
- *
- * @param   string      $attribute      Attribute to set sizes for.
- * @param   list        $values         Values, either singlar or plural.
- * @param   list        $sides          Sides (top, left, etc.).
- */
-
-@mixin box-size($attribute, $values, $sides: null) {
-    @if $sides {
-        @if length($values) > 1 {
-            // Discard all values but the first if explicit sides are provided.
-            $values: nth($values, 1);
-        }
-
-        @each $side in $sides {
-            @include rem(#{$attribute + '-' + $side}, $values);
-        }
-    } @else {
-        @include rem(#{$attribute}, $values);
-    }
-}
-
-@mixin margin($margin, $side: null) {
-    @include box-size(margin, $margin, $side);
-}
-
-@mixin padding($padding, $side: null) {
-    @include box-size(padding, $padding, $side);
-}
-
-@mixin width($width, $sides: null) {
-    @include box-size(width, $width);
-}
-
-@mixin height($height, $sides: null) {
-    @include box-size(height, $height);
-}
-
-/**
- * Quickly Set Width and Height
- * -----------------------------------------------------------------------------
- * @param   list        $sizes          Width and height sizes.
- */
-
-@mixin size($sizes...) {
-    $sizes: if(length($sizes) == 1, nth($sizes, 1), $sizes);
-
-    $width: nth($sizes, 1);
-    $height: nth($sizes, 2);
-
-    @if is-decimal($width) {
-        @include width($width);
-    } @else {
-        width: $width;
-    }
-
-    @if is-decimal($height) {
-        @include height($height);
-    } @else {
-        height: $height;
-    }
 }

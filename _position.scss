@@ -1,12 +1,12 @@
 /**
- * Box Elements
+ * Position Elements
  * -----------------------------------------------------------------------------
  * @category   Stylesheet
  * @package    Charon
  * @author     Mark Grealish <mark@bhalash.com>
  * @copyright  Copyright (c) 2015, Mark Grealish
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    1.0
+ * @version    2.0.1
  * @link       https://github.com/bhalash/charon
  */
 
@@ -106,31 +106,4 @@
 @mixin absolute-center {
     @include absolute(50% 50%, top left);
     transform: translate(-50%, -50%);
-}
-
-/**
- * Flexible Square Boxes
- * -----------------------------------------------------------------------------
- * Generate a box whose height is equal to the given ratio of the width.
- * Width can be of any size. Ratio should be between 0 and foo.
- *
- * Any unit, fixed or percentage, is acceptable.
- *
- * @link http://stackoverflow.com/a/13625843/1433400
- * @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
- * @param   map     $size           Horizontal width and height ratio.
- */
-
-@mixin square-flex($size: 100% 1) {
-    $width: nth($size, 1);
-    $ratio: nth($size, 2);
-
-    $ratio: $width * $ratio;
-
-    $ratio: if(unitless($ratio), rem($ratio), $ratio);
-    $width: if(unitless($width), rem($width), $width);
-
-    height: 0;
-    padding-bottom: $ratio;
-    width: $width;
 }

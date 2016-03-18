@@ -6,29 +6,41 @@
  * @author     Mark Grealish <mark@bhalash.com>
  * @copyright  Copyright (c) 2015, Mark Grealish
  * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    1.0
+ * @version    2.0.1
  * @link       https://github.com/bhalash/charon
  *
  * Behold, as a wild ass in the desert, go I forth to my work.
  */
 
-// Decimal Unit Sizing
+// Decimal Units
 @import 'units';
+
+// Resize Unuts
+@import 'size';
+
 // Box Elements
 @import 'position';
+
 // Mixins and Functions
 @import 'mixins';
+
 // Manage @font-face Declarations
 @import 'font';
+
 // Columns
 @import 'columns';
+
 // Media Queries
 @import 'media';
+
 // Spritesheet Buttons
 @import 'sprite';
+
 // Social Links
 @import 'social';
+
 // Colour Palette
 @import 'color';
+
 // Math Operations
 @import 'math';
