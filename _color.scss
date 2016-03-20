@@ -28,7 +28,7 @@
  */
 
 $charon-color-map: (
-    black: (
+    blacks: (
         x-dark: #000000,
         dark: #121212,
         mid-dark: #242424,
@@ -37,7 +37,7 @@ $charon-color-map: (
         light: #5b5b5b,
         x-light: #6d6d6d
     ),
-    white: (
+    whites: (
         x-dark: #939393,
         dark: #a5a5a5,
         mid-dark: #b7b7b7,
@@ -51,13 +51,38 @@ $charon-color-map: (
 /**
  * Add Color Palettes
  * -----------------------------------------------------------------------------
- * @param   map         $map                        Map of colors to add.
- * @return  map         $charon-color-map     New color.
+ * @param   map         $map                    Map of colors to add.
+ * @return  map         $charon-color-map       New color.
  */
 
 @function add-color($map) {
     $charon-color-map: map-merge($charon-color-map, $map) !global;
     @return $charon-color-map;
+}
+
+/**
+ * Output Colors in BEM Style
+ * -----------------------------------------------------------------------------
+ * @param   string      $property           Property to use.
+ * @param   list        $colors             List of colours to output.
+ * @param   list        $tones              List of tones of the color to use.
+ */
+
+@mixin bem-color-classes($property: 'color', $colors: null, $tones: null) {
+    $colors: if($colors, $colors, map-keys($charon-color-map));
+
+    @each $color in $colors {
+        &--#{$color} {
+            $color: map-get($charon-color-map, $color);
+            $tones: if($tones, $tones, map-keys($color));
+
+            @each $tone in $tones {
+                &--#{$tone} {
+                    #{$property}: map-get($color, $tone);
+                }
+            }
+        }
+    }
 }
 
 /**
