@@ -15,7 +15,7 @@
  * -----------------------------------------------------------------------------
  */
 
-$media-terms: (
+$charon-media-terms: (
     mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: (
@@ -38,13 +38,11 @@ $media-terms: (
     noval: (
         'monochrome'
     )
-);
+) !default;
 
 /**
  * Parse Number Range for Presets
  * -----------------------------------------------------------------------------
- * Stuff will break if you move this, ware ye. The map below relies upon this.
- *
  * @param   int     $min        Range minimum size.
  * @param   int     $max        Range maximum size.
  * @param   string  $property   Range property.
@@ -86,7 +84,7 @@ $charon-media-map: (
  * @return  bool                        Property is a preset, true/false.
  */
 
-@function get-preset($condition) {
+@function is-preset($condition) {
     @return map-has-key($charon-media-map, $condition);
 }
 
@@ -109,7 +107,7 @@ $charon-media-map: (
  */
 
 @function is-media-shorthand($property) {
-    @return length($property) == 1 and not get-preset($property);
+    @return length($property) == 1 and not is-preset($property);
 }
 
 /**
@@ -132,7 +130,7 @@ $charon-media-map: (
     } @else if $property == monochrome {
         // monochrome
         $shorthand: 'all and (#{$property})';
-    } @else if index(map-get($media-terms, media), $property) != null {
+    } @else if index(map-get($charon-media-terms, media), $property) != null {
         $shorthand: $property;
     }
 
@@ -147,7 +145,7 @@ $charon-media-map: (
  */
 
 @function has-prefix($property) {
-    @return index(map-get($media-terms, prefixed), $property) != false;
+    @return index(map-get($charon-media-terms, prefixed), $property) != false;
 }
 
 /**
@@ -158,20 +156,19 @@ $charon-media-map: (
  */
 
 @function split-condition($condition) {
-    $map: $media-terms;
     $split: ();
 
     @each $term in $condition {
-        @if index(map-get($map, media), $term) != null {
+        @if index(map-get($charon-media-terms, media), $term) != null {
             // @media type: screen, print, etc.
             $split: map-merge($split, (media: $term));
-        } @else if index(map-get($map, mod), $term) != null {
+        } @else if index(map-get($charon-media-terms, mod), $term) != null {
             // Media modifier term: not or and.
             $split: map-merge($split, (mod: $term));
-        } @else if index(map-get($map, prefix), $term) != null {
+        } @else if index(map-get($charon-media-terms, prefix), $term) != null {
             // @media property prefix: min or max.
             $split: map-merge($split, (prefix: $term));
-        } @else if index(map-get($map, property), $term) != null {
+        } @else if index(map-get($charon-media-terms, property), $term) != null {
             // @media property: color, width, height, etc.
             $split: map-merge($split, (property: $term));
         } @else {
@@ -261,7 +258,7 @@ $charon-media-map: (
  */
 
 @function query($condition) {
-    @if get-preset($condition) {
+    @if is-preset($condition) {
         $condition: get-preset($condition);
     } @else if is-media-shorthand($condition) {
         $condition: media-shorthand($condition);
@@ -275,26 +272,24 @@ $charon-media-map: (
 /**
  * Media Query Mixin
  * -----------------------------------------------------------------------------
- * Main entry point for the library.
+ * Main entry point for the library. Conditions are passed to query() to parse.
  *
  * @param   list        $queries        Query conditions.
  */
 
 @mixin media($conditions...) {
+    // , == OR -|- and == AND
+    $bool: ',';
     $query: '';
 
-    // , == OR
-    // and == AND
-    $bool: ',';
-
     @for $i from 1 through length($conditions) {
-        $con: nth($conditions, $i);
+        $condition: nth($conditions, $i);
 
         @if $i > 1 {
             $query: '#{$query}#{$bool} ';
         }
 
-        $query: '#{$query} #{query($con)}';
+        $query: '#{$query} #{query($condition)}';
     }
 
     @media #{$query} {
@@ -323,8 +318,6 @@ $charon-media-map: (
 /**
  * Internet Explorer
  * -----------------------------------------------------------------------------
- * TODO: Integrate into new solution.
- *
  * I am happy to exclude Internet Explorer 11 because it is decently good. My
  * IE problems inecrease exponentially as I work backwards in time.
  *
@@ -339,26 +332,21 @@ $charon-media-map: (
  * here if you need it, but ask yourself first: should I really do this?
  */
 
-@mixin ie($version: null) {
-    @if $version {
-        @if $version == 6 {
-            $version: 'screen\9';
-        } @else if $version == 7 {
-            $version: '\0screen\,screen\9';
-        } @else if $version == 8 {
-            $version: '\0screen';
-        } @else if $version == 9 {
-            $version: 'screen\0';
-        } @else if $version == 10 {
-            $version: 'screen and (min-width:0\0)';
-        }
-    } @else {
-        // Target 8, 9 and 10 by default.
-        $version: 'screen\0';
-    }
+@mixin ie($version: 10) {
+    $version: abs($version);
 
-    @warn 'This is the terrible horrible no good very bad way to set IE fallback CSS!';
-    @warn 'You are a very naughty developer';
+    @if $version == 6 {
+        $version: 'screen\9';
+    } @else if $version == 7 {
+        $version: '\0screen\,screen\9';
+    } @else if $version == 8 {
+        $version: '\0screen';
+    } @else if $version == 9 {
+        // Targets IE 8, 9, 10.
+        $version: 'screen\0';
+    } @else if $version == 10 {
+        $version: 'screen and (min-width:0\0)';
+    }
 
     @media #{$version} {
         @content;
