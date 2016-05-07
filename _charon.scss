@@ -13,24 +13,34 @@
  */
 
 // Decimal Units
-@import 'src/units';
+@import 'units';
+
 // Resize Unuts
-@import 'src/size';
+@import 'size';
+
 // Box Elements
-@import 'src/position';
+@import 'position';
+
 // Mixins and Functions
-@import 'src/mixins';
+@import 'mixins';
+
 // Manage @font-face Declarations
-@import 'src/font';
+@import 'font';
+
 // Columns
-@import 'src/columns';
+@import 'columns';
+
 // Media Queries
-@import 'src/media';
+@import 'media';
+
 // Spritesheet Buttons
-@import 'src/sprite';
+@import 'sprite';
+
 // Social Links
-@import 'src/social';
+@import 'social';
+
 // Colour Palette
-@import 'src/color';
+@import 'color';
+
 // Math Operations
-@import 'src/math';
+@import 'math';
