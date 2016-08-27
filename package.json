@@ -1,0 +1,21 @@
+{
+  "name": "charon-sass",
+  "version": "1.0.0",
+  "description": "Charon is a set of Sass helper libraries to which I have incrementally added as my work requires.",
+  "main": "_charon.scss",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhalash/charon.git"
+  },
+  "author": "Mark Grealish <mark@bhalash.com> (https://www.bhalash.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bhalash/charon/issues"
+  },
+  "homepage": "https://github.com/bhalash/charon#readme"
+}
