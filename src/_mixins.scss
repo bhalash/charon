@@ -1,16 +1,16 @@
-/**
- * Useful Sass Mixins
- */
+/// 
+/// Useful Sass Mixins
+///
 
-/**
- * Prefix Attribute
- * -----------------------------------------------------------------------------
- * Automatically vendor prefixes to CSS properties. You should use autoprefixer!
- *
- * @param {string} $attribute - CSS attribute to be prefixed.
- * @param {string} $value - CSS value.
- * @param {map} $prefixes - Map of prefixes to be applied.
- */
+/// 
+/// Prefix Attribute
+/// 
+/// Automatically vendor prefixes to CSS properties. You should use autoprefixer!
+/// 
+/// @param {string} $attribute - CSS attribute to be prefixed.
+/// @param {string} $value - CSS value.
+/// @param {map} $prefixes - Map of prefixes to be applied.
+///
 
 @mixin prefix($attribute, $value, $prefixes: webkit) {
     @each $prefix in $prefixes {
@@ -20,15 +20,15 @@
     #{$attribute}: #{$value};
 }
 
-/**
- * Prefix Value
- * -----------------------------------------------------------------------------
- * Automatically vendor prefixes to CSS values. You should use autoprefixer!
- *
- * @param {string} $attribute - CSS attribute.
- * @param {string} $value - CSS value to be prefixed.
- * @param {map} $prefixes - Map of prefixes to be applied.
- */
+/// 
+/// Prefix Value
+/// 
+/// Automatically vendor prefixes to CSS values. You should use autoprefixer!
+/// 
+/// @param {string} $attribute - CSS attribute.
+/// @param {string} $value - CSS value to be prefixed.
+/// @param {map} $prefixes - Map of prefixes to be applied.
+///
 
 @mixin prefix-value($attribute, $value, $prefixes: webkit) {
     @each $prefix in $prefixes {
@@ -38,10 +38,9 @@
     #{$attribute}: #{$value};
 }
 
-/**
- *  Freeze Div Content
- * -----------------------------------------------------------------------------
- */
+/// 
+///  Freeze <div> Content
+///
 
 @mixin freeze {
     overflow: hidden;
@@ -49,11 +48,11 @@
     @include fixed(0);
 }
 
-/**
- * Vertical Center
- * -----------------------------------------------------------------------------
- * @param {number} $amount - Amount of top and bottom padding.
- */
+/// 
+/// Vertical Center
+/// 
+/// @param {number} $amount - Amount of top and bottom padding.
+///
 
 @mixin vertical-center($amount) {
     // Useful for vertically centering elements.
@@ -61,32 +60,32 @@
     padding-top: $amount;
 }
 
-/**
- * Invert RGBA
- * -----------------------------------------------------------------------------
- * @param {number} $red - Red value.
- * @param {number} $green - Green value.
- * @param {number} $blue - Blue value.
- * @param {number} $alpha - Alpha value.
- * @return {map} - Inverted RGBA.
- */
+/// 
+/// Invert RGBA
+/// 
+/// @param {number} $red - Red value.
+/// @param {number} $green - Green value.
+/// @param {number} $blue - Blue value.
+/// @param {number} $alpha - Alpha value.
+/// @return {map} - Inverted RGBA.
+///
 
 @function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
     @return rgba(255 - $red, 255 - $green, 255 - $blue, 1 - $alpha);
 }
 
-/**
- * Placeholder Styles
- * -----------------------------------------------------------------------------
- * Generate styles for input placeholders in Internet Explorer, Firefox and
- * Webkit browsers. Use as follows:
- *
- *      input {
- *          @include placeholder-style {
- *              foo: bar;
- *          }
- *      }
- */
+/// 
+/// Placeholder Styles
+/// 
+/// Generate styles for input placeholders in Internet Explorer, Firefox and
+/// Webkit browsers. Use as follows:
+/// 
+///      input {
+///          @include placeholder-style {
+///              foo: bar;
+///          }
+///      }
+///
 
 @mixin placeholder-style {
     &::-webkit-input-placeholder {
@@ -112,18 +111,18 @@
     }
 }
 
-/**
- * Background Coloured Mask
- * -----------------------------------------------------------------------------
- * Useful for when you have to layer text above a background image.
- */
+/// 
+/// Background Coloured Mask
+/// 
+/// Useful for when you have to layer text above a background image.
+///
 
 %background-mask {
     position: relative;
 
     > * {
-        /* Specific workaround for Mobile Safari: without this #interior content
-         * will scroll behind the header. */
+        // Specific workaround for Mobile Safari: without this #interior content
+        // will scroll behind the header.
         -webkit-backface-visibility: hidden;
         // Child content must be raised owing to the background gradient.
         z-index: 2;
@@ -135,14 +134,14 @@
     }
 }
 
-/**
- * Solid Background Mask
- * -----------------------------------------------------------------------------
- * @param {number} $red - Red value.
- * @param {number} $green - Green value.
- * @param {number} $blue - Blue value.
- * @param {number} $alpha - Alpha value.
- */
+/// 
+/// Solid Background Mask
+/// 
+/// @param {number} $red - Red value.
+/// @param {number} $green - Green value.
+/// @param {number} $blue - Blue value.
+/// @param {number} $alpha - Alpha value.
+///
 
 @mixin solid-mask($red: 255, $green: 255, $blue: 255, $alpha: 1) {
     @extend %background-mask;
@@ -152,10 +151,10 @@
     }
 }
 
-/**
- * Column Count
- * -----------------------------------------------------------------------------
- */
+/// 
+/// Column Count
+/// 
+///
 
 @mixin column-count($count: 3, $gap: null, $rule: null) {
     column-count: $count;
@@ -169,10 +168,10 @@
     }
 }
 
-/**
- * Modal Popover
- * -----------------------------------------------------------------------------
- */
+/// 
+/// Modal Popover
+/// 
+///
 
 @mixin pop-modal {
     display: none;
@@ -185,12 +184,12 @@
     }
 }
 
-/**
- * Gradient Background Mask
- * -----------------------------------------------------------------------------
- * @param {map} $start - Gradient start color and opacity.
- * @param {map} $end - Gradient end color and opacity.
- */
+/// 
+/// Gradient Background Mask
+/// 
+/// @param {map} $start - Gradient start color and opacity.
+/// @param {map} $end - Gradient end color and opacity.
+///
 
 @mixin gradient-mask($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
     @extend %background-mask;
@@ -200,14 +199,14 @@
     }
 }
 
-/**
- * CSS Counter
- * -----------------------------------------------------------------------------
- * @param {string} $counter - Name of the counter.
- * @param {string} $element - Target element.
- * @param {string} $before - String preceding counter;
- * @param {string} $after - String anteceding counter;
- */
+/// 
+/// CSS Counter
+/// 
+/// @param {string} $counter - Name of the counter.
+/// @param {string} $element - Target element.
+/// @param {string} $before - String preceding counter;
+/// @param {string} $after - String anteceding counter;
+///
 
 @mixin counter($counter, $element, $before: null, $after: null) {
     counter-reset: $counter;
