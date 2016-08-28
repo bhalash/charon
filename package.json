@@ -8,9 +8,7 @@
     "sassdoc": "^2.1.20"
   },
   "scripts": {
-    {
-        "postinstall": "sassdoc src"
-    }
+      "postinstall": "sassdoc src"
   },
   "repository": {
     "type": "git",
