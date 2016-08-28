@@ -1,41 +1,29 @@
-/**
- * Position Elements
- * -----------------------------------------------------------------------------
- * @category   Stylesheet
- * @package    Charon
- * @author     Mark Grealish <mark@bhalash.com>
- * @copyright  Copyright (c) 2015, Mark Grealish
- * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    2.0.1
- * @link       https://github.com/bhalash/charon
- */
-
-/**
- * Set Position of Fixed, Absolute or Relative Items
- * -----------------------------------------------------------------------------
- * I wanted a slightly different operation for my position mixin: To be able to
- * use in a manner identical to margin or padding side shorthand:
- *
- *      margin: 10px 20px 5px;
- *      @include absolute(10px 20px 5px);
- *
- * This will generate:
- *
- *      position: absolute;
- *      top: 10px;
- *      left: 20px;
- *      right: 20px;
- *      bottom: 5px;
- *
- * If values are unitless and greater than zero, it will assume they decimal
- * values and generate rem dimensions.
- *
- * @param   string      $position           Type of position (absolute, fixed, relative).
- * @param   map         $values             Values to be applied.
- * @param   map         $offsets            Sides for values (top, right, etc.).
- * @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
- * @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
- */
+/// 
+/// Set Position of Fixed, Absolute or Relative Items
+/// 
+/// I wanted a slightly different operation for my position mixin: To be able to
+/// use in a manner identical to margin or padding side shorthand:
+/// 
+///      margin: 10px 20px 5px;
+///      @include absolute(10px 20px 5px);
+/// 
+/// This will generate:
+/// 
+///      position: absolute;
+///      top: 10px;
+///      left: 20px;
+///      right: 20px;
+///      bottom: 5px;
+/// 
+/// If values are unitless and greater than zero, it will assume they decimal
+/// values and generate rem dimensions.
+/// 
+/// @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+/// @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
+/// @param {string} $position - Type of position (absolute, fixed, relative).
+/// @param {map} $values - Values to be applied.
+/// @param {map} $offsets - Sides for values (top, right, etc.).
+///
 
 @mixin position($position, $values, $offsets: null) {
     position: $position;
@@ -79,12 +67,12 @@
     }
 }
 
-/**
- * Position Shorthand Mixins
- * -----------------------------------------------------------------------------
- * @param   map     $values         Values to be applied.
- * @param   map     $offsets        Sides for values (top, right, etc.).
- */
+/// 
+/// Position Shorthand Mixins
+/// 
+/// @param {map} $values - Values to be applied.
+/// @param {map} $offsets - Sides for values (top, right, etc.).
+///
 
 @mixin absolute($values, $offsets: null) {
     @include position(absolute, $values, $offsets);
@@ -98,10 +86,10 @@
     @include position(relative, $values, $offsets);
 }
 
-/**
- * Absolutely Center Element
- * -----------------------------------------------------------------------------
- */
+/// 
+/// Absolutely Center Element
+/// 
+///
 
 @mixin absolute-center {
     @include absolute(50% 50%, top left);

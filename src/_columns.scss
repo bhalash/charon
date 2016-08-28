@@ -1,33 +1,21 @@
-/**
- * Columnar Container Rules
- * -----------------------------------------------------------------------------
- * @category   Stylesheet
- * @package    Charon
- * @author     Mark Grealish <mark@bhalash.com>
- * @copyright  Copyright (c) 2015, Mark Grealish
- * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    2.0.1
- * @link       https://github.com/bhalash/charon
- */
-
-/**
- * Flexbox Parent
- * -----------------------------------------------------------------------------
- * If you have come this far you should have an understanding of how, why and
- * where you would use flexbox. These mixins generate unprefixed CSS flexbox
- * rules, with a fallback generated for IE8 for use through Flexie.
- *
- * Two safe defaults are assumes for flex-direction and flex, but otherwise I
- * leave browser defaults be.
- *
- * @param   string      $direction          Direction of flexbox. Column or row.
- * @param   string      $justify-content    Alignment of content along main axis.
- * @param   string      $wrap               Whether or not to wrap content.
- * @param   string      $align-items        Alignment of content along secondary axis.
- * @link    https://css-tricks.com/snippets/css/a-guide-to-flexbox/
- * @link    http://zomigi.com/blog/flexbox-syntax-for-ie-10/
- * @link    http://flexiejs.com/
- */
+/// 
+/// Flexbox Parent
+/// 
+/// If you have come this far you should have an understanding of how, why and
+/// where you would use flexbox. These mixins generate unprefixed CSS flexbox
+/// rules, with a fallback generated for IE8 for use through Flexie.
+/// 
+/// Two safe defaults are assumes for flex-direction and flex, but otherwise I
+/// leave browser defaults be.
+/// 
+/// @param {string} $direction - Direction of flexbox. Column or row.
+/// @param {string} $justify-content - Alignment of content along main axis.
+/// @param {string} $wrap - Whether or not to wrap content.
+/// @param {string} $align-items - Alignment of content along secondary axis.
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+/// @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
+/// @link http://flexiejs.com/
+///
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
     display: flex;
@@ -47,13 +35,13 @@
     }
 }
 
-/**
- * Flexbox Child
- * -----------------------------------------------------------------------------
- * @param   list      $flex         Default flex arguments.
- * @param   string    $align-self   Self-alignment position.
- * @param   int       $order        Order for self in flex parent.
- */
+/// 
+/// Flexbox Child
+/// 
+/// @param {list} $flex - Default flex arguments.
+/// @param {string} $align-self - Self-alignment position.
+/// @param {number} $order - Order for self in flex parent.
+///
 
 @mixin flex-child($flex: 1, $align-self: null, $order: null) {
     flex: $flex;
@@ -67,15 +55,15 @@
     }
 }
 
-/**
- * Symmetric Column Width
- * -----------------------------------------------------------------------------
- * Determine the width of each column in a syemmetrical element.
- *
- * @param   int     $columns        Number of columns.
- * @param   int     $gutter         Percentage space between columns.
- * @return  int     Calculated column width.
- */
+/// 
+/// Symmetric Column Width
+/// 
+/// Determine the width of each column in a syemmetrical element.
+/// 
+/// @param {number} $columns - Number of columns.
+/// @param {number} $gutter - Percentage space between columns.
+/// @return {number} Calculated column width.
+///
 
 @function column-width($columns, $gutter) {
     $width: (100 - ($columns - 1) * $gutter) / $columns;
@@ -87,14 +75,14 @@
     @return $width;
 }
 
-/**
- * Symmetric Column Margin
- * -----------------------------------------------------------------------------
- * Determine the width of each column in a syemmetrical element.
- *
- * @param   int     $gutter         Margin as a decimal or percentage.
- * @param   int     $gutter         Margin as a percentage.
- */
+/// 
+/// Symmetric Column Margin
+/// 
+/// Determine the width of each column in a syemmetrical element.
+/// 
+/// @param {number} $gutter - Margin as a decimal or percentage.
+/// @param {number} $gutter - Margin as a percentage.
+///
 
 @function column-gutter($gutter) {
     @if $gutter != 0 {
@@ -108,15 +96,15 @@
     @return $gutter;
 }
 
-/**
- * Asymmetric Column Width
- * -----------------------------------------------------------------------------
- * Determine the width of "auto" columns in asyemmetrical element.
- *
- * @param   list    $columns        List of columns.
- * @param   int     $gutter         Column gutter (to right or left)
- * @return  int     Percentage width of "auto" columns.
- */
+/// 
+/// Asymmetric Column Width
+/// 
+/// Determine the width of "auto" columns in asyemmetrical element.
+/// 
+/// @param {list} $columns - List of columns.
+/// @param {number} $gutter - Column gutter (to right or left)
+/// @return {number} - Percentage width of "auto" columns.
+///
 
 @function odd-column-width($columns, $gutter) {
     $percent: 0;
@@ -141,43 +129,43 @@
     @return ((100 - $percent) / $autos) - (($gutter * (length($columns) - 1)) / $autos);
 }
 
-/**
- * Get Opposite Float Side
- * -----------------------------------------------------------------------------
- * Used in several places and surprisingly useful.
- *
- * @param   string      $side         Float side;
- * @return  string      $opposite     Inverse of floated side;
- */
+/// 
+/// Get Opposite Float Side
+/// 
+/// Used in several places and surprisingly useful.
+/// 
+/// @param {string} $side - Float side;
+/// @return {string} $opposite - Inverse of floated side;
+///
 
 @function opposite-side($side: left) {
     @return if($side == right, left, right);
 }
 
-/**
- *  Evaluate Whether Number is Column
- * -----------------------------------------------------------------------------
- * If number is a percentage, return number, else return number 0.
- *
- * @param   number  $value          Number to test.
- * @return  number  Number/0.
- */
+/// 
+///  Evaluate Whether Number is Column
+/// 
+/// If {number} is a percentage, return number, else return {number} 0.
+/// 
+/// @param {number} $value - Number to test.
+/// @return {number} Number/0.
+///
 
 @function value-percent($value) {
     @return if(is-percent($value), $value, 0);
 }
 
-/**
- * Total Percentages in List
- * -----------------------------------------------------------------------------
- * The list for asymmetric float columns has a mix of percentage and "auto"
- * sized columns. This tallies the percentage columns and returns whether they
- * exceed 100%.
- *
- * @param   list        $columns        List of columns to evaluate.
- * @param   number      $target         Target percentage to check against.
- * @return  bool                        Columns fit within $target, true/false.
- */
+/// 
+/// Total Percentages in List
+/// 
+/// The {list} for asymmetric float columns has a mix of percentage and "auto"
+/// sized columns. This tallies the percentage columns and returns whether they
+/// exceed 100%.
+/// 
+/// @param {list} $columns - List of columns to evaluate.
+/// @param {number} $target - Target percentage to check against.
+/// @return {bool} Columns fit within $target, true/false.
+///
 
 @function list-greater-than($columns, $target: 100) {
     $percent: 0;
@@ -189,14 +177,14 @@
     @return ($percent > $target);
 }
 
-/**
- * Validate Asymmetric Mixin Vars
- * -----------------------------------------------------------------------------
- * Validated paramaters passed for asymmetric columns.
- *
- * @param   list        $columns        List of columns.
- * @return  list        $columns        List of columns, validated.
- */
+/// 
+/// Validate Asymmetric Mixin Vars
+/// 
+/// Validated paramaters passed for asymmetric columns.
+/// 
+/// @param {list} $columns - List of columns.
+/// @return {list} $columns - List of columns, validated.
+///
 
 @function check-odd-columns($columns) {
     @if not is-list($columns) {
@@ -218,15 +206,15 @@
     @return $columns;
 }
 
-/**
- * Validate Column Type
- * -----------------------------------------------------------------------------
- * Column type must be either floatbox or flex. Throw error if any other param
- * is entered.
- *
- * @param   string      $type       Type of columns.
- * @return  string      $type       Type of columns, validated.
- */
+/// 
+/// Validate Column Type
+/// 
+/// Column type must be either floatbox or flex. Throw error if any other param
+/// is entered.
+/// 
+/// @param {string} $type - Type of columns.
+/// @return {string} $type - Type of columns, validated.
+///
 
 @function column-type($type) {
     @if $type != 'float' and $type != 'flex' {
@@ -236,13 +224,13 @@
     @return $type;
 }
 
-/**
- * Set "Auto"-width Column Sizes
- * -----------------------------------------------------------------------------
- * @param   list        $columns        List of columns.
- * @param   int         $gutter         Margin size.
- * @return  list        $columns        Set sizes for columns.
- */
+/// 
+/// Set "Auto"-width Column Sizes
+/// 
+/// @param {list} $columns - List of columns.
+/// @param {number} $gutter - Margin size.
+/// @return {list} $columns - Set sizes for columns.
+///
 
 @function set-autocol-sizes($columns, $gutter) {
     $auto-width: odd-column-width($columns, $gutter);
@@ -256,17 +244,17 @@
     @return $columns;
 }
 
-/**
- * Clearfix
- * -----------------------------------------------------------------------------
- * Bulletproof and Rock-Solid self-clearing float. You can tell it is both
- * Bulletproof and Rock-Solid since I capitalized the words. There are very rare
- * instances were I might need to use a clearing element (such as splitting
- * floating elements vertically).
- *
- * @param   string      $overflow       Type of overflow, auto/hidden.
- * @param   bool        $important      Mark overflow type as important.
- */
+/// 
+/// Clearfix
+/// 
+/// Bulletproof and Rock-Solid self-clearing float. You can tell it is both
+/// Bulletproof and Rock-Solid since I capitalized the words. There are very rare
+/// instances were I might need to use a clearing element (such as splitting
+/// floating elements vertically).
+/// 
+/// @param {string} $overflow - Type of overflow, auto/hidden.
+/// @param {bool} $important - Mark overflow type as important.
+///
 
 @mixin clearfix($overflow: auto, $important: false) {
     $overflow: if($overflow != auto, hidden, $overflow);
@@ -280,15 +268,15 @@
     }
 }
 
-/**
- * Remove Float
- * -----------------------------------------------------------------------------
- * Absolutely, positively remove a float from an element and reset its width to
- * the default value. There are occasions, tied to scope, where you may have to
- * force this with !important.
- *
- * @param   bool        $important          Mark clear as important.
- */
+/// 
+/// Remove Float
+/// 
+/// Absolutely, positively remove a float from an element and reset its width to
+/// the default value. There are occasions, tied to scope, where you may have to
+/// force this with !important.
+/// 
+/// @param {bool} $important - Mark clear as important.
+///
 
 @mixin nofloat($important: false) {
     float: none #{if($important, !important, '')};
@@ -296,16 +284,16 @@
     @content;
 }
 
-/**
- * Symmetric, Even Flexbox or Floated Columns
- * -----------------------------------------------------------------------------
- * @param   string      $type           Flexbox or float?
- * @param   string      $element        Target child element.
- * @param   int/list    $columns        Number of columns to produce.
- * @param   int         $gutter         Margin between columns.
- * @param   string      $side           Float side.
- * @param   string      $overflow       Overflow, hidden or auto?
- */
+/// 
+/// Symmetric, Even Flexbox or Floated Columns
+/// 
+/// @param {string} $type - Flexbox or float?
+/// @param {string} $element - Target child element.
+/// @param int/list $columns - Number of columns to produce.
+/// @param {number} $gutter - Margin between columns.
+/// @param {string} $side - Float side.
+/// @param {string} $overflow - Overflow, hidden or auto?
+///
 
 @mixin columns($type: 'flex', $element: div, $columns: 3, $gutter: 0, $side: left, $overflow: auto) {
     // Validate column gutter.
@@ -321,7 +309,7 @@
             @content;
         }
     } @else {
-        @error "Columns should be either a list or a a number";
+        @error "Columns should be either a {list} or a a number";
     }
 }
 
@@ -358,12 +346,12 @@
     }
 }
 
-/**
- * Flexbox Columns
- * -----------------------------------------------------------------------------
- * @param   string      $element        Target element element.
- * @param   int         $width          Width of each columns.
- */
+/// 
+/// Flexbox Columns
+/// 
+/// @param {string} $element - Target element element.
+/// @param {number} $width - Width of each columns.
+///
 
 @mixin even-flexbox($element, $columns, $gutter, $width) {
     // If margin is 0, width is not needed, so instead make columns auto fill.
@@ -378,16 +366,16 @@
     }
 }
 
-/**
- * Float Columns
- * -----------------------------------------------------------------------------
- * @param   string      $element        Target element element.
- * @param   int         $columns        Number of columns to produce.
- * @param   int         $width          Width of each columns.
- * @param   int         $gutter         Margin between columns.
- * @param   string      $side           Float side.
- * @param   string      $overflow       Overflow, hidden or auto?
- */
+/// 
+/// Float Columns
+/// 
+/// @param {string} $element - Target element element.
+/// @param {number} $columns - Number of columns to produce.
+/// @param {number} $width - Width of each columns.
+/// @param {number} $gutter - Margin between columns.
+/// @param {string} $side - Float side.
+/// @param {string} $overflow - Overflow, hidden or auto?
+///
 
 @mixin even-float($element, $columns, $gutter, $side, $width, $overflow) {
     @include clearfix($overflow);
@@ -405,28 +393,24 @@
     }
 }
 
-/**
- * Asymmetrical Columns
- * -----------------------------------------------------------------------------
- * odd-columns provides irregularly-sized floated columns side by side. This
- * allows for an asymmetrical structure.
- *
- * DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE columns INSTEAD.
- *
- * Seriously -- do NOT use this mixin for regularly-spaced columns. Use
- * columns if you need regular columns, because the right margin will look
- * all fucked. This is *only* for asymmetric columns.
- *
- * Be careful with @content rules too -- I intend it to only be used for
- * responsive rules, as the output can be quite verbose.
- */
-
-/**
- * Asymmetrical Flexbox Elements
- * -----------------------------------------------------------------------------
- * @param   string      $element        Target child element.
- * @param   list        $columns        List of columns to produce.
- */
+/// 
+/// Asymmetrical Flexbox Elements
+/// 
+/// odd-columns provides irregularly-sized floated columns side by side. This
+/// allows for an asymmetrical structure.
+/// 
+/// DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE columns INSTEAD.
+/// 
+/// Seriously -- do NOT use this mixin for regularly-spaced columns. Use
+/// columns if you need regular columns, because the right margin will look
+/// all fucked. This is *only* for asymmetric columns.
+/// 
+/// Be careful with @content rules too -- I intend it to only be used for
+/// responsive rules, as the output can be quite verbose.
+//
+/// @param {string} $element - Target child element.
+/// @param {list} $columns - List of columns to produce.
+///
 
 @mixin odd-flexbox($element, $columns, $gutter) {
     @if $gutter != 0 {
@@ -450,15 +434,15 @@
     }
 }
 
-/**
- * Asymmetrical Floated Elements
- * -----------------------------------------------------------------------------
- * @param   string      $element        Target child element.
- * @param   list        $columns        List of columns to produce.
- * @param   int         $gutter         Margin between columns.
- * @param   string      $side           Float side.
- * @param   string      $overflow       Overflow, hidden or auto?
- */
+/// 
+/// Asymmetrical Floated Elements
+/// 
+/// @param {string} $element - Target child element.
+/// @param {list} $columns - List of columns to produce.
+/// @param {number} $gutter - Margin between columns.
+/// @param {string} $side - Float side.
+/// @param {string} $overflow - Overflow, hidden or auto?
+///
 
 @mixin odd-float($element, $columns, $gutter, $side, $overflow) {
     $columns: set-autocol-sizes($columns, $gutter);

@@ -1,12 +1,16 @@
 {
   "name": "charon-sass",
-  "version": "1.0.0",
-  "description": "Charon is a set of Sass helper libraries to which I have incrementally added as my work requires.",
+  "version": "1.0.2",
+  "description": "A programmatic Sass library designed to give the developer control of their Sass.",
   "main": "_charon.scss",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "sassdoc": "^2.1.20"
+  },
   "scripts": {
-    "test": "mocha"
+    {
+        "postinstall": "sassdoc src"
+    }
   },
   "repository": {
     "type": "git",

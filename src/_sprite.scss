@@ -1,32 +1,20 @@
-/**
- * Vector Spritesheets
- * -----------------------------------------------------------------------------
- * @category   Stylesheet
- * @package    Charon
- * @author     Mark Grealish <mark@bhalash.com>
- * @copyright  Copyright (c) 2015, Mark Grealish
- * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    2.0.1
- * @link       https://github.com/bhalash/charon
- */
-
-/**
- * Spritesheet
- * -----------------------------------------------------------------------------
- * Add your own map to this with add-spritesheet().
- */
+/// 
+/// Spritesheet
+/// 
+/// Add your own {map} to this with add-spritesheet().
+///
 
 $charon-spritesheet: () !default;
 
-/**
- * Recursive Map Get
- * -----------------------------------------------------------------------------
- * There's a situation where 'null' can be passed to a list, and interpreted
- * literally, e.g, it isn't a null value, but literally a string 'null'.
- *
- * @param   list        $keys       List of keys.
- * @return  list        $keys       Cleaned list of keys.
- */
+/// 
+/// Recursive Map Get
+/// 
+/// There's a situation where 'null' can be passed to a list, and interpreted
+/// literally, e.g, it isn't a null value, but literally a {string} 'null'.
+/// 
+/// @param {list} $keys - List of keys.
+/// @return {list} $keys - Cleaned {list} of keys.
+///
 
 @function clean-keys($keys) {
     $clean-keys: ();
@@ -40,13 +28,13 @@ $charon-spritesheet: () !default;
     @return $clean-keys;
 }
 
-/**
- * Recursive Map Get
- * -----------------------------------------------------------------------------
- * @param   map         $map        Map to search.
- * @param   list        $keys       Terms to search for wtihin the map.
- * @param   map         $map        Recursively-fetched results.
- */
+/// 
+/// Recursive Map Get
+/// 
+/// @param {map} $map - Map to search.
+/// @param {list} $keys - Terms to search for wtihin the map.
+/// @param {map} $map - Recursively-fetched results.
+///
 
 @function map-seek($map, $keys: default) {
     $keys: clean-keys($keys);
@@ -62,29 +50,29 @@ $charon-spritesheet: () !default;
     @return $map;
 }
 
-/**
- * Add Spritesheet to Spritesheet Map
- * -----------------------------------------------------------------------------
- * @param   string      $key                Associative key for added map.
- * @param   map         $map                Spritesheet map.
- * @return  map         $charon-spritesheet     Complete map of sprites.
- */
+/// 
+/// Add Spritesheet to Spritesheet Map
+/// 
+/// @param {string} $key - Associative key for added map.
+/// @param {map} $map - Spritesheet map.
+/// @return {map} $charon-spritesheet - Complete {map} of sprites.
+///
 
 @function add-spritesheet($key, $map) {
     $charon-spritesheet: map-merge($charon-spritesheet, ($key: $map)) !global;
     @return $charon-spritesheet;
 }
 
-/**
- * Access Spritesheet
- * -----------------------------------------------------------------------------
- * Return requested information about the spritesheet.
- *
- * @param   string      $command        Action to perform on spritesheet.
- * @param   string      $sheet          Sheet on which to perform action.
- * @param   map         $args           Any other args (size axis or sprite).
- * @param   map         $results        Requested information.
- */
+/// 
+/// Access Spritesheet
+/// 
+/// Return requested information about the spritesheet.
+/// 
+/// @param {string} $command - Action to perform on spritesheet.
+/// @param {string} $sheet - Sheet on which to perform action.
+/// @param {map} $args - Any other args (size axis or sprite).
+/// @param {map} $results - Requested information.
+///
 
 @function spritesheet($command, $sheet: null, $arg: null) {
     $results: ();
@@ -108,35 +96,35 @@ $charon-spritesheet: () !default;
     @return $results;
 }
 
-/**
- * Return Count of Sprites
- * -----------------------------------------------------------------------------
- * @param   string      $sheet          Target spritesheet.
- * @return  number                      Count of sprites in sheet.
- */
+/// 
+/// Return Count of Sprites
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @return {number} - Count of sprites in sheet.
+///
 
 @function count($sheet) {
     @return spritesheet(count, $sheet);
 }
 
-/**
- * Return Spritesheet Path
- * -----------------------------------------------------------------------------
- * @param   string      $sheet          Target spritesheet.
- * @return  string                      Path to spritesheet.
- */
+/// 
+/// Return Spritesheet Path
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @return {string} - Path to spritesheet.
+///
 
 @function path($sheet) {
     @return spritesheet(path, $sheet);
 }
 
-/**
- * Return Spritesheet Dimensions
- * -----------------------------------------------------------------------------
- * @param   string      $sheet          Target spritesheet.
- * @param   string      $axis           Optional axis to return.
- * @return  number      $dimension      Spritesheet dimension(s).
- */
+/// 
+/// Return Spritesheet Dimensions
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @param {string} $axis - Optional axis to return.
+/// @return {number} $dimension - Spritesheet dimension(s).
+///
 
 @function dimension($sheet, $axis: null) {
     $dimension: spritesheet(dimensions, $sheet);
@@ -153,13 +141,13 @@ $charon-spritesheet: () !default;
     @return $dimension;
 }
 
-/**
- * Get Sprite from Spritesheet
- * -----------------------------------------------------------------------------
- * @param   string      $sheet          Target spritesheet.
- * @param   string      $sprite         Sprite to fetch.
- * @return  map                         Sprite information.
- */
+/// 
+/// Get Sprite from Spritesheet
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @param {string} $sprite - Sprite to fetch.
+/// @return {map} Sprite information.
+///
 
 @function get-sprite($sheet, $sprite) {
     @if length($sprite) > 1 {
@@ -169,15 +157,15 @@ $charon-spritesheet: () !default;
     @return spritesheet(sprite, $sheet, $sprite);
 }
 
-/**
- * Get Sprite Position
- * -----------------------------------------------------------------------------
- * Return X/Y CSS position of sprite as a percentage.
- *
- * @param   string      $sheet          Target spritesheet.
- * @param   string      $sprite         Sprite to fetch.
- * @return  map         $x $y           Percentage position of sprite.
- */
+/// 
+/// Get Sprite Position
+/// 
+/// Return X/Y CSS position of sprite as a percentage.
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @param {string} $sprite - Sprite to fetch.
+/// @return {map} $x $y - Percentage position of sprite.
+///
 
 @function sprite-position($sheet, $sprite) {
 
@@ -195,15 +183,15 @@ $charon-spritesheet: () !default;
     @return $x $y;
 }
 
-/**
- * Get Sprite Size
- * -----------------------------------------------------------------------------
- * Return W/H CSS size of sprite as a percentage.
- *
- * @param   string      $sheet          Target spritesheet.
- * @param   string      $sprite         Sprite to fetch.
- * @return  map         $x $y           Percentage size of sprite.
- */
+/// 
+/// Get Sprite Size
+/// 
+/// Return W/H CSS size of sprite as a percentage.
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @param {string} $sprite - Sprite to fetch.
+/// @return {map} $x $y - Percentage size of sprite.
+///
 
 @function sprite-size($sheet, $sprite) {
     $sheet: dimension($sheet);
@@ -214,13 +202,13 @@ $charon-spritesheet: () !default;
     @return $x $y;
 }
 
-/**
- * Sprite Background Property
- * -----------------------------------------------------------------------------
- * @param   string      $sheet          Target spritesheet.
- * @param   string      $sprite         Sprite to fetch.
- * @return  map                         CSS background value for sprite.
- */
+/// 
+/// Sprite Background Property
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @param {string} $sprite - Sprite to fetch.
+/// @return {map} - CSS background value for sprite.
+///
 
 @function sprite($sheet, $sprite) {
     $position: sprite-position($sheet, $sprite);
@@ -230,18 +218,18 @@ $charon-spritesheet: () !default;
     @return $position/$size no-repeat $path;
 }
 
-/**
- * Include Sprite Main Mixin
- * -----------------------------------------------------------------------------
- * Main entry point for this library. TL;DR: This makes a square(ish) sprite the
- * centered background image of a square container. If either or both is square
- * weird things will occur. WARE YE.
- *
- * Square is good. All hail the squre.
- *
- * @param   string      $sheet          Target spritesheet.
- * @param   string      $sprite         Sprite to fetch.
- */
+/// 
+/// Include Sprite Main Mixin
+/// 
+/// Main entry point for this library. TL;DR: This makes a square(ish) sprite the
+/// centered background image of a square container. If either or both is square
+/// weird things will occur. WARE YE.
+/// 
+/// Square is good. All hail the squre.
+/// 
+/// @param {string} $sheet - Target spritesheet.
+/// @param {string} $sprite - Sprite to fetch.
+///
 
 @mixin sprite($sheet, $sprite, $selector) {
     &#{$selector} {

@@ -7,9 +7,9 @@
  * -----------------------------------------------------------------------------
  * Automatically vendor prefixes to CSS properties. You should use autoprefixer!
  *
- * @param   string      $attribute       CSS attribute to be prefixed.
- * @param   string      $value           CSS value.
- * @param   map         $prefixes        Map of prefixes to be applied.
+ * @param {string} $attribute - CSS attribute to be prefixed.
+ * @param {string} $value - CSS value.
+ * @param {map} $prefixes - Map of prefixes to be applied.
  */
 
 @mixin prefix($attribute, $value, $prefixes: webkit) {
@@ -25,9 +25,9 @@
  * -----------------------------------------------------------------------------
  * Automatically vendor prefixes to CSS values. You should use autoprefixer!
  *
- * @param   string      $attribute       CSS attribute.
- * @param   string      $value           CSS value to be prefixed.
- * @param   map         $prefixes        Map of prefixes to be applied.
+ * @param {string} $attribute - CSS attribute.
+ * @param {string} $value - CSS value to be prefixed.
+ * @param {map} $prefixes - Map of prefixes to be applied.
  */
 
 @mixin prefix-value($attribute, $value, $prefixes: webkit) {
@@ -52,7 +52,7 @@
 /**
  * Vertical Center
  * -----------------------------------------------------------------------------
- * @param   int     $amount         Amount of top and bottom padding.
+ * @param {number} $amount - Amount of top and bottom padding.
  */
 
 @mixin vertical-center($amount) {
@@ -64,11 +64,11 @@
 /**
  * Invert RGBA
  * -----------------------------------------------------------------------------
- * @param   int     $red            Red value.
- * @param   int     $green          Green value.
- * @param   int     $blue           Blue value.
- * @param   int     $alpha          Alpha value.
- * @return  map                     Inverted RGBA.
+ * @param {number} $red - Red value.
+ * @param {number} $green - Green value.
+ * @param {number} $blue - Blue value.
+ * @param {number} $alpha - Alpha value.
+ * @return {map} - Inverted RGBA.
  */
 
 @function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
@@ -138,10 +138,10 @@
 /**
  * Solid Background Mask
  * -----------------------------------------------------------------------------
- * @param   int     $red            Red value.
- * @param   int     $green          Green value.
- * @param   int     $blue           Blue value.
- * @param   int     $alpha          Alpha value.
+ * @param {number} $red - Red value.
+ * @param {number} $green - Green value.
+ * @param {number} $blue - Blue value.
+ * @param {number} $alpha - Alpha value.
  */
 
 @mixin solid-mask($red: 255, $green: 255, $blue: 255, $alpha: 1) {
@@ -188,8 +188,8 @@
 /**
  * Gradient Background Mask
  * -----------------------------------------------------------------------------
- * @param   map     $start          Gradient start color and opacity.
- * @param   map     $end            Gradient end color and opacity.
+ * @param {map} $start - Gradient start color and opacity.
+ * @param {map} $end - Gradient end color and opacity.
  */
 
 @mixin gradient-mask($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
@@ -203,10 +203,10 @@
 /**
  * CSS Counter
  * -----------------------------------------------------------------------------
- * @param   string      $counter        Name of the counter.
- * @param   string      $element        Target element.
- * @param   string      $before         String preceding counter;
- * @param   string      $after          String anteceding counter;
+ * @param {string} $counter - Name of the counter.
+ * @param {string} $element - Target element.
+ * @param {string} $before - String preceding counter;
+ * @param {string} $after - String anteceding counter;
  */
 
 @mixin counter($counter, $element, $before: null, $after: null) {

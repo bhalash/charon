@@ -1,15 +1,11 @@
-/**
- * Decimal Units
- */
-
-/**
- * Default Unit Multipliers
- * -----------------------------------------------------------------------------
- * Used when you convert decimal to any of the given units. Add more as you wish!
- * See here for more information on comparitive multipliers:
- *
- * @link https://www.bhalash.com/archives/13544803803
- */
+/// 
+/// Default Unit Multipliers
+/// 
+/// Used when you convert decimal to any of the given units. Add more as you wish!
+/// See here for more information on comparitive multipliers:
+/// 
+/// @link https://www.bhalash.com/archives/13544803803
+///
 
 $default-multipliers: (
     px: 10,
@@ -17,24 +13,24 @@ $default-multipliers: (
     em: 0.625
 ) !default;
 
-/**
- * Check if List
- * -----------------------------------------------------------------------------
- * @param   string      $list           Candidate unit.
- * @return  bool        Is list, true/false.
- */
+/// 
+/// Check if List
+/// 
+/// @param {string} $list - Candidate unit.
+/// @return {bool} - Is list, true/false.
+///
 
 @function is-list($list) {
     @return type-of($list) == 'list';
 }
 
-/**
- * Validate Units
- * -----------------------------------------------------------------------------
- * Build evaluation from units to types.
- *
- * @link    http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
- */
+/// 
+/// Validate Units
+/// 
+/// Build evaluation from units to types.
+/// 
+/// @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+///
 
 @function is-number($number) {
     @return type-of($number) == 'number';
@@ -52,12 +48,12 @@ $default-multipliers: (
     @return (is-number($number) or (not is-number($number) and is-keyword($number)));
 }
 
-/**
- * Unit Check Shorthand
- * -----------------------------------------------------------------------------
- * @param   string      $number       Canidate unit.
- * @return  bool        Unit is $type, true false.
- */
+/// 
+/// Unit Check Shorthand
+/// 
+/// @param {string} $number - Candidate unit.
+/// @return {bool} - Unit is $type, true false.
+///
 
 @function is-decimal($number) {
     @return is-number($number) and unitless($number);
@@ -87,13 +83,13 @@ $default-multipliers: (
     @return is-number($number) and is-unit-type($number, 'rem');
 }
 
-/**
- * Strip Number Unit
- * -----------------------------------------------------------------------------
- * @param   int     $number         Number with unit.
- * @return  int     $number         Number without unit.
- * @link https://css-tricks.com/snippets/sass/strip-unit-function/
- */
+/// 
+/// Strip Number Unit
+/// 
+/// @param {number} $number - Number with unit.
+/// @return {number} $number - Number without unit.
+/// @link https://css-tricks.com/snippets/sass/strip-unit-function/
+///
 
 @function strip-unit($number) {
     @if is-number($number) and not unitless($number) {
@@ -103,16 +99,16 @@ $default-multipliers: (
     @return $number;
 }
 
-/**
- * Convert Decimal Unit to Given Output Unit
- * -----------------------------------------------------------------------------
- * Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
- * output unit. Currently I support any one of: rem, em, and px, because my
- * focus is on screen appearance. The W3C themselves discourage the use of units
- * except rem, em, px, vw, vh, vmin and vmax for screens:
- *
- * @link http://www.w3.org/Style/Examples/007/units.en.html#units
- */
+/// 
+/// Convert Decimal Unit to Given Output Unit
+/// 
+/// Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
+/// output unit. Currently I support any one of: rem, em, and px, because my
+/// focus is on screen appearance. The W3C themselves discourage the use of units
+/// except rem, em, px, vw, vh, vmin and vmax for screens:
+/// 
+/// @link http://www.w3.org/Style/Examples/007/units.en.html#units
+///
 
 @function from-decimal($values, $type: null, $multipliers: $default-multipliers) {
     $units: ();
@@ -136,45 +132,45 @@ $default-multipliers: (
     @return $units;
 }
 
-/**
- * Decimal Unit to rem
- * -----------------------------------------------------------------------------
- * @param   string  $values             Input decimal values (0.3, 1.7, etc);
- * @return  int                         The given unit as an rem value.
- */
+/// 
+/// Decimal Unit to rem
+/// 
+/// @param {string} $values - Input decimal values (0.3, 1.7, etc);
+/// @return {number} - The given unit as an rem value.
+///
 
 @function rem($values) {
     @return from-decimal($values, rem);
 }
 
-/**
- * Decimal Unit to rem
- * -----------------------------------------------------------------------------
- * @param   string  $values             input decimal values (0.3, 1.7, etc);
- * @return  int                         The given unit as an rem value.
- */
+/// 
+/// Decimal Unit to rem
+/// 
+/// @param {string} $values - input decimal values (0.3, 1.7, etc);
+/// @return {number} - The given unit as an rem value.
+///
 
 @function em($values) {
     @return from-decimal($values, em);
 }
 
-/**
- * Decimal Unit to px
- * -----------------------------------------------------------------------------
- * @param   string  $values             Input decimal values (0.3, 1.7, etc);
- * @return  int                         The given unit as a px value.
- */
+/// 
+/// Decimal Unit to px
+/// 
+/// @param {string} $values - Input decimal values (0.3, 1.7, etc);
+/// @return {number} - The given unit as a px value.
+///
 
 @function px($values) {
     @return from-decimal($values, px);
 }
 
-/**
- * Convert Values to REM Units
- * -----------------------------------------------------------------------------
- * General property/value mixin and specific rem mixins for line-height and
- * font-size. Useful for IE8-9, which lacks complete REM support.
- */
+/// 
+/// Convert Values to REM Units
+/// 
+/// General property/value mixin and specific rem mixins for line-height and
+/// font-size. Useful for IE8-9, which lacks complete REM support.
+///
 
 @mixin rem($property, $values) {
     @if is-number($values) and $values == 0 {

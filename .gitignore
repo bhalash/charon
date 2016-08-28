@@ -1,7 +1,10 @@
 /*
+
 !src/
 !vectors/
 
+!.gitignore
+!.sassdocrc
 !LICENSE
 !README.md
 !_charon.scss

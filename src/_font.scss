@@ -1,13 +1,9 @@
-/**
- * @font-face Manager
- */
-
-/**
- * Expand @font-face Format
- * -----------------------------------------------------------------------------
- * @param   string      $format         @font-face format.
- * @return  string      $format         Expanded @font-face format.
- */
+/// 
+/// Expand @font-face Format
+/// 
+/// @param {string} $format - @font-face format.
+/// @return {string} $format - Expanded @font-face format.
+///
 
 @function font-family-format($format) {
     @if $format == 'eot' {
@@ -19,13 +15,13 @@
     @return $format;
 }
 
-/**
- * Parse @font-face Asset URL String
- * -----------------------------------------------------------------------------
- * @param   string      $path           Path to asset.
- * @param   string      $exension       Asset extension.
- * @return  string      $src            Parsed asset URL.
- */
+/// 
+/// Parse @font-face Asset URL String
+/// 
+/// @param {string} $path - Path to asset.
+/// @param {string} $exension - Asset extension.
+/// @return {string} $src - Parsed asset URL.
+///
 
 @function font-family-src($path, $extension) {
     $format: font-family-format($extension);
@@ -33,37 +29,37 @@
     @return $src;
 }
 
-/**
- * @font-face Declaration
- * -----------------------------------------------------------------------------
- * There are a bunch of Sass/Scss @font-face mixins available on the Internet,
- * but each of them is fundamentally inflexible. They variously:
- *
- * 1. Require a fixed file path.
- * 2. Fixed existence of files, by which I mean each and every possible type of
- *    file (eot, woff, etc).
- * 3. Fixed order of declaration.
- *
- * With font-face, I hopefully have provided something a little bit more
- * flexible: declare all of the attributes of your @font-face in a map, and then
- * call the font-face mixin.
- *
- * Weight, stretch and style are all optional.
- *
- *      @include font-face((
- *          family: 'font-name',
- *          path: '/path/to/folder/',
- *          filename: 'FontName',
- *          formats: ('ttf', 'woff', 'eot'),
- *
- *          // Optional attributes for the font face:
- *          weight: 'normal',
- *          style: 'normal',
- *          stretch: 'condensed'
- *      ));
- *
- * @param   map         $font           Map of typeface information.
- */
+/// 
+/// CSS @font-face Declaration
+/// 
+/// There are a bunch of Sass/Scss @font-face mixins available on the Internet,
+/// but each of them is fundamentally inflexible. They variously:
+/// 
+/// 1. Require a fixed file path.
+/// 2. Fixed existence of files, by which I mean each and every possible type of
+///    file (eot, woff, etc).
+/// 3. Fixed order of declaration.
+/// 
+/// With font-face, I hopefully have provided something a little bit more
+/// flexible: declare all of the attributes of your @font-face in a map, and then
+/// call the font-face mixin.
+/// 
+/// Weight, stretch and style are all optional.
+/// 
+///      @include font-face((
+///          family: 'font-name',
+///          path: '/path/to/folder/',
+///          filename: 'FontName',
+///          formats: ('ttf', 'woff', 'eot'),
+/// 
+///          // Optional attributes for the font face:
+///          weight: 'normal',
+///          style: 'normal',
+///          stretch: 'condensed'
+///      ));
+/// 
+/// @param {map} $font - Map of typeface information.
+///
 
 
 @mixin font($font) {

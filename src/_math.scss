@@ -1,22 +1,18 @@
-/**
- * Sass Math Functions
- */
-
-/**
- * Modular Scale Values
- * -----------------------------------------------------------------------------
- * Either increase (increment > 0) or decrease (increment <= 0) $base-size by
- * $ratio through the given number of $increment units.
- *
- * @link https://www.bhalash.com/archives/13544805638
- * @link http://www.modularscale.com/
- * @link http://sassmeister.com/gist/22918b6519a2f15354d0
- *
- * @param   number      $step               Ratio step to return.
- * @param   number      $base-size          Base size of unit to raise.
- * @param   number      $ratio              Ratio of increment/decrement.
- * @return  number      $size               Increment/decremented size.
- */
+/// 
+/// Modular Scale Values
+/// 
+/// Either increase (increment > 0) or decrease (increment <= 0) $base-size by
+/// $ratio through the given {number} of $increment units.
+/// 
+/// @link https://www.bhalash.com/archives/13544805638
+/// @link http://www.modularscale.com/
+/// @link http://sassmeister.com/gist/22918b6519a2f15354d0
+/// 
+/// @param {number} $step - Ratio step to return.
+/// @param {number} $base-size - Base size of unit to raise.
+/// @param {number} $ratio - Ratio of increment/decrement.
+/// @return {number} $size - Increment/decremented size.
+///
 
 @function modular-scale($step, $base-size, $ratio) {
     @for $i from 1 through $step {
@@ -30,25 +26,25 @@
     @return $base-size;
 }
 
-/**
- * Golden Ratio Modular Scale Step
- * -----------------------------------------------------------------------------
- * @param   number      $step               Ratio step to return.
- * @param   number      $base-size          Base size of unit to raise.
- * @return  number                          $step incremented per the GR.
- */
+/// 
+/// Golden Ratio Modular Scale Step
+/// 
+/// @param {number} $step - Ratio step to return.
+/// @param {number} $base-size - Base size of unit to raise.
+/// @return {number} $step - Incremented per the GR.
+///
 
 @function gstep($step, $base-size) {
     @return modular-scale($step, $base-size, 1.61803398875);
 }
 
-/**
- * Sqaure Root
- * -----------------------------------------------------------------------------
- * @link    http://www.antimath.info/css/sass-sqrt-function/
- * @param   number      $number
- * @return  number      $sqrt           Sqaure root of $number.
- */
+/// 
+/// Sqaure Root
+/// 
+/// @link http://www.antimath.info/css/sass-sqrt-function/
+/// @param {number} $number
+/// @return {number} $sqrt - Sqaure root of $number.
+///
 
 @function sqrt($number) {
     $temp: 1;
@@ -62,15 +58,15 @@
     @return $sqrt;
 }
 
-/**
- * Exponential Number
- * -----------------------------------------------------------------------------
- * Raise a number to a given power.
- *
- * @param   number      $number         Number to riase.
- * @param   nubmer      $power          Power to which it should be raised.
- * @return  number      $exponent       Number raised to exponent.
- */
+/// 
+/// Exponential Number
+/// 
+/// Raise a {number} to a given power.
+/// 
+/// @param {number} $number - Number to riase.
+/// @param nubmer $power - Power to which it should be raised.
+/// @return {number} $exponent - Number raised to exponent.
+///
 
 @function power($number, $power) {
     $exponent: 1;
@@ -88,89 +84,89 @@
     @return $exponent;
 }
 
-/**
- * Exponential Number
- * -----------------------------------------------------------------------------
- * Raise a number to an exponent of 10. So:
- *
- * raise(3,2) = 3 x 10^2 = 300
- * raise(4,1) = 4 x 10^1 = 40
- * raise(2.75,3) = 2.75 x 10*3 = 2750
- *
- * Sass only rounds to 5 digits of percision, so don't try to use the
- * gravitational constant as a font size. :)
- *
- * @param   number      $number         Number to riase.
- * @param   nubmer      $power          Power to which it should be raised.
- * @return  number      $exponent       Number raised to exponent.
- */
+/// 
+/// Exponential Number
+/// 
+/// Raise a {number} to an exponent of 10. So:
+/// 
+/// raise(3,2) = 3 x 10^2 = 300
+/// raise(4,1) = 4 x 10^1 = 40
+/// raise(2.75,3) = 2.75 x 10*3 = 2750
+/// 
+/// Sass only rounds to 5 digits of percision, so don't try to use the
+/// gravitational constant as a font size. :)
+/// 
+/// @param {number} $number - Number to riase.
+/// @param nubmer $power - Power to which it should be raised.
+/// @return {number} $exponent - Number raised to exponent.
+///
 
 @function raise-ten($number, $power) {
     @return $number * power(10, $power);
 }
 
-/**
- * Square Number
- * -----------------------------------------------------------------------------
- * @param   number      $number
- * @return  number      $number         Number squared.
- */
+/// 
+/// Square Number
+/// 
+/// @param {number} $number
+/// @return {number} $number - Number squared.
+///
 
 @function square($number) {
     @return $number * $number;
 }
 
-/**
- * Hexagon Height
- * -----------------------------------------------------------------------------
- * Return the height of a hexagon from the length of one side. This is not
- * entirely precise because of Sass' rounding.
- *
- * @param   number      $side           Hexagon side.
- * @return  number      $number         Approximate height of the hexagon.
- */
+/// 
+/// Hexagon Height
+/// 
+/// Return the height of a hexagon from the length of one side. This is not
+/// entirely precise because of Sass' rounding.
+/// 
+/// @param {number} $side - Hexagon side.
+/// @return {number} $number - Approximate height of the hexagon.
+///
 
 @function hex-height($side) {
     @return $side * sqrt(3);
 }
 
-/**
- * Hexagon Width
- * -----------------------------------------------------------------------------
- * Return the width of a hexagon from the length of one side.
- *
- * @param   number      $side           Hexagon side.
- * @return  number      $number         Approximate height of the hexagon.
- */
+/// 
+/// Hexagon Width
+/// 
+/// Return the width of a hexagon from the length of one side.
+/// 
+/// @param {number} $side - Hexagon side.
+/// @return {number} $number - Approximate width of the hexagon.
+///
 
 @function hex-width($side) {
     @return $side * 2;
 }
 
-/**
- * Length of Hypotenuse of Pythagorean Triangle
- * -----------------------------------------------------------------------------
- * @param   number      $opposite       Opposite side of triangle.
- * @param   number      $adjacent       Adjacent side of a triangle.
- * @return  number                      Length of the hypotenuse;
- */
+/// 
+/// Length of Hypotenuse of Pythagorean Triangle
+/// 
+/// @param {number} $opposite - Opposite side of triangle.
+/// @param {number} $adjacent - Adjacent side of a triangle.
+/// @return {number} - Length of the hypotenuse;
+///
 
 @function hypotenuse-length($opposite, $adjacent) {
     @return sqrt(square($opposite) + square($adjacent));
 }
 
-/**
- * Generate Hexagon Shape
- * -----------------------------------------------------------------------------
- * Width is input, height is calculated. It will be a little less than the
- * width. Inspired by the link below.
- *
- * This should work great back to ~IE9.
- *
- * @link    https://jtauber.github.io/articles/css-hexagon.html
- * @param   color/map       $colors     Colors to be used. Rest, hover and active.
- * @param   number          $width      Width of the hexagon.
- */
+/// 
+/// Generate Hexagon Shape
+/// 
+/// Width is input, height is calculated. It will be a little less than the
+/// width. Inspired by the link below.
+/// 
+/// This should work great back to ~IE9.
+/// 
+/// @param {map} $colors - Colors to be used. Rest, hover and active.
+/// @param {number} $width - Width of the hexagon.
+/// @link https://jtauber.github.io/articles/css-hexagon.html
+///
 
 @mixin hexagon($colors, $size--width) {
     @if unit($size--width) == '%' {

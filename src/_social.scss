@@ -1,20 +1,8 @@
-/**
- * Vector Spritesheet Management
- * -----------------------------------------------------------------------------
- * @category   Stylesheet
- * @package    Charon
- * @author     Mark Grealish <mark@bhalash.com>
- * @copyright  Copyright (c) 2015, Mark Grealish
- * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @version    2.0.1
- * @link       https://github.com/bhalash/charon
- */
-
-/**
- * Default Vector Stylesheet
- * -----------------------------------------------------------------------------
- * Gaps separate rows. Currently 6 columns by 4 rows in size.
- */
+/// 
+/// Default Vector Stylesheet
+/// 
+/// Gaps separate rows. Currently 6 columns by 4 rows in size.
+///
 
 $social-sprites: add-spritesheet(social, (
     path: 'vectors/button-sprites.svg',
@@ -43,40 +31,40 @@ $social-sprites: add-spritesheet(social, (
     )
 )) !default;
 
-/**
- * Get Social Network Colour
- * -----------------------------------------------------------------------------
- * @param   string      $network        Social network.
- * @return  string                      Network colour.
- */
+/// 
+/// Get Social Network Colour
+/// 
+/// @param {string} $network - Social network.
+/// @return {string} - Network colour.
+///
 
 @function social-color($network) {
     @return nth(get-sprite(social, $network), 3);
 }
 
-/**
- * Social Images and Colours
- * -----------------------------------------------------------------------------
- * I wanted to reduce the work (and load time) of ubiqui-cancerous social
- * icons. This mixin generates uses an SVG spritemap with PNG fallback to
- * generate social icons for popular networks. Have a look at _defaults.scss to
- * see the list of currently supported services, as well as the format used.
- *
- * I have included black and white minimal icons; the background colours of the
- * element will be that for the relevant network.
- *
- * On $selector: There were some cases where I want the social style
- * to be attached to the parent, and on other occasions to an arbitrary child
- * instead.
- *
- * If $selector for the background image exists, it is attached to selector,
- * elsewise to the parent.
- *
- * @param   map         $size           Sizes for square-flex().
- * @param   string      $selector       Optional selector.
- * @param   bool        $split          Seperate icon colour from icon.
- * @param   map         $networks       Social networks to output.
- */
+/// 
+/// Social Images and Colours
+/// 
+/// I wanted to reduce the work (and load time) of ubiqui-cancerous social
+/// icons. This mixin generates uses an SVG spritemap with PNG fallback to
+/// generate social icons for popular networks. Have a look at _defaults.scss to
+/// see the {list} of currently supported services, as well as the format used.
+/// 
+/// I have included black and white minimal icons; the background colours of the
+/// element will be that for the relevant network.
+/// 
+/// On $selector: There were some cases where I want the social style
+/// to be attached to the parent, and on other occasions to an arbitrary child
+/// instead.
+/// 
+/// If $selector for the background image exists, it is attached to selector,
+/// elsewise to the parent.
+/// 
+/// @param {map} $size - Sizes for square-flex().
+/// @param {string} $selector - Optional selector.
+/// @param {bool} $split - Seperate icon colour from icon.
+/// @param {map} $networks - Social networks to output.
+///
 
 @mixin social($size: null, $selector: null, $split: false, $networks: null) {
     @if not $networks {

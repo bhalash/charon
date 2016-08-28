@@ -1,20 +1,12 @@
-/**
- * Size and Resize Elements
- */
-
-/**
- * Flexible Square Boxes
- * -----------------------------------------------------------------------------
- * Generate a box whose height is equal to the given ratio of the width.
- * Width can be of any size. Ratio should be between 0 and foo.
- *
- * Any unit, fixed or percentage, is acceptable.
- *
- * @link http://stackoverflow.com/a/13625843/1433400
- * @link http://alistapart.com/article/creating-intrinsic-ratios-for-video
- * @param   map     $size           Horizontal width and height ratio.
- */
-
+/// 
+/// Flexible Square Boxes
+/// 
+/// Generate a box whose height is equal to the given ratio of the width.
+/// Width can be of any size. Ratio should be between 0 and foo.
+/// 
+/// Any unit, fixed or percentage, is acceptable.
+/// 
+/// @param {map} $size - Horizontal width and height ratio.
 @mixin square-flex($size: 100% 1) {
     $width: nth($size, 1);
     $ratio: nth($size, 2);
@@ -29,18 +21,18 @@
     width: $width;
 }
 
-/**
- * Decimal Margin and Padding
- * -----------------------------------------------------------------------------
- * These two don't do too much except make life easier: Set margin or padding as
- * a multiplier of the base margin and padding. The side can be appended through
- * an optional operator. If you do set a side, every margin or padding except
- * the first passed will be silently discarded.
- *
- * @param   string      $attribute      Attribute to set sizes for.
- * @param   list        $values         Values, either singlar or plural.
- * @param   list        $sides          Sides (top, left, etc.).
- */
+/// 
+/// Decimal Margin and Padding
+/// 
+/// These two don't do too much except make life easier: Set margin or padding as
+/// a multiplier of the base margin and padding. The side can be appended through
+/// an optional operator. If you do set a side, every margin or padding except
+/// the first passed will be silently discarded.
+/// 
+/// @param {string} $attribute - Attribute to set sizes for.
+/// @param {list} $values - Values, either singlar or plural.
+/// @param {list} $sides - Sides (top, left, etc.).
+///
 
 @mixin box-size($attribute, $values, $sides: null) {
     @if $sides {
@@ -73,11 +65,11 @@
     @include box-size(height, $height);
 }
 
-/**
- * Quickly Set Width and Height
- * -----------------------------------------------------------------------------
- * @param   list        $sizes          Width and height sizes.
- */
+/// 
+/// Quickly Set Width and Height
+/// 
+/// @param {list} $sizes - Width and height sizes.
+///
 
 @mixin size($sizes...) {
     $sizes: if(length($sizes) == 1, nth($sizes, 1), $sizes);
