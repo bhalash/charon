@@ -1,9 +1,14 @@
 /// 
 /// Media Query Terms
+///
+/// Internal list of @media keywords used to compose queries from shorthand
+/// queries.
 /// 
+/// @access private
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
 ///
 
-$charon-media-terms: (
+$_charon-media-terms: (
     mod: ('only', 'not'),
     // Non-deprecated media query devices.
     media: (
@@ -31,10 +36,11 @@ $charon-media-terms: (
 /// 
 /// Parse Number Range for Presets
 /// 
-/// @param {number} - $min - Range minimum size.
-/// @param {number} - $max - Range maximum size.
-/// @param {string} - $property - Range property.
-/// @return {string} - Parsed media query range condition.
+/// @access public
+/// @param {number} $min - Range minimum size.
+/// @param {number} $max - Range maximum size.
+/// @param {string} $property - Range property.
+/// @return {string} Parsed media query range condition.
 ///
 
 @function size-range($min, $max, $property: 'device-width') {
@@ -42,11 +48,11 @@ $charon-media-terms: (
 }
 
 /// 
-/// Media Query Presets
-/// 
+/// Internal map of media queries presets
+/// @access private
 ///
 
-$charon-media-map: (
+$_charon-media-map: (
     example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
     watch: size-range(218px, 281px),
     smartphone: size-range(320px, 667px),
@@ -56,56 +62,63 @@ $charon-media-map: (
 /// 
 /// Add to Template Presets
 /// 
-/// @param {map} - $map - Map of presets to add.
-/// @return {map} - $charon-media-map - Library media preset.
+/// @access private
+/// @param {map} $map - Map of presets to add.
+/// @return {map} $_charon-media-map - Library media preset.
 ///
 
 @function add-media-presets($map) {
-    $charon-media-map: map-merge($charon-media-map, $map) !global;
-    @return $charon-media-map;
+    $_charon-media-map: map-merge($_charon-media-map, $map) !global;
+    @return $_charon-media-map;
 }
 
 /// 
-/// Test if Property is a Preset
+/// Test if a given property is a preset-is the key present in the internal map
+/// of stored media queries?
 /// 
-/// @param {string} - $condition - Property to test.
-/// @return {bool} - Property is a preset, true/false.
+/// @param {string} $condition - Property to test.
+/// @return {bool} Property is a preset, true/false.
 ///
 
-@function is-preset($condition) {
-    @return map-has-key($charon-media-map, $condition);
+@function _is-preset($condition) {
+    @return map-has-key($_charon-media-map, $condition);
 }
 
 /// 
-/// Get Preset
+/// Get preset from the internal map of media queries.
 /// 
-/// @param {string} - $property - Property to fetch.
+/// @param {string} $property - Property to fetch.
 /// @param {string} - Preset property.
 ///
 
-@function get-preset($condition) {
-    @return map-get($charon-media-map, $condition);
+@function _get-preset($condition) {
+    @return map-get($_charon-media-map, $condition);
 }
 
 /// 
-/// Test if Property is Shorthand
+/// Test if a given property is a pithy shorthand media query.
 /// 
-/// @param {string} - $property - Property to test.
+/// @param {string} $property - Property to test.
 /// @return {bool} - Property is shorthand/true false.
 ///
 
-@function is-media-shorthand($property) {
-    @return length($property) == 1 and not is-preset($property);
+@function _is-media-shorthand($property) {
+    @return length($property) == 1 and not _is-preset($property);
 }
 
 /// 
-/// Expand Media Shorthand
+/// Expand a shorthand media query into one recognizable and usable by the 
+/// browser, e.g.:
+///
+/// 'landscape' => 'only screen and (orientation: landscape)'
+/// 'progressive' => 'only tv and (scan: progressive)'
 /// 
-/// @param {string} - $property - Property to test.
-/// @return {string} - $shorthand - Expanded media shorthand term.
+/// @access private
+/// @param {string} $property - Property to test.
+/// @return {string} $shorthand - Expanded media shorthand term.
 ///
 
-@function media-shorthand($property) {
+@function _media-shorthand($property) {
     $shorthand: '';
     $property: nth($property, 1);
 
@@ -118,7 +131,7 @@ $charon-media-map: (
     } @else if $property == monochrome {
         // monochrome
         $shorthand: 'all and (#{$property})';
-    } @else if index(map-get($charon-media-terms, media), $property) != null {
+    } @else if index(map-get($_charon-media-terms, media), $property) != null {
         $shorthand: $property;
     }
 
@@ -126,37 +139,39 @@ $charon-media-map: (
 }
 
 /// 
-/// Test if Property is Prefixed
+/// Test if a property is prefixed.
 /// 
-/// @param {string} - $property - Property to test for prefixedness.
+/// @param {string} $property - Property to test for prefixedness.
 /// @return {bool} - Property is prefixed, true/false.
 ///
 
-@function has-prefix($property) {
-    @return index(map-get($charon-media-terms, prefixed), $property) != false;
+@function _has-prefix($property) {
+    @return index(map-get($_charon-media-terms, prefixed), $property) != false;
 }
 
 /// 
-/// Split Media Condition
-/// 
-/// @param {list} - $condition - Media condition to split.
-/// @return {map} - $split - Split up condition.
+/// Split up an entered shorthand media query into relevant fragments to be 
+/// glued into a browser-acceptable media query.
+///
+/// @access private
+/// @param {list} $condition - Media condition to split.
+/// @return {map} $split - Split up condition.
 ///
 
-@function split-condition($condition) {
+@function _split-condition($condition) {
     $split: ();
 
     @each $term in $condition {
-        @if index(map-get($charon-media-terms, media), $term) != null {
+        @if index(map-get($_charon-media-terms, media), $term) != null {
             // @media type: screen, print, etc.
             $split: map-merge($split, (media: $term));
-        } @else if index(map-get($charon-media-terms, mod), $term) != null {
+        } @else if index(map-get($_charon-media-terms, mod), $term) != null {
             // Media modifier term: not or and.
             $split: map-merge($split, (mod: $term));
-        } @else if index(map-get($charon-media-terms, prefix), $term) != null {
+        } @else if index(map-get($_charon-media-terms, prefix), $term) != null {
             // @media property prefix: min or max.
             $split: map-merge($split, (prefix: $term));
-        } @else if index(map-get($charon-media-terms, property), $term) != null {
+        } @else if index(map-get($_charon-media-terms, property), $term) != null {
             // @media property: color, width, height, etc.
             $split: map-merge($split, (property: $term));
         } @else {
@@ -185,7 +200,7 @@ $charon-media-map: (
     }
 
     @if not map-has-key($split, value) and property-has-value(map-get($split, property)) {
-        // Test for missing valie, if property has value.
+        // Test for missing value, if property has value.
         @error "Media condition '#{$condition}' is missing a media query value (e.g., 300px, 10rem)!";
     }
 
@@ -193,21 +208,23 @@ $charon-media-map: (
 }
 
 /// 
-/// Parse Media Query Condition
+/// Internal method to expand shorthand media condition:
 /// 
-/// Turn 'width max 300px' into 'only screen and (max-width: 300px)'
-/// Valid strings:
+///     'width max 300px' => 'only screen and (max-width: 300px)'
+///
+/// Examples:
+///
+///     screen width 300px
+///     not screen width min 200px
+///     not screen min width 200px
 /// 
-/// screen width 300px
-/// not screen width min 200px
-/// not screen min width 200px
-/// 
-/// @param {map} - $condition - Media query condition to be parsed.
-/// @return {string} - $condition - Parsed condition appended to query.
+/// @access private
+/// @param {map} $condition - Media query condition to be parsed.
+/// @return {string} $condition - Parsed condition appended to query.
 ///
 
-@function parse-condition($condition) {
-    $split: split-condition($condition);
+@function _parse-condition($condition) {
+    $split: _split-condition($condition);
 
     $media: map-get($split, media);
     $mod: map-get($split, mod);
@@ -216,7 +233,7 @@ $charon-media-map: (
     $value: map-get($split, value);
 
     @if property-has-value($property) {
-        @if has-prefix($property) and $prefix {
+        @if _has-prefix($property) and $prefix {
             $prefix: '#{$prefix}-';
         } @else {
             $prefix: '';
@@ -241,28 +258,28 @@ $charon-media-map: (
 /// 2. Existing shorthand rules.
 /// 3. All other arbitrary queries.
 /// 
-/// @param {list} - $condition - Query conditions(s);
-/// @return {string} - $condition - Parsed media query.
+/// @access public
+/// @param {list} $condition - Query conditions(s);
+/// @return {string} $condition - Parsed media query.
 ///
 
 @function query($condition) {
-    @if is-preset($condition) {
-        $condition: get-preset($condition);
-    } @else if is-media-shorthand($condition) {
-        $condition: media-shorthand($condition);
+    @if _is-preset($condition) {
+        $condition: _get-preset($condition);
+    } @else if _is-media-shorthand($condition) {
+        $condition: _media-shorthand($condition);
     } @else {
-        $condition: parse-condition($condition);
+        $condition: _parse-condition($condition);
     }
 
     @return $condition;
 }
 
 /// 
-/// Media Query Mixin
-/// 
 /// Main entry point for the library. Conditions are passed to query() to parse.
 /// 
-/// @param {list} - $queries - Query conditions.
+/// @access public
+/// @param {list} $queries - Query conditions.
 ///
 
 @mixin media($conditions...) {
@@ -288,7 +305,9 @@ $charon-media-map: (
 /// 
 /// Retina Pixel Density Screen
 /// 
-/// TODO: Integrate into new solution.
+/// @access public
+/// @param {number} $density - Pixel density.
+/// @link https://css-tricks.com/snippets/css/retina-display-media-query/
 ///
 
 @mixin density($density) {
@@ -307,7 +326,7 @@ $charon-media-map: (
 /// Internet Explorer
 /// 
 /// I am happy to exclude Internet Explorer 11 because it is decently good. My
-/// IE problems inecrease exponentially as I work backwards in time.
+/// IE problems increase exponentially as I work backwards in time.
 /// 
 /// @link http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/
 /// @link http://keithclark.co.uk/articles/moving-ie-specific-css-into-media-blocks/media-tests/
@@ -318,6 +337,9 @@ $charon-media-map: (
 /// 
 /// Wait...what? It's a bad idea to mix conditional IE CSS and regular CSS. It's
 /// here if you need it, but ask yourself first: should I really do this?
+///
+/// @access public
+/// @param {number} $version - Internet Explorer version to target (in range 6-10).
 ///
 
 @mixin ie($version: 10) {
