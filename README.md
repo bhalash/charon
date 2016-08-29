@@ -50,6 +50,8 @@ Full documentation is a (substantial) work in progress. The code comment style i
 
 Copyright (c) 2016 [Mark Grealish][16]. See [LICENSE](LICENSE) for details.
 
+* * *
+
 <sup name="footnote-1">1: [Charon][2] is named for [Charon][3], who was named for [Charon][4], which was named for [Sharon][5], so it should be pronounced '_Shar_-on.' Easy, right?</sup>
 
 [1]: http://sass-lang.com/ "Sass"
