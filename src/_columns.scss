@@ -145,10 +145,10 @@
 /// 
 ///  Evaluate Whether Number is Column
 /// 
-/// If {number} is a percentage, return number, else return {number} 0.
+/// If number is a percentage, return number, else return number 0.
 /// 
 /// @param {number} $value - Number to test.
-/// @return {number} Number/0.
+/// @return {number} - Number/0.
 ///
 
 @function value-percent($value) {
