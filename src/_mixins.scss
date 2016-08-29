@@ -1,10 +1,4 @@
 /// 
-/// Useful Sass Mixins
-///
-
-/// 
-/// Prefix Attribute
-/// 
 /// Automatically vendor prefixes to CSS properties. You should use autoprefixer!
 /// 
 /// @param {string} $attribute - CSS attribute to be prefixed.
@@ -20,8 +14,6 @@
     #{$attribute}: #{$value};
 }
 
-/// 
-/// Prefix Value
 /// 
 /// Automatically vendor prefixes to CSS values. You should use autoprefixer!
 /// 
@@ -153,7 +145,6 @@
 
 /// 
 /// Column Count
-/// 
 ///
 
 @mixin column-count($count: 3, $gap: null, $rule: null) {
@@ -170,7 +161,6 @@
 
 /// 
 /// Modal Popover
-/// 
 ///
 
 @mixin pop-modal {
