@@ -2,3 +2,4 @@ exclude:
     - ./node_modules/*
 verbose: true
 dest: ./sassdoc
+privatePrefix: ^[_-]
