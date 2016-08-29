@@ -7,6 +7,8 @@
 /// Any unit, fixed or percentage, is acceptable.
 /// 
 /// @param {map} $size - Horizontal width and height ratio.
+///
+
 @mixin square-flex($size: 100% 1) {
     $width: nth($size, 1);
     $ratio: nth($size, 2);
