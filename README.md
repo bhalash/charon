@@ -1,32 +1,26 @@
 # Charon
-Charon is a set of Sass helper libraries to which I have incrementally added as my work requires.
+Charon is a programmatic [Scss][1] library designed to give control of CSS back to individual developers. Too many Sass libraries lock you in to a their developer's preferred design paradigm-they give you pregenerated CSS or only a limited set of mixins.
 
-## License
-The MIT License (MIT)
+Charon intends to be the counterpoint library that grants flexible, descriptive tools to developers interested in a programmatic approach to their CSS. Take the `columns` mixin:
 
-Copyright (c) 2015-2016 Mark Grealish (<mark@bhalash.com>)
+    .columns {
+        @include columns(flex, div, 3, 5%);
+    }
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+compiles to:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+    .flex-columns-even {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+    .flex-columns-even > div {
+        flex: 0 1 30%;
+        min-height: 1px;
+    }
 
-## Credit
-Many ideas were not mine alone-credit is given and sourced for inspiration where appropriate. All code is mine alone.
+<sup>footnote</sup>
 
-[1]: http://absolide.tumblr.com/post/7317210512/full-css-fluid-squares
-[2]: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
-[3]: https://github.com/bhalash/scss-helpers/tree/master/assets/svg
+[1]: http://sass-lang.com/ "Sass"
