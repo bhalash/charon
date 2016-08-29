@@ -1,6 +1,6 @@
 {
   "name": "charon-sass",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A programmatic Sass library designed to give the developer control of their Sass.",
   "main": "_charon.scss",
   "dependencies": {},
