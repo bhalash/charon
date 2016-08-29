@@ -46,6 +46,10 @@ Full documentation is a (substantial) work in progress. The code comment style i
 * Complete this README.md file.
 * Identify and remove defunct code.
 
+## Copyright
+
+Copyright (c) 2016 [Mark Grealish][16]. See [LICENSE](README.md) for details.
+
 <sup name="footnote-1">1: [Charon][2] is named for [Charon][3], who was named for [Charon][4], which was named for [Sharon][5], so it should be pronounced '_Shar_-on.' Easy, right?</sup>
 
 [1]: http://sass-lang.com/ "Sass"
@@ -63,3 +67,4 @@ Full documentation is a (substantial) work in progress. The code comment style i
 [13]: https://www.sitepoint.com/understanding-and-using-rem-units-in-css/ "rem units"
 [14]: https://css-tricks.com/almanac/properties/c/columns/ "CSS column property"
 [15]: https://developer.mozilla.org/en/docs/Web/CSS/counter-increment "CSS counter increment"
+[16]: https://www.bhalash.com "Mark Grealish"
