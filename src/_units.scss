@@ -24,6 +24,18 @@ $default-multipliers: (
     @return type-of($list) == 'list';
 }
 
+///
+/// Strip units from a number.
+/// 
+/// @access public
+/// @param {number} $number;
+/// @return {number} $number;
+///
+
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+ }
+
 /// 
 /// Validate Units
 /// 
