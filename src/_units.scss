@@ -93,7 +93,7 @@ $default-multipliers: (
 ///
 
 @function strip-unit($number) {
-    @return $number: $number / ($number * 0 + 1);
+    @return $number / ($number * 0 + 1);
 }
 
 /// 
