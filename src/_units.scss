@@ -1,31 +1,18 @@
 /// 
-/// Default Unit Multipliers
+/// Strip units from number.
 /// 
-/// Used when you convert decimal to any of the given units. Add more as you wish!
-/// See here for more information on comparitive multipliers:
-/// 
-/// @link https://www.bhalash.com/archives/13544803803
+/// @link https://css-tricks.com/snippets/sass/strip-unit-function/
+/// @link https://github.com/sass/sass/issues/533
+/// @param {number} $number - Number with unit.
+/// @return {number} $number - Number without unit.
 ///
 
-$default-multipliers: (
-    px: 10,
-    rem: 0.625,
-    em: 0.625
-) !default;
-
-/// 
-/// Check if List
-/// 
-/// @param {string} $list - Candidate unit.
-/// @return {bool} - Is list, true/false.
-///
-
-@function is-list($list) {
-    @return type-of($list) == 'list';
+@function strip-unit($number) {
+    @return $number / ($number * 0 + 1);
 }
 
 /// 
-/// Validate Units
+/// Type evaluation.
 /// 
 /// Build evaluation from units to types.
 /// 
@@ -49,11 +36,15 @@ $default-multipliers: (
 }
 
 /// 
-/// Unit Check Shorthand
+/// Type and unit check shorthand functions.
 /// 
 /// @param {string} $number - Candidate unit.
 /// @return {bool} - Unit is $type, true false.
 ///
+
+@function is-list($list) {
+    @return type-of($list) == 'list';
+}
 
 @function is-decimal($number) {
     @return is-number($number) and unitless($number);
@@ -81,108 +72,4 @@ $default-multipliers: (
 
 @function is-rem($number) {
     @return is-number($number) and is-unit-type($number, 'rem');
-}
-
-/// 
-/// Strip Number Unit
-/// 
-/// @link https://css-tricks.com/snippets/sass/strip-unit-function/
-/// @link https://github.com/sass/sass/issues/533
-/// @param {number} $number - Number with unit.
-/// @return {number} $number - Number without unit.
-///
-
-@function strip-unit($number) {
-    @return $number / ($number * 0 + 1);
-}
-
-/// 
-/// Convert Decimal Unit to Given Output Unit
-/// 
-/// Take in a given decimal multiplier (1.2, 2.3, etc) and return it in the given
-/// output unit. Currently I support any one of: rem, em, and px, because my
-/// focus is on screen appearance. The W3C themselves discourage the use of units
-/// except rem, em, px, vw, vh, vmin and vmax for screens:
-/// 
-/// @link http://www.w3.org/Style/Examples/007/units.en.html#units
-///
-
-@function from-decimal($values, $type: null, $multipliers: $default-multipliers) {
-    $units: ();
-    $multiplier: '';
-
-    @if not map-has-key($multipliers, $type) {
-        @error "Target unit should be one of rem, em or px.";
-    }
-
-    $multiplier: map-get($multipliers, $type);
-
-    @each $value in $values {
-        @if not unitless($value) {
-            @error "Invalid value - property should be a unitless decimal.";
-        }
-
-        // Do not attach units to a 0 value. Looks ugly.
-        $units: append($units, if($value != 0, $value * $multiplier + $type, $value));
-    }
-
-    @return $units;
-}
-
-/// 
-/// Decimal Unit to rem
-/// 
-/// @param {string} $values - Input decimal values (0.3, 1.7, etc);
-/// @return {number} - The given unit as an rem value.
-///
-
-@function rem($values) {
-    @return from-decimal($values, rem);
-}
-
-/// 
-/// Decimal Unit to rem
-/// 
-/// @param {string} $values - input decimal values (0.3, 1.7, etc);
-/// @return {number} - The given unit as an rem value.
-///
-
-@function em($values) {
-    @return from-decimal($values, em);
-}
-
-/// 
-/// Decimal Unit to px
-/// 
-/// @param {string} $values - Input decimal values (0.3, 1.7, etc);
-/// @return {number} - The given unit as a px value.
-///
-
-@function px($values) {
-    @return from-decimal($values, px);
-}
-
-/// 
-/// Convert Values to REM Units
-/// 
-/// General property/value mixin and specific rem mixins for line-height and
-/// font-size. Useful for IE8-9, which lacks complete REM support.
-///
-
-@mixin rem($property, $values) {
-    @if is-number($values) and $values == 0 {
-        // Prevents a value of 0 having a unit appended.
-        #{$property}: $values;
-    } @else {
-        #{$property}: px($values);
-        #{$property}: rem($values);
-    }
-}
-
-@mixin font-size($value: 1) {
-    @include rem(font-size, $value);
-}
-
-@mixin line-height($value: 1) {
-    @include rem(line-height, $value);
 }
