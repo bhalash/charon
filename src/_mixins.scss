@@ -1,4 +1,42 @@
 /// 
+/// Flexible Square Boxes
+/// 
+/// Generate a box whose height is equal to the given ratio of the width.
+/// Width can be of any size. Ratio can be any value between 0 and $foo.
+/// 
+/// Any unit, fixed or percentage, is acceptable.
+///
+/// @example scss - fluid-square function.
+///
+///     @include fluid-square(50px 1); =>
+///     
+///     height: 0;
+///     padding-top: 50px;
+///     width: 50px;
+///
+/// @example scss - fluid-square function.
+///
+///     @include fluid-square(100% 0.75); =>
+///
+///     height: 0;
+///     padding-bottom: 75%;
+///     width: 100%;
+/// 
+/// @access public
+/// @link http://stackoverflow.com/a/13625843/1433400
+/// @param {map} $size - Horizontal width and height ratio.
+///
+
+@mixin fluid-square($size: 100% 1) {
+    $width: nth($size, 1);
+    $ratio: strip-unit(nth($size, 2)) * $width;
+
+    height: 0;
+    padding-bottom: $ratio;
+    width: $width;
+}
+
+/// 
 /// Automatically vendor prefixes to CSS properties. You should use autoprefixer!
 /// 
 /// @param {string} $attribute - CSS attribute to be prefixed.
@@ -47,7 +85,6 @@
 ///
 
 @mixin vertical-center($amount) {
-    // Useful for vertically centering elements.
     padding-bottom: $amount;
     padding-top: $amount;
 }
