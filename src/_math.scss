@@ -4,10 +4,10 @@
 /// Either increase (increment > 0) or decrease (increment <= 0) $base-size by
 /// $ratio through the given {number} of $increment units.
 /// 
+/// @access public
 /// @link https://www.bhalash.com/archives/13544805638
 /// @link http://www.modularscale.com/
 /// @link http://sassmeister.com/gist/22918b6519a2f15354d0
-/// 
 /// @param {number} $step - Ratio step to return.
 /// @param {number} $base-size - Base size of unit to raise.
 /// @param {number} $ratio - Ratio of increment/decrement.
@@ -29,6 +29,7 @@
 /// 
 /// Golden Ratio Modular Scale Step
 /// 
+/// @access public
 /// @param {number} $step - Ratio step to return.
 /// @param {number} $base-size - Base size of unit to raise.
 /// @return {number} $step - Incremented per the GR.
@@ -41,6 +42,7 @@
 /// 
 /// Sqaure Root
 /// 
+/// @access public
 /// @link http://www.antimath.info/css/sass-sqrt-function/
 /// @param {number} $number
 /// @return {number} $sqrt - Sqaure root of $number.
@@ -63,6 +65,7 @@
 /// 
 /// Raise a {number} to a given power.
 /// 
+/// @access public
 /// @param {number} $number - Number to riase.
 /// @param nubmer $power - Power to which it should be raised.
 /// @return {number} $exponent - Number raised to exponent.
@@ -96,6 +99,7 @@
 /// Sass only rounds to 5 digits of percision, so don't try to use the
 /// gravitational constant as a font size. :)
 /// 
+/// @access public
 /// @param {number} $number - Number to riase.
 /// @param nubmer $power - Power to which it should be raised.
 /// @return {number} $exponent - Number raised to exponent.
@@ -108,6 +112,7 @@
 /// 
 /// Square Number
 /// 
+/// @access public
 /// @param {number} $number
 /// @return {number} $number - Number squared.
 ///
@@ -122,6 +127,7 @@
 /// Return the height of a hexagon from the length of one side. This is not
 /// entirely precise because of Sass' rounding.
 /// 
+/// @access public
 /// @param {number} $side - Hexagon side.
 /// @return {number} $number - Approximate height of the hexagon.
 ///
@@ -135,6 +141,7 @@
 /// 
 /// Return the width of a hexagon from the length of one side.
 /// 
+/// @access public
 /// @param {number} $side - Hexagon side.
 /// @return {number} $number - Approximate width of the hexagon.
 ///
@@ -146,6 +153,7 @@
 /// 
 /// Length of Hypotenuse of Pythagorean Triangle
 /// 
+/// @access public
 /// @param {number} $opposite - Opposite side of triangle.
 /// @param {number} $adjacent - Adjacent side of a triangle.
 /// @return {number} - Length of the hypotenuse;
@@ -163,6 +171,7 @@
 /// 
 /// This should work great back to ~IE9.
 /// 
+/// @access public
 /// @param {map} $colors - Colors to be used. Rest, hover and active.
 /// @param {number} $width - Width of the hexagon.
 /// @link https://jtauber.github.io/articles/css-hexagon.html

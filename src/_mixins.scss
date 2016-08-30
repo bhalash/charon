@@ -79,31 +79,6 @@
 }
 
 /// 
-/// Vertical Center
-/// 
-/// @param {number} $amount - Amount of top and bottom padding.
-///
-
-@mixin vertical-center($amount) {
-    padding-bottom: $amount;
-    padding-top: $amount;
-}
-
-/// 
-/// Invert RGBA
-/// 
-/// @param {number} $red - Red value.
-/// @param {number} $green - Green value.
-/// @param {number} $blue - Blue value.
-/// @param {number} $alpha - Alpha value.
-/// @return {map} - Inverted RGBA.
-///
-
-@function rgba-opposite($red: 255, $green: 255, $blue: 255, $alpha: 0) {
-    @return rgba(255 - $red, 255 - $green, 255 - $blue, 1 - $alpha);
-}
-
-/// 
 /// Placeholder Styles
 /// 
 /// Generate styles for input placeholders in Internet Explorer, Firefox and
