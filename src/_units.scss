@@ -86,17 +86,14 @@ $default-multipliers: (
 /// 
 /// Strip Number Unit
 /// 
+/// @link https://css-tricks.com/snippets/sass/strip-unit-function/
+/// @link https://github.com/sass/sass/issues/533
 /// @param {number} $number - Number with unit.
 /// @return {number} $number - Number without unit.
-/// @link https://css-tricks.com/snippets/sass/strip-unit-function/
 ///
 
 @function strip-unit($number) {
-    @if is-number($number) and not unitless($number) {
-        $number: $number / ($number * 0 + 1);
-    }
-
-    @return $number;
+    @return $number: $number / ($number * 0 + 1);
 }
 
 /// 
