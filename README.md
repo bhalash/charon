@@ -17,25 +17,27 @@ Charon intends to be the counterpoint library that grants flexible, descriptive 
 
 ## Usage
 
-    @import '../path/to/node_modules/charon/charon/';
+```scss
+@import '../path/to/node_modules/charon/charon/';
 
-    .columns {
-        @include columns(flex, div, 3, 5%);
-    }
+.columns {
+    @include columns(flex, div, 3, 5%);
+}
 
-    =>
+=>
 
-    .flex-columns-even {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
+.flex-columns-even {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
-    .flex-columns-even > div {
-        flex: 0 1 30%;
-        min-height: 1px;
-    }
+.flex-columns-even > div {
+    flex: 0 1 30%;
+    min-height: 1px;
+}
+```
 
 ## Documentation
 Full documentation is a (substantial) work in progress. The code comment style is compatible with [Sassdoc][6]. Execute `npm run doc` to generate HTML documentation for the project.
