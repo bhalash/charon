@@ -1,4 +1,36 @@
 /// 
+/// Symmetric, Even Flexbox or Floated Columns
+///  
+/// TODO: Better documentation. 
+/// 
+/// @access public
+/// @param {string} $type - Flexbox or float?
+/// @param {string} $element - Target child element.
+/// @param int/list $columns - Number of columns to produce.
+/// @param {number} $gutter - Margin between columns.
+/// @param {string} $side - Float side.
+/// @param {string} $overflow - Overflow, hidden or auto?
+///
+
+@mixin columns($type: 'flex', $element: div, $columns: 3, $gutter: 0, $side: left, $overflow: auto) {
+    // Validate column gutter.
+    $gutter: _column-gutter($gutter);
+    $type: _column-type($type);
+
+    @if is-decimal($columns) and $columns > 0 {
+        @include _even-columns($type, $element, $columns, $gutter, $side, $overflow) {
+            @content;
+        }
+    } @else if is-list($columns) {
+        @include _odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
+            @content;
+        }
+    } @else {
+        @error "Columns should be either a {list} or a a number";
+    }
+}
+
+/// 
 /// Symmetric Column Width
 /// 
 /// Determine the width of each column in a syemmetrical element.
@@ -9,7 +41,7 @@
 /// @return {number} Calculated column width.
 ///
 
-@function column-width($columns, $gutter) {
+@function _column-width($columns, $gutter) {
     $width: (100 - ($columns - 1) * $gutter) / $columns;
 
     @if not is-percent($width) {
@@ -29,7 +61,7 @@
 /// @param {number} $gutter - Margin as a percentage.
 ///
 
-@function column-gutter($gutter) {
+@function _column-gutter($gutter) {
     @if $gutter != 0 {
         @if $gutter != 0 and is-decimal($gutter) {
             $gutter: percentage(strip-unit($gutter) * 0.01);
@@ -52,12 +84,12 @@
 /// @return {number} - Percentage width of "auto" columns.
 ///
 
-@function odd-column-width($columns, $gutter) {
+@function _odd-coloumn_width($columns, $gutter) {
     $percent: 0;
     $autos: 0;
 
     @each $col in $columns {
-        $percent: $percent + value-percent($col);
+        $percent: $percent + _value-percent($col);
 
         @if is-keyword($col) {
             $autos: $autos + 1;
@@ -85,7 +117,7 @@
 /// @return {string} $opposite - Inverse of floated side;
 ///
 
-@function opposite-side($side: left) {
+@function _opposite-side($side: left) {
     @return if($side == right, left, right);
 }
 
@@ -99,7 +131,7 @@
 /// @return {number} - Number/0.
 ///
 
-@function value-percent($value) {
+@function _value-percent($value) {
     @return if(is-percent($value), $value, 0);
 }
 
@@ -116,11 +148,11 @@
 /// @return {bool} Columns fit within $target, true/false.
 ///
 
-@function list-greater-than($columns, $target: 100) {
+@function _list-greater-than($columns, $target: 100) {
     $percent: 0;
 
     @each $col in $columns {
-        $percent: $percent + value-percent($col);
+        $percent: $percent + _value-percent($col);
     }
 
     @return ($percent > $target);
@@ -136,7 +168,7 @@
 /// @return {list} $columns - List of columns, validated.
 ///
 
-@function check-odd-columns($columns) {
+@function _check-_odd-columns($columns) {
     @if not is-list($columns) {
         @error "Asymmetrical columns should be supplied a list!";
     }
@@ -148,7 +180,7 @@
         }
     }
 
-    @if list-greater-than($columns, 100) {
+    @if _list-greater-than($columns, 100) {
         // Check for appropriate size.
         @error "Column percentages should total < 100%!";
     }
@@ -167,7 +199,7 @@
 /// @return {string} $type - Type of columns, validated.
 ///
 
-@function column-type($type) {
+@function _column-type($type) {
     @if $type != 'float' and $type != 'flex' {
         @error "Type must be either 'float' or 'flex'!"
     }
@@ -184,8 +216,8 @@
 /// @return {list} $columns - Set sizes for columns.
 ///
 
-@function set-autocol-sizes($columns, $gutter) {
-    $auto-width: odd-column-width($columns, $gutter);
+@function _set-autocol-sizes($columns, $gutter) {
+    $auto-width: _odd-coloumn_width($columns, $gutter);
 
     @for $i from 1 through length($columns) {
         @if is-keyword(nth($columns, $i), auto) {
@@ -197,68 +229,22 @@
 }
 
 /// 
-/// Remove Float
-/// 
-/// Absolutely, positively remove a float from an element and reset its width to
-/// the default value. There are occasions, tied to scope, where you may have to
-/// force this with !important.
-/// 
-/// @param {bool} $important - Mark clear as important.
-///
-
-@mixin nofloat($important: false) {
-    float: none #{if($important, !important, '')};
-    width: initial #{if($important, !important, '')};
-    @content;
-}
-
-/// 
-/// Symmetric, Even Flexbox or Floated Columns
-/// 
-/// @access public
-/// @param {string} $type - Flexbox or float?
-/// @param {string} $element - Target child element.
-/// @param int/list $columns - Number of columns to produce.
-/// @param {number} $gutter - Margin between columns.
-/// @param {string} $side - Float side.
-/// @param {string} $overflow - Overflow, hidden or auto?
-///
-
-@mixin columns($type: 'flex', $element: div, $columns: 3, $gutter: 0, $side: left, $overflow: auto) {
-    // Validate column gutter.
-    $gutter: column-gutter($gutter);
-    $type: column-type($type);
-
-    @if is-decimal($columns) and $columns > 0 {
-        @include even-columns($type, $element, $columns, $gutter, $side, $overflow) {
-            @content;
-        }
-    } @else if is-list($columns) {
-        @include odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
-            @content;
-        }
-    } @else {
-        @error "Columns should be either a {list} or a a number";
-    }
-}
-
-/// 
 /// Asymmetric columns.
 /// 
 /// @access private
 ///
 
-@mixin even-columns($type, $element, $columns, $gutter, $side, $overflow) {
-    $width: column-width($columns, $gutter);
+@mixin _even-columns($type, $element, $columns, $gutter, $side, $overflow) {
+    $width: _column-width($columns, $gutter);
 
     @if $type == 'flex' {
-        @include even-flexbox($element, $columns, $gutter, $width) {
+        @include _even-flexbox($element, $columns, $gutter, $width) {
             @content;
         }
     }
 
     @if $type == 'float' {
-        @include even-float($element, $columns, $gutter, $side, $width, $overflow) {
+        @include _even-float($element, $columns, $gutter, $side, $width, $overflow) {
             @content;
         }
     }
@@ -270,18 +256,18 @@
 /// @access private
 ///
 
-@mixin odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
+@mixin _odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
     // Validate columns, if list.
-    $columns: check-odd-columns($columns);
+    $columns: _check-_odd-columns($columns);
 
     @if $type == 'flex' {
-        @include odd-flexbox($element, $columns, $gutter) {
+        @include _odd-flexbox($element, $columns, $gutter) {
             @content;
         }
     }
 
     @if $type == 'float' {
-        @include odd-float($element, $columns, $gutter, $side, $overflow) {
+        @include _odd-float($element, $columns, $gutter, $side, $overflow) {
             @content;
         }
     }
@@ -295,7 +281,7 @@
 /// @param {number} $width - Width of each columns.
 ///
 
-@mixin even-flexbox($element, $columns, $gutter, $width) {
+@mixin _even-flexbox($element, $columns, $gutter, $width) {
     // If margin is 0, width is not needed, so instead make columns auto fill.
     $width: if($gutter != 0, 0 1 $width, 1);
 
@@ -320,7 +306,7 @@
 /// @param {string} $overflow - Overflow, hidden or auto?
 ///
 
-@mixin even-float($element, $columns, $gutter, $side, $width, $overflow) {
+@mixin _even-float($element, $columns, $gutter, $side, $width, $overflow) {
     @include clearfix($overflow);
 
     > #{$element} {
@@ -329,7 +315,7 @@
         width: $width;;
 
         &:not(:nth-child(#{$columns + 'n'})) {
-            margin-#{opposite-side($side)}: $gutter;
+            margin-#{_opposite-side($side)}: $gutter;
         }
 
         @content;
@@ -339,7 +325,7 @@
 /// 
 /// Asymmetrical Flexbox Elements
 /// 
-/// odd-columns provides irregularly-sized floated columns side by side. This
+/// _odd-columns provides irregularly-sized floated columns side by side. This
 /// allows for an asymmetrical structure.
 /// 
 /// @access private
@@ -347,9 +333,9 @@
 /// @param {list} $columns - List of columns to produce.
 ///
 
-@mixin odd-flexbox($element, $columns, $gutter) {
+@mixin _odd-flexbox($element, $columns, $gutter) {
     @if $gutter != 0 {
-        $columns: set-autocol-sizes($columns, $gutter);
+        $columns: _set-autocol-sizes($columns, $gutter);
     }
 
     @include flex-parent(row, space-between);
@@ -380,8 +366,8 @@
 /// @param {string} $overflow - Overflow, hidden or auto?
 ///
 
-@mixin odd-float($element, $columns, $gutter, $side, $overflow) {
-    $columns: set-autocol-sizes($columns, $gutter);
+@mixin _odd-float($element, $columns, $gutter, $side, $overflow) {
+    $columns: _set-autocol-sizes($columns, $gutter);
     @include clearfix($overflow);
 
     > #{$element} {
@@ -391,7 +377,7 @@
         @for $i from 1 through length($columns) {
             &:nth-child(#{$i}) {
                 @if $i < length($columns) and strip-unit($gutter) != 0 {
-                    margin-#{opposite-side($side)}: $gutter;
+                    margin-#{_opposite-side($side)}: $gutter;
                 }
 
                 // Floated columns do not enjoy the benefit of auto sizes.

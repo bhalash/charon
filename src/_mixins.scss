@@ -46,7 +46,7 @@
 
 @mixin prefix($attribute, $value, $prefixes: webkit) {
     @each $prefix in $prefixes {
-        #{'-' + $prefix + '-' + $attribute}: $value;
+        #{"-" + $prefix + "-" + $attribute}: $value;
     }
 
     #{$attribute}: #{$value};
@@ -62,7 +62,7 @@
 
 @mixin prefix-value($attribute, $value, $prefixes: webkit) {
     @each $prefix in $prefixes {
-        #{$attribute}: #{'-' + $prefix + '-' + $value};
+        #{$attribute}: #{"-" + $prefix + "-" + $value};
     }
 
     #{$attribute}: #{$value};
@@ -128,12 +128,14 @@
         // Specific workaround for Mobile Safari: without this #interior content
         // will scroll behind the header.
         -webkit-backface-visibility: hidden;
+
         // Child content must be raised owing to the background gradient.
         z-index: 2;
     }
 
     &:after {
         content: ' ';
+
         @include absolute(0);
     }
 }
@@ -177,6 +179,7 @@
 
 @mixin pop-modal {
     display: none;
+
     @include fixed(0);
 
     &:target {
@@ -193,7 +196,7 @@
 /// @param {map} $end - Gradient end color and opacity.
 ///
 
-@mixin gradient-mask($start: rgba(0,0,0,0.75), $end: rgba(0,0,0,0.25)) {
+@mixin gradient-mask($start: rgba(0, 0, 0, 0.75), $end: rgba(0, 0, 0, 0.25)) {
     @extend %background-mask;
 
     &:after {
@@ -235,13 +238,28 @@
 @mixin clearfix($overflow: auto, $important: false) {
     $overflow: if($overflow != auto, hidden, $overflow);
 
-    overflow: $overflow#{if($important, !important, '')};
+    overflow: unquote("#{$overflow}#{if($important, !important, "")}");
 
     &:after {
         clear: both;
         content: '';
         display: table;
     }
+}
+
+/// 
+/// Remove Float
+/// 
+/// Absolutely, positively remove a float from an element and reset its width to
+/// the default value. There are occasions, tied to scope, where you may have to
+/// force this with !important.
+/// 
+/// @param {bool} $important - Mark clear as important.
+///
+
+@mixin nofloat($important: false) {
+    float: none #{if($important, !important, "")};
+    width: initial #{if($important, !important, "")};
 }
 
 /// 
@@ -266,7 +284,6 @@
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
     display: flex;
-
     flex-direction: $direction;
 
     @if $justify {
