@@ -1,65 +1,9 @@
 /// 
-/// Flexbox Parent
-/// 
-/// If you have come this far you should have an understanding of how, why and
-/// where you would use flexbox. These mixins generate unprefixed CSS flexbox
-/// rules, with a fallback generated for IE8 for use through Flexie.
-/// 
-/// Two safe defaults are assumes for flex-direction and flex, but otherwise I
-/// leave browser defaults be.
-/// 
-/// @param {string} $direction - Direction of flexbox. Column or row.
-/// @param {string} $justify-content - Alignment of content along main axis.
-/// @param {string} $wrap - Whether or not to wrap content.
-/// @param {string} $align-items - Alignment of content along secondary axis.
-/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
-/// @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
-/// @link http://flexiejs.com/
-///
-
-@mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
-    display: flex;
-
-    flex-direction: $direction;
-
-    @if $justify {
-        justify-content: $justify;
-    }
-
-    @if $wrap {
-        flex-wrap: $wrap;
-    }
-
-    @if $align {
-        align-items: $align;
-    }
-}
-
-/// 
-/// Flexbox Child
-/// 
-/// @param {list} $flex - Default flex arguments.
-/// @param {string} $align-self - Self-alignment position.
-/// @param {number} $order - Order for self in flex parent.
-///
-
-@mixin flex-child($flex: 1, $align-self: null, $order: null) {
-    flex: $flex;
-
-    @if $align-self {
-        align-self: $align-self;
-    }
-
-    @if $order {
-        order: $order;
-    }
-}
-
-/// 
 /// Symmetric Column Width
 /// 
 /// Determine the width of each column in a syemmetrical element.
 /// 
+/// @access private
 /// @param {number} $columns - Number of columns.
 /// @param {number} $gutter - Percentage space between columns.
 /// @return {number} Calculated column width.
@@ -80,6 +24,7 @@
 /// 
 /// Determine the width of each column in a syemmetrical element.
 /// 
+/// @access private
 /// @param {number} $gutter - Margin as a decimal or percentage.
 /// @param {number} $gutter - Margin as a percentage.
 ///
@@ -101,6 +46,7 @@
 /// 
 /// Determine the width of "auto" columns in asyemmetrical element.
 /// 
+/// @access private
 /// @param {list} $columns - List of columns.
 /// @param {number} $gutter - Column gutter (to right or left)
 /// @return {number} - Percentage width of "auto" columns.
@@ -134,6 +80,7 @@
 /// 
 /// Used in several places and surprisingly useful.
 /// 
+/// @access private
 /// @param {string} $side - Float side;
 /// @return {string} $opposite - Inverse of floated side;
 ///
@@ -147,6 +94,7 @@
 /// 
 /// If number is a percentage, return number, else return number 0.
 /// 
+/// @access private
 /// @param {number} $value - Number to test.
 /// @return {number} - Number/0.
 ///
@@ -162,6 +110,7 @@
 /// sized columns. This tallies the percentage columns and returns whether they
 /// exceed 100%.
 /// 
+/// @access private
 /// @param {list} $columns - List of columns to evaluate.
 /// @param {number} $target - Target percentage to check against.
 /// @return {bool} Columns fit within $target, true/false.
@@ -182,6 +131,7 @@
 /// 
 /// Validated paramaters passed for asymmetric columns.
 /// 
+/// @access private
 /// @param {list} $columns - List of columns.
 /// @return {list} $columns - List of columns, validated.
 ///
@@ -212,6 +162,7 @@
 /// Column type must be either floatbox or flex. Throw error if any other param
 /// is entered.
 /// 
+/// @access private
 /// @param {string} $type - Type of columns.
 /// @return {string} $type - Type of columns, validated.
 ///
@@ -227,6 +178,7 @@
 /// 
 /// Set "Auto"-width Column Sizes
 /// 
+/// @access private
 /// @param {list} $columns - List of columns.
 /// @param {number} $gutter - Margin size.
 /// @return {list} $columns - Set sizes for columns.
@@ -242,30 +194,6 @@
     }
 
     @return $columns;
-}
-
-/// 
-/// Clearfix
-/// 
-/// Bulletproof and Rock-Solid self-clearing float. You can tell it is both
-/// Bulletproof and Rock-Solid since I capitalized the words. There are very rare
-/// instances were I might need to use a clearing element (such as splitting
-/// floating elements vertically).
-/// 
-/// @param {string} $overflow - Type of overflow, auto/hidden.
-/// @param {bool} $important - Mark overflow type as important.
-///
-
-@mixin clearfix($overflow: auto, $important: false) {
-    $overflow: if($overflow != auto, hidden, $overflow);
-
-    overflow: $overflow#{if($important, !important, '')};
-
-    &:after {
-        clear: both;
-        content: '';
-        display: table;
-    }
 }
 
 /// 
@@ -287,6 +215,7 @@
 /// 
 /// Symmetric, Even Flexbox or Floated Columns
 /// 
+/// @access public
 /// @param {string} $type - Flexbox or float?
 /// @param {string} $element - Target child element.
 /// @param int/list $columns - Number of columns to produce.
@@ -313,6 +242,12 @@
     }
 }
 
+/// 
+/// Asymmetric columns.
+/// 
+/// @access private
+///
+
 @mixin even-columns($type, $element, $columns, $gutter, $side, $overflow) {
     $width: column-width($columns, $gutter);
 
@@ -328,6 +263,12 @@
         }
     }
 }
+
+/// 
+/// Asymmetric columns.
+/// 
+/// @access private
+///
 
 @mixin odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
     // Validate columns, if list.
@@ -349,6 +290,7 @@
 /// 
 /// Flexbox Columns
 /// 
+/// @access private
 /// @param {string} $element - Target element element.
 /// @param {number} $width - Width of each columns.
 ///
@@ -369,6 +311,7 @@
 /// 
 /// Float Columns
 /// 
+/// @access private
 /// @param {string} $element - Target element element.
 /// @param {number} $columns - Number of columns to produce.
 /// @param {number} $width - Width of each columns.
@@ -399,15 +342,7 @@
 /// odd-columns provides irregularly-sized floated columns side by side. This
 /// allows for an asymmetrical structure.
 /// 
-/// DO NOT USE THIS IF YOU WANT REGULARLY-SIZED COLUMNS. USE columns INSTEAD.
-/// 
-/// Seriously -- do NOT use this mixin for regularly-spaced columns. Use
-/// columns if you need regular columns, because the right margin will look
-/// all fucked. This is *only* for asymmetric columns.
-/// 
-/// Be careful with @content rules too -- I intend it to only be used for
-/// responsive rules, as the output can be quite verbose.
-//
+/// @access private
 /// @param {string} $element - Target child element.
 /// @param {list} $columns - List of columns to produce.
 ///
@@ -437,6 +372,7 @@
 /// 
 /// Asymmetrical Floated Elements
 /// 
+/// @access private
 /// @param {string} $element - Target child element.
 /// @param {list} $columns - List of columns to produce.
 /// @param {number} $gutter - Margin between columns.

@@ -218,3 +218,87 @@
         content: "#{$before}" counter($counter) "#{$after}";
     }
 }
+
+/// 
+/// Clearfix
+/// 
+/// Bulletproof and Rock-Solid self-clearing float. You can tell it is both
+/// Bulletproof and Rock-Solid since I capitalized the words. There are very rare
+/// instances were I might need to use a clearing element (such as splitting
+/// floating elements vertically).
+/// 
+/// @access public
+/// @param {string} $overflow - Type of overflow, auto/hidden.
+/// @param {bool} $important - Mark overflow type as important.
+///
+
+@mixin clearfix($overflow: auto, $important: false) {
+    $overflow: if($overflow != auto, hidden, $overflow);
+
+    overflow: $overflow#{if($important, !important, '')};
+
+    &:after {
+        clear: both;
+        content: '';
+        display: table;
+    }
+}
+
+/// 
+/// Flexbox Parent
+/// 
+/// If you have come this far you should have an understanding of how, why and
+/// where you would use flexbox. These mixins generate unprefixed CSS flexbox
+/// rules.
+/// 
+/// Two safe defaults are assumes for flex-direction and flex, but otherwise I
+/// leave browser defaults be.
+/// 
+/// @access public
+/// @param {string} $direction - Direction of flexbox: Column or row.
+/// @param {string} $justify-content - Alignment of content along main axis.
+/// @param {string} $wrap - Whether or not to wrap content.
+/// @param {string} $align-items - Alignment of content along secondary axis.
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+/// @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
+/// @link http://flexiejs.com/
+///
+
+@mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
+    display: flex;
+
+    flex-direction: $direction;
+
+    @if $justify {
+        justify-content: $justify;
+    }
+
+    @if $wrap {
+        flex-wrap: $wrap;
+    }
+
+    @if $align {
+        align-items: $align;
+    }
+}
+
+/// 
+/// Flexbox Child
+/// 
+/// @access public
+/// @param {list} $flex - Default flex arguments.
+/// @param {string} $align-self - Self-alignment position.
+/// @param {number} $order - Order for self in flex parent.
+///
+
+@mixin flex-child($flex: 1, $align-self: null, $order: null) {
+    flex: $flex;
+
+    @if $align-self {
+        align-self: $align-self;
+    }
+
+    @if $order {
+        order: $order;
+    }
+}
