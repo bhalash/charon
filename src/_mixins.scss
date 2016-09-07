@@ -28,12 +28,12 @@
 ///
 
 @mixin fluid-square($size: 100% 1) {
-    $width: nth($size, 1);
-    $ratio: strip-unit(nth($size, 2)) * $width;
+  $width: nth($size, 1);
+  $ratio: strip-unit(nth($size, 2)) * $width;
 
-    height: 0;
-    padding-bottom: $ratio;
-    width: $width;
+  height: 0;
+  padding-bottom: $ratio;
+  width: $width;
 }
 
 /// 
@@ -45,11 +45,11 @@
 ///
 
 @mixin prefix($attribute, $value, $prefixes: webkit) {
-    @each $prefix in $prefixes {
-        #{"-" + $prefix + "-" + $attribute}: $value;
-    }
+  @each $prefix in $prefixes {
+    #{"-" + $prefix + "-" + $attribute}: $value;
+  }
 
-    #{$attribute}: #{$value};
+  #{$attribute}: #{$value};
 }
 
 /// 
@@ -61,11 +61,11 @@
 ///
 
 @mixin prefix-value($attribute, $value, $prefixes: webkit) {
-    @each $prefix in $prefixes {
-        #{$attribute}: #{"-" + $prefix + "-" + $value};
-    }
+  @each $prefix in $prefixes {
+    #{$attribute}: #{"-" + $prefix + "-" + $value};
+  }
 
-    #{$attribute}: #{$value};
+  #{$attribute}: #{$value};
 }
 
 /// 
@@ -73,9 +73,9 @@
 ///
 
 @mixin freeze {
-    overflow: hidden;
-    z-index: -1;
-    @include fixed(0);
+  overflow: hidden;
+  z-index: -1;
+  @include fixed(0);
 }
 
 /// 
@@ -92,27 +92,27 @@
 ///
 
 @mixin placeholder-style {
-    &::-webkit-input-placeholder {
-        @content;
-    }
+  &::-webkit-input-placeholder {
+    @content;
+  }
 
-    &::-webkit-input-placeholder {
-        @content;
-    }
+  &::-webkit-input-placeholder {
+    @content;
+  }
 
-    &:-moz-placeholder {
-        @content;
-        opacity: 1;
-    }
+  &:-moz-placeholder {
+    @content;
+    opacity: 1;
+  }
 
-    &::-moz-placeholder {
-        @content;
-        opacity: 1;
-    }
+  &::-moz-placeholder {
+    @content;
+    opacity: 1;
+  }
 
-    &:-ms-input-placeholder {
-        @content;
-    }
+  &:-ms-input-placeholder {
+    @content;
+  }
 }
 
 /// 
@@ -122,22 +122,22 @@
 ///
 
 %background-mask {
-    position: relative;
+  position: relative;
 
-    > * {
-        // Specific workaround for Mobile Safari: without this #interior content
-        // will scroll behind the header.
-        -webkit-backface-visibility: hidden;
+  > * {
+    // Specific workaround for Mobile Safari: without this #interior content
+    // will scroll behind the header.
+    -webkit-backface-visibility: hidden;
 
-        // Child content must be raised owing to the background gradient.
-        z-index: 2;
-    }
+    // Child content must be raised owing to the background gradient.
+    z-index: 2;
+  }
 
-    &:after {
-        content: ' ';
+  &:after {
+    content: ' ';
 
-        @include absolute(0);
-    }
+    @include absolute(0);
+  }
 }
 
 /// 
@@ -150,11 +150,11 @@
 ///
 
 @mixin solid-mask($red: 255, $green: 255, $blue: 255, $alpha: 1) {
-    @extend %background-mask;
+  @extend %background-mask;
 
-    &:after {
-        background-color: rgba($red, $green, $blue, $alpha);
-    }
+  &:after {
+    background-color: rgba($red, $green, $blue, $alpha);
+  }
 }
 
 /// 
@@ -162,15 +162,15 @@
 ///
 
 @mixin column-count($count: 3, $gap: null, $rule: null) {
-    column-count: $count;
+  column-count: $count;
 
-    @if $gap {
-        column-gap: $gap;
-    }
+  @if $gap {
+    column-gap: $gap;
+  }
 
-    @if $rule {
-        column-rule: $rule;
-    }
+  @if $rule {
+    column-rule: $rule;
+  }
 }
 
 /// 
@@ -178,15 +178,15 @@
 ///
 
 @mixin pop-modal {
-    display: none;
+  display: none;
 
-    @include fixed(0);
+  @include fixed(0);
 
-    &:target {
-        display: block;
-        outline: 0;
-        z-index: 4;
-    }
+  &:target {
+    display: block;
+    outline: 0;
+    z-index: 4;
+  }
 }
 
 /// 
@@ -197,11 +197,11 @@
 ///
 
 @mixin gradient-mask($start: rgba(0, 0, 0, 0.75), $end: rgba(0, 0, 0, 0.25)) {
-    @extend %background-mask;
+  @extend %background-mask;
 
-    &:after {
-        background: linear-gradient(to bottom, $start 0%, $end 100%);
-    }
+  &:after {
+    background: linear-gradient(to bottom, $start 0%, $end 100%);
+  }
 }
 
 /// 
@@ -214,12 +214,12 @@
 ///
 
 @mixin counter($counter, $element, $before: null, $after: null) {
-    counter-reset: $counter;
+  counter-reset: $counter;
 
-    & #{$element}:before {
-        counter-increment: $counter;
-        content: "#{$before}" counter($counter) "#{$after}";
-    }
+  & #{$element}:before {
+    counter-increment: $counter;
+    content: "#{$before}" counter($counter) "#{$after}";
+  }
 }
 
 /// 
@@ -236,15 +236,15 @@
 ///
 
 @mixin clearfix($overflow: auto, $important: false) {
-    $overflow: if($overflow != auto, hidden, $overflow);
+  $overflow: if($overflow != auto, hidden, $overflow);
 
-    overflow: unquote("#{$overflow}#{if($important, !important, "")}");
+  overflow: unquote("#{$overflow}#{if($important, !important, "")}");
 
-    &:after {
-        clear: both;
-        content: '';
-        display: table;
-    }
+  &:after {
+    clear: both;
+    content: '';
+    display: table;
+  }
 }
 
 /// 
@@ -258,8 +258,8 @@
 ///
 
 @mixin nofloat($important: false) {
-    float: none #{if($important, !important, "")};
-    width: initial #{if($important, !important, "")};
+  float: none #{if($important, !important, "")};
+  width: initial #{if($important, !important, "")};
 }
 
 /// 
@@ -283,20 +283,20 @@
 ///
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
-    display: flex;
-    flex-direction: $direction;
+  display: flex;
+  flex-direction: $direction;
 
-    @if $justify {
-        justify-content: $justify;
-    }
+  @if $justify {
+    justify-content: $justify;
+  }
 
-    @if $wrap {
-        flex-wrap: $wrap;
-    }
+  @if $wrap {
+    flex-wrap: $wrap;
+  }
 
-    @if $align {
-        align-items: $align;
-    }
+  @if $align {
+    align-items: $align;
+  }
 }
 
 /// 
@@ -309,13 +309,13 @@
 ///
 
 @mixin flex-child($flex: 1, $align-self: null, $order: null) {
-    flex: $flex;
+  flex: $flex;
 
-    @if $align-self {
-        align-self: $align-self;
-    }
+  @if $align-self {
+    align-self: $align-self;
+  }
 
-    @if $order {
-        order: $order;
-    }
+  @if $order {
+    order: $order;
+  }
 }

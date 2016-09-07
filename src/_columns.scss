@@ -13,21 +13,21 @@
 ///
 
 @mixin columns($type: 'flex', $element: div, $columns: 3, $gutter: 0, $side: left, $overflow: auto) {
-    // Validate column gutter.
-    $gutter: _column-gutter($gutter);
-    $type: _column-type($type);
+  // Validate column gutter.
+  $gutter: _column-gutter($gutter);
+  $type: _column-type($type);
 
-    @if is-decimal($columns) and $columns > 0 {
-        @include _even-columns($type, $element, $columns, $gutter, $side, $overflow) {
-            @content;
-        }
-    } @else if is-list($columns) {
-        @include _odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
-            @content;
-        }
-    } @else {
-        @error "Columns should be either a {list} or a a number";
+  @if is-decimal($columns) and $columns > 0 {
+    @include _even-columns($type, $element, $columns, $gutter, $side, $overflow) {
+      @content;
     }
+  } @else if is-list($columns) {
+    @include _odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
+      @content;
+    }
+  } @else {
+    @error "Columns should be either a {list} or a a number";
+  }
 }
 
 /// 
@@ -42,13 +42,13 @@
 ///
 
 @function _column-width($columns, $gutter) {
-    $width: (100 - ($columns - 1) * $gutter) / $columns;
+  $width: (100 - ($columns - 1) * $gutter) / $columns;
 
-    @if not is-percent($width) {
-        $width: percentage($width * 0.01);
-    }
+  @if not is-percent($width) {
+    $width: percentage($width * 0.01);
+  }
 
-    @return $width;
+  @return $width;
 }
 
 /// 
@@ -62,15 +62,15 @@
 ///
 
 @function _column-gutter($gutter) {
-    @if $gutter != 0 {
-        @if $gutter != 0 and is-decimal($gutter) {
-            $gutter: percentage(strip-unit($gutter) * 0.01);
-        } @else if not is-percent($gutter) {
-            @error "Margin should be supplied as a decimal or a percentage!";
-        }
+  @if $gutter != 0 {
+    @if $gutter != 0 and is-decimal($gutter) {
+      $gutter: percentage(strip-unit($gutter) * 0.01);
+    } @else if not is-percent($gutter) {
+      @error "Margin should be supplied as a decimal or a percentage!";
     }
+  }
 
-    @return $gutter;
+  @return $gutter;
 }
 
 /// 
@@ -85,26 +85,26 @@
 ///
 
 @function _odd-coloumn_width($columns, $gutter) {
-    $percent: 0;
-    $autos: 0;
+  $percent: 0;
+  $autos: 0;
 
-    @each $col in $columns {
-        $percent: $percent + _value-percent($col);
+  @each $col in $columns {
+    $percent: $percent + _value-percent($col);
 
-        @if is-default-word($col) {
-            $autos: $autos + 1;
-        }
+    @if is-default-word($col) {
+      $autos: $autos + 1;
     }
+  }
 
-    @if $autos == 0 {
-        // Division by zero is bad.
-        $autos: 1;
-    }
+  @if $autos == 0 {
+    // Division by zero is bad.
+    $autos: 1;
+  }
 
-    /* Width for margin is subtracted from auto columns. In short:
-     * % column total = % width + margin;
-     * auto column total = % width - margin; */
-    @return ((100 - $percent) / $autos) - (($gutter * (length($columns) - 1)) / $autos);
+  /* Width for margin is subtracted from auto columns. In short:
+   * % column total = % width + margin;
+   * auto column total = % width - margin; */
+@return ((100 - $percent) / $autos) - (($gutter * (length($columns) - 1)) / $autos);
 }
 
 /// 
@@ -118,7 +118,7 @@
 ///
 
 @function _opposite-side($side: left) {
-    @return if($side == right, left, right);
+  @return if($side == right, left, right);
 }
 
 /// 
@@ -132,7 +132,7 @@
 ///
 
 @function _value-percent($value) {
-    @return if(is-percent($value), $value, 0);
+  @return if(is-percent($value), $value, 0);
 }
 
 /// 
@@ -149,13 +149,13 @@
 ///
 
 @function _list-greater-than($columns, $target: 100) {
-    $percent: 0;
+  $percent: 0;
 
-    @each $col in $columns {
-        $percent: $percent + _value-percent($col);
-    }
+  @each $col in $columns {
+    $percent: $percent + _value-percent($col);
+  }
 
-    @return ($percent > $target);
+  @return ($percent > $target);
 }
 
 /// 
@@ -169,23 +169,23 @@
 ///
 
 @function _check-_odd-columns($columns) {
-    @if not is-list($columns) {
-        @error "Asymmetrical columns should be supplied a list!";
-    }
+  @if not is-list($columns) {
+    @error "Asymmetrical columns should be supplied a list!";
+  }
 
-    @each $col in $columns {
-        @if not is-percent($col) and not is-default-word($col) {
-            // Check for appropraite units.
-            @error "Supplied units should be either a percentage or 'auto!'";
-        }
+  @each $col in $columns {
+    @if not is-percent($col) and not is-default-word($col) {
+      // Check for appropraite units.
+      @error "Supplied units should be either a percentage or 'auto!'";
     }
+  }
 
-    @if _list-greater-than($columns, 100) {
-        // Check for appropriate size.
-        @error "Column percentages should total < 100%!";
-    }
+  @if _list-greater-than($columns, 100) {
+    // Check for appropriate size.
+    @error "Column percentages should total < 100%!";
+  }
 
-    @return $columns;
+  @return $columns;
 }
 
 /// 
@@ -200,11 +200,11 @@
 ///
 
 @function _column-type($type) {
-    @if $type != 'float' and $type != 'flex' {
-        @error "Type must be either 'float' or 'flex'!"
-    }
+  @if $type != 'float' and $type != 'flex' {
+    @error "Type must be either 'float' or 'flex'!"
+  }
 
-    @return $type;
+  @return $type;
 }
 
 /// 
@@ -217,15 +217,15 @@
 ///
 
 @function _set-autocol-sizes($columns, $gutter) {
-    $auto-width: _odd-coloumn_width($columns, $gutter);
+  $auto-width: _odd-coloumn_width($columns, $gutter);
 
-    @for $i from 1 through length($columns) {
-        @if is-keyword(nth($columns, $i), auto) {
-            $columns: set-nth($columns, $i, $auto-width);
-        }
+  @for $i from 1 through length($columns) {
+    @if is-default-word(nth($columns, $i), auto) {
+      $columns: set-nth($columns, $i, $auto-width);
     }
+  }
 
-    @return $columns;
+  @return $columns;
 }
 
 /// 
@@ -235,19 +235,19 @@
 ///
 
 @mixin _even-columns($type, $element, $columns, $gutter, $side, $overflow) {
-    $width: _column-width($columns, $gutter);
+  $width: _column-width($columns, $gutter);
 
-    @if $type == 'flex' {
-        @include _even-flexbox($element, $columns, $gutter, $width) {
-            @content;
-        }
+  @if $type == 'flex' {
+    @include _even-flexbox($element, $columns, $gutter, $width) {
+      @content;
     }
+  }
 
-    @if $type == 'float' {
-        @include _even-float($element, $columns, $gutter, $side, $width, $overflow) {
-            @content;
-        }
+  @if $type == 'float' {
+    @include _even-float($element, $columns, $gutter, $side, $width, $overflow) {
+      @content;
     }
+  }
 }
 
 /// 
@@ -257,20 +257,20 @@
 ///
 
 @mixin _odd-columns($type, $element, $columns, $gutter, $side, $overflow) {
-    // Validate columns, if list.
-    $columns: _check-_odd-columns($columns);
+  // Validate columns, if list.
+  $columns: _check-_odd-columns($columns);
 
-    @if $type == 'flex' {
-        @include _odd-flexbox($element, $columns, $gutter) {
-            @content;
-        }
+  @if $type == 'flex' {
+    @include _odd-flexbox($element, $columns, $gutter) {
+      @content;
     }
+  }
 
-    @if $type == 'float' {
-        @include _odd-float($element, $columns, $gutter, $side, $overflow) {
-            @content;
-        }
+  @if $type == 'float' {
+    @include _odd-float($element, $columns, $gutter, $side, $overflow) {
+      @content;
     }
+  }
 }
 
 /// 
@@ -282,16 +282,16 @@
 ///
 
 @mixin _even-flexbox($element, $columns, $gutter, $width) {
-    // If margin is 0, width is not needed, so instead make columns auto fill.
-    $width: if($gutter != 0, 0 1 $width, 1);
+  // If margin is 0, width is not needed, so instead make columns auto fill.
+  $width: if($gutter != 0, 0 1 $width, 1);
 
-    @include flex-parent(row, space-between, wrap);
+  @include flex-parent(row, space-between, wrap);
 
-    > #{$element} {
-        min-height: 1px;
-        @include flex-child($width);
-        @content;
-    }
+  > #{$element} {
+    min-height: 1px;
+    @include flex-child($width);
+    @content;
+  }
 }
 
 /// 
@@ -307,19 +307,19 @@
 ///
 
 @mixin _even-float($element, $columns, $gutter, $side, $width, $overflow) {
-    @include clearfix($overflow);
+  @include clearfix($overflow);
 
-    > #{$element} {
-        float: $side;
-        min-height: 1px;
-        width: $width;;
+  > #{$element} {
+    float: $side;
+    min-height: 1px;
+    width: $width;;
 
-        &:not(:nth-child(#{$columns + 'n'})) {
-            margin-#{_opposite-side($side)}: $gutter;
-        }
-
-        @content;
+    &:not(:nth-child(#{$columns + 'n'})) {
+      margin-#{_opposite-side($side)}: $gutter;
     }
+
+    @content;
+  }
 }
 
 /// 
@@ -334,25 +334,25 @@
 ///
 
 @mixin _odd-flexbox($element, $columns, $gutter) {
-    @if $gutter != 0 {
-        $columns: _set-autocol-sizes($columns, $gutter);
+  @if $gutter != 0 {
+    $columns: _set-autocol-sizes($columns, $gutter);
+  }
+
+  @include flex-parent(row, space-between);
+
+  > #{$element} {
+    min-height: 1px;
+
+    @for $i from 1 through length($columns) {
+      &:nth-child(#{$i}) {
+        // Size is just "flex: 1" if margins are zeroand the column is auto.
+        $width: if(nth($columns, $i) != auto, 0 1 nth($columns, $i), 1);
+
+        @include flex-child($width);
+        @content;
+      }
     }
-
-    @include flex-parent(row, space-between);
-
-    > #{$element} {
-        min-height: 1px;
-
-        @for $i from 1 through length($columns) {
-            &:nth-child(#{$i}) {
-                // Size is just "flex: 1" if margins are zeroand the column is auto.
-                $width: if(nth($columns, $i) != auto, 0 1 nth($columns, $i), 1);
-
-                @include flex-child($width);
-                @content;
-            }
-        }
-    }
+  }
 }
 
 /// 
@@ -367,23 +367,23 @@
 ///
 
 @mixin _odd-float($element, $columns, $gutter, $side, $overflow) {
-    $columns: _set-autocol-sizes($columns, $gutter);
-    @include clearfix($overflow);
+  $columns: _set-autocol-sizes($columns, $gutter);
+  @include clearfix($overflow);
 
-    > #{$element} {
-        float: $side;
-        min-height: 1px;
+  > #{$element} {
+    float: $side;
+    min-height: 1px;
 
-        @for $i from 1 through length($columns) {
-            &:nth-child(#{$i}) {
-                @if $i < length($columns) and strip-unit($gutter) != 0 {
-                    margin-#{_opposite-side($side)}: $gutter;
-                }
-
-                // Floated columns do not enjoy the benefit of auto sizes.
-                width: nth($columns, $i);
-                @content;
-            }
+    @for $i from 1 through length($columns) {
+      &:nth-child(#{$i}) {
+        @if $i < length($columns) and strip-unit($gutter) != 0 {
+          margin-#{_opposite-side($side)}: $gutter;
         }
+
+        // Floated columns do not enjoy the benefit of auto sizes.
+        width: nth($columns, $i);
+        @content;
+      }
     }
+  }
 }

@@ -26,43 +26,43 @@
 ///
 
 @mixin position($position, $values, $offsets: null) {
-    position: $position;
+  position: $position;
 
-    @if not $offsets {
-        // 1. Default offsets list.
-        $offsets: top right bottom left;
+  @if not $offsets {
+    // 1. Default offsets list.
+    $offsets: top right bottom left;
 
-        @if length($values) == 1 {
-            @for $i from 1 to 4 {
-                // 1 or 4 values. If only one side input, duplicate it for the other sides.
-                $values: append($values, nth($values, 1));
-            }
-        } @else if length($values) == 2 {
-            // 2 values. Duplicate each value if two items provided.
-            $offsets: top left bottom right;
-            $values: append($values, nth($values, 1));
-            $values: append($values, nth($values, 2));
-        } @else if length($values) == 3 {
-            // 3 values. Add extra side if three values provided.
-            $offsets: top left bottom right;
-            $values: append($values, nth($values, 2));
-        }
-    } @else {
-        @if length($values) != length($offsets) {
-            @error 'The number of offset properties and offset values must be equal.';
-        }
+    @if length($values) == 1 {
+      @for $i from 1 to 4 {
+        // 1 or 4 values. If only one side input, duplicate it for the other sides.
+        $values: append($values, nth($values, 1));
+      }
+    } @else if length($values) == 2 {
+      // 2 values. Duplicate each value if two items provided.
+      $offsets: top left bottom right;
+      $values: append($values, nth($values, 1));
+      $values: append($values, nth($values, 2));
+    } @else if length($values) == 3 {
+      // 3 values. Add extra side if three values provided.
+      $offsets: top left bottom right;
+      $values: append($values, nth($values, 2));
+    }
+  } @else {
+    @if length($values) != length($offsets) {
+      @error 'The number of offset properties and offset values must be equal.';
+    }
+  }
+
+  @each $offset in $offsets {
+    $side: index($offsets, $offset);
+    $value: nth($values, $side);
+
+    @if not is-valid-unit($value) {
+      @error "#{$side} is not a valid unit for this mixin.";
     }
 
-    @each $offset in $offsets {
-        $side: index($offsets, $offset);
-        $value: nth($values, $side);
-
-        @if not is-valid-unit($value) {
-            @error "#{$side} is not a valid unit for this mixin.";
-        }
-
-        #{$offset}: $value;
-    }
+    #{$offset}: $value;
+  }
 }
 
 /// 
@@ -74,23 +74,23 @@
 ///
 
 @mixin absolute($values, $offsets: null) {
-    @include position(absolute, $values, $offsets);
+  @include position(absolute, $values, $offsets);
 }
 
 @mixin fixed($values, $offsets: null) {
-    @include position(fixed, $values, $offsets);
+  @include position(fixed, $values, $offsets);
 }
 
 @mixin relative($values, $offsets: null) {
-    @include position(relative, $values, $offsets);
+  @include position(relative, $values, $offsets);
 }
 
 @mixin relative($values, $offsets: null) {
-    @include position(relative, $values, $offsets);
+  @include position(relative, $values, $offsets);
 }
 
 @mixin sticky($values, $offsets: null) {
-    @include position(sticky, $values, $offsets);
+  @include position(sticky, $values, $offsets);
 }
 
 /// 
@@ -98,8 +98,8 @@
 ///
 
 @mixin absolute-center {
-    @include absolute(50% auto auto 50%);
-    transform: translate(-50%, -50%);
+  @include absolute(50% auto auto 50%);
+  transform: translate(-50%, -50%);
 }
 
 /// 
@@ -109,6 +109,6 @@
 ///
 
 @mixin vertical-center($amount) {
-    padding-bottom: $amount;
-    padding-top: $amount;
+  padding-bottom: $amount;
+  padding-top: $amount;
 }

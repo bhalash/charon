@@ -6,13 +6,13 @@
 ///
 
 @function font-family-format($format) {
-    @if $format == 'eot' {
-        $format: 'embedded-opentype';
-    } @else if $format == 'ttf' {
-        $format: 'truetype';
-    }
+  @if $format == 'eot' {
+    $format: 'embedded-opentype';
+  } @else if $format == 'ttf' {
+    $format: 'truetype';
+  }
 
-    @return $format;
+  @return $format;
 }
 
 /// 
@@ -24,9 +24,9 @@
 ///
 
 @function font-family-src($path, $extension) {
-    $format: font-family-format($extension);
-    $src: 'url(#{$path}#{$extension}) format(#{$format})';
-    @return $src;
+  $format: font-family-format($extension);
+  $src: 'url(#{$path}#{$extension}) format(#{$format})';
+  @return $src;
 }
 
 /// 
@@ -63,41 +63,41 @@
 
 
 @mixin font($font) {
-    $family: map-get($font, family);
-    $path: map-get($font, path);
-    $file: map-get($font, filename);
-    $formats: map-get($font, formats);
-    $src: '';
+  $family: map-get($font, family);
+  $path: map-get($font, path);
+  $file: map-get($font, filename);
+  $formats: map-get($font, formats);
+  $src: '';
 
-    $path: '#{$path}#{$file}.';
+  $path: '#{$path}#{$file}.';
 
-    @font-face {
-        @for $i from 1 through length($formats) {
-            @if $i > 1 {
-                $src: $src + ', ';
-            }
+  @font-face {
+    @for $i from 1 through length($formats) {
+      @if $i > 1 {
+        $src: $src + ', ';
+      }
 
-            $src: '#{$src}#{font-family-src($path, nth($formats, $i))}';
-        }
-
-        font-family: map-get($font, family);
-        src: #{$src};
-
-        // Optionally override CSS text defaults:
-
-        @if map-has-key($font, weight) {
-            font-weight: map-get($font, weight);
-        }
-
-        @if map-has-key($font, style) {
-            font-style: map-get($font, style);
-        }
-
-        @if map-has-key($font, stretch) {
-            // Not supported anywhere. Ware ye.
-            font-stretch: map-get($font, stretch);
-        }
-
-        @content;
+      $src: '#{$src}#{font-family-src($path, nth($formats, $i))}';
     }
+
+    font-family: map-get($font, family);
+    src: #{$src};
+
+    // Optionally override CSS text defaults:
+
+    @if map-has-key($font, weight) {
+      font-weight: map-get($font, weight);
+    }
+
+    @if map-has-key($font, style) {
+      font-style: map-get($font, style);
+    }
+
+    @if map-has-key($font, stretch) {
+      // Not supported anywhere. Ware ye.
+      font-stretch: map-get($font, stretch);
+    }
+
+    @content;
+  }
 }

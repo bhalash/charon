@@ -9,28 +9,28 @@
 ///
 
 $_charon-media-terms: (
-    mod: ('only', 'not'),
+  mod: (
+    'only', 'not'
+  ),
+  media: (
     // Non-deprecated media query devices.
-    media: (
-        'all', 'aural', 'braille', 'handheld', 'print', 'projection',
-        'screen', 'tty', 'tv', 'embossed'
-    ),
+    'all', 'aural', 'braille', 'handheld', 'print', 'projection', 'screen', 'tty', 'tv', 'embossed'
+  ),
+  property: (
     // Non-browser-prefixed @media features.
-    property: (
-        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
-        'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid',
-        'orientation'
-    ),
+    'height', 'width', 'device-width', 'device-height', 'aspect-ratio', 'color', 'color-index', 'monochrome', 'resolution', 'scan', 'grid', 'orientation'
+  ),
+  prefix: (
     // Valid prefix mods.
-    prefix: ('min', 'max'),
+    'min', 'max'
+  ),
+  prefixed: (
     // @media featured with a min/max prefix.
-    prefixed: (
-        'height', 'width', 'device-width', 'device-height', 'aspect-ratio',
-        'color', 'color-index', 'monochrome', 'resolution'
-    ),
-    noval: (
-        'monochrome'
-    )
+    'height', 'width', 'device-width', 'device-height', 'aspect-ratio', 'color', 'color-index', 'monochrome', 'resolution'
+  ),
+  noval: (
+    'monochrome'
+  )
 ) !default;
 
 /// 
@@ -44,7 +44,7 @@ $_charon-media-terms: (
 ///
 
 @function size-range($min, $max, $property: 'device-width') {
-    @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
+  @return 'only screen and (min-#{$property}: #{$min}) and (max-#{$property}: #{$max})';
 }
 
 /// 
@@ -53,10 +53,10 @@ $_charon-media-terms: (
 ///
 
 $_charon-media-map: (
-    example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
-    watch: size-range(218px, 281px),
-    smartphone: size-range(320px, 667px),
-    tablet: size-range(600px, 1280px)
+example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
+watch: size-range(218px, 281px),
+smartphone: size-range(320px, 667px),
+tablet: size-range(600px, 1280px)
 );
 
 /// 
@@ -68,8 +68,8 @@ $_charon-media-map: (
 ///
 
 @function add-media-presets($map) {
-    $_charon-media-map: map-merge($_charon-media-map, $map) !global;
-    @return $_charon-media-map;
+  $_charon-media-map: map-merge($_charon-media-map, $map) !global;
+  @return $_charon-media-map;
 }
 
 /// 
@@ -81,7 +81,7 @@ $_charon-media-map: (
 ///
 
 @function _is-preset($condition) {
-    @return map-has-key($_charon-media-map, $condition);
+  @return map-has-key($_charon-media-map, $condition);
 }
 
 /// 
@@ -92,7 +92,7 @@ $_charon-media-map: (
 ///
 
 @function _get-preset($condition) {
-    @return map-get($_charon-media-map, $condition);
+  @return map-get($_charon-media-map, $condition);
 }
 
 /// 
@@ -103,7 +103,7 @@ $_charon-media-map: (
 ///
 
 @function _is-media-shorthand($property) {
-    @return length($property) == 1 and not _is-preset($property);
+  @return length($property) == 1 and not _is-preset($property);
 }
 
 /// 
@@ -119,23 +119,23 @@ $_charon-media-map: (
 ///
 
 @function _media-shorthand($property) {
-    $shorthand: '';
-    $property: nth($property, 1);
+  $shorthand: '';
+  $property: nth($property, 1);
 
-    @if $property == landscape or $property == portrait {
-        // orientation: landscape/portrait
-        $shorthand: 'only screen and (orientation: #{$property})';
-    } @else if $property == progressive or $property == interlace {
-        // scan: progressive/interlace
-        $shorthand: 'only tv and (scan: #{$property})';
-    } @else if $property == monochrome {
-        // monochrome
-        $shorthand: 'all and (#{$property})';
-    } @else if index(map-get($_charon-media-terms, media), $property) != null {
-        $shorthand: $property;
-    }
+  @if $property == landscape or $property == portrait {
+    // orientation: landscape/portrait
+    $shorthand: 'only screen and (orientation: #{$property})';
+  } @else if $property == progressive or $property == interlace {
+    // scan: progressive/interlace
+    $shorthand: 'only tv and (scan: #{$property})';
+  } @else if $property == monochrome {
+    // monochrome
+    $shorthand: 'all and (#{$property})';
+  } @else if index(map-get($_charon-media-terms, media), $property) != null {
+    $shorthand: $property;
+  }
 
-    @return $shorthand;
+  @return $shorthand;
 }
 
 /// 
@@ -146,7 +146,7 @@ $_charon-media-map: (
 ///
 
 @function _has-prefix($property) {
-    @return index(map-get($_charon-media-terms, prefixed), $property) != false;
+  @return index(map-get($_charon-media-terms, prefixed), $property) != false;
 }
 
 /// 
@@ -159,52 +159,52 @@ $_charon-media-map: (
 ///
 
 @function _split-condition($condition) {
-    $split: ();
+  $split: ();
 
-    @each $term in $condition {
-        @if index(map-get($_charon-media-terms, media), $term) != null {
-            // @media type: screen, print, etc.
-            $split: map-merge($split, (media: $term));
-        } @else if index(map-get($_charon-media-terms, mod), $term) != null {
-            // Media modifier term: not or and.
-            $split: map-merge($split, (mod: $term));
-        } @else if index(map-get($_charon-media-terms, prefix), $term) != null {
-            // @media property prefix: min or max.
-            $split: map-merge($split, (prefix: $term));
-        } @else if index(map-get($_charon-media-terms, property), $term) != null {
-            // @media property: color, width, height, etc.
-            $split: map-merge($split, (property: $term));
-        } @else {
-            // @media property value: 300px, 10rem, etc.
-            $split: map-merge($split, (value: $term));
-        }
+  @each $term in $condition {
+    @if index(map-get($_charon-media-terms, media), $term) != null {
+      // @media type: screen, print, etc.
+      $split: map-merge($split, (media: $term));
+    } @else if index(map-get($_charon-media-terms, mod), $term) != null {
+      // Media modifier term: not or and.
+      $split: map-merge($split, (mod: $term));
+    } @else if index(map-get($_charon-media-terms, prefix), $term) != null {
+      // @media property prefix: min or max.
+      $split: map-merge($split, (prefix: $term));
+    } @else if index(map-get($_charon-media-terms, property), $term) != null {
+      // @media property: color, width, height, etc.
+      $split: map-merge($split, (property: $term));
+    } @else {
+      // @media property value: 300px, 10rem, etc.
+      $split: map-merge($split, (value: $term));
     }
+  }
 
-    @if not map-has-key($split, property) {
-        @error "Media condition '#{$condition}' is missing a media query property (e.g. min-width, height)!";
-    }
+  @if not map-has-key($split, property) {
+    @error "Media condition '#{$condition}' is missing a media query property (e.g. min-width, height)!";
+  }
 
-    @if not map-has-key($split, mod) {
-        // Add modifier if it wasn't added.
-        $split: map-merge($split, (mod: only));
-    }
+  @if not map-has-key($split, mod) {
+    // Add modifier if it wasn't added.
+    $split: map-merge($split, (mod: only));
+  }
 
-    @if not map-has-key($split, media) {
-        // Test for missing property.
-        $split: map-merge($split, (media: screen));
-    }
+  @if not map-has-key($split, media) {
+    // Test for missing property.
+    $split: map-merge($split, (media: screen));
+  }
 
-    @if not map-has-key($split, prefix) {
-        // Test for missing prefix.
-        $split: map-merge($split, (prefix: ''));
-    }
+  @if not map-has-key($split, prefix) {
+    // Test for missing prefix.
+    $split: map-merge($split, (prefix: ''));
+  }
 
-    @if not map-has-key($split, value) and property-has-value(map-get($split, property)) {
-        // Test for missing value, if property has value.
-        @error "Media condition '#{$condition}' is missing a media query value (e.g., 300px, 10rem)!";
-    }
+  @if not map-has-key($split, value) and property-has-value(map-get($split, property)) {
+    // Test for missing value, if property has value.
+    @error "Media condition '#{$condition}' is missing a media query value (e.g., 300px, 10rem)!";
+  }
 
-    @return $split;
+  @return $split;
 }
 
 /// 
@@ -224,29 +224,29 @@ $_charon-media-map: (
 ///
 
 @function _parse-condition($condition) {
-    $split: _split-condition($condition);
+  $split: _split-condition($condition);
 
-    $media: map-get($split, media);
-    $mod: map-get($split, mod);
-    $prefix: map-get($split, prefix);
-    $property: map-get($split, property);
-    $value: map-get($split, value);
+  $media: map-get($split, media);
+  $mod: map-get($split, mod);
+  $prefix: map-get($split, prefix);
+  $property: map-get($split, property);
+  $value: map-get($split, value);
 
-    @if property-has-value($property) {
-        @if _has-prefix($property) and $prefix {
-            $prefix: '#{$prefix}-';
-        } @else {
-            $prefix: '';
-        }
-
-        $property: '(#{$prefix}#{$property}: #{$value})';
+  @if property-has-value($property) {
+    @if _has-prefix($property) and $prefix {
+      $prefix: '#{$prefix}-';
     } @else {
-        $property: '(#{$property})';
+      $prefix: '';
     }
 
-    $condition: '#{$mod} #{$media} and #{$property}';
+    $property: '(#{$prefix}#{$property}: #{$value})';
+  } @else {
+    $property: '(#{$property})';
+  }
 
-    @return $condition;
+  $condition: '#{$mod} #{$media} and #{$property}';
+
+  @return $condition;
 }
 
 /// 
@@ -264,15 +264,15 @@ $_charon-media-map: (
 ///
 
 @function query($condition) {
-    @if _is-preset($condition) {
-        $condition: _get-preset($condition);
-    } @else if _is-media-shorthand($condition) {
-        $condition: _media-shorthand($condition);
-    } @else {
-        $condition: _parse-condition($condition);
-    }
+  @if _is-preset($condition) {
+    $condition: _get-preset($condition);
+  } @else if _is-media-shorthand($condition) {
+    $condition: _media-shorthand($condition);
+  } @else {
+    $condition: _parse-condition($condition);
+  }
 
-    @return $condition;
+  @return $condition;
 }
 
 /// 
@@ -283,23 +283,23 @@ $_charon-media-map: (
 ///
 
 @mixin media($conditions...) {
-    // , == OR -|- and == AND
-    $bool: ',';
-    $query: '';
+  // , == OR -|- and == AND
+  $bool: ',';
+  $query: '';
 
-    @for $i from 1 through length($conditions) {
-        $condition: nth($conditions, $i);
+  @for $i from 1 through length($conditions) {
+    $condition: nth($conditions, $i);
 
-        @if $i > 1 {
-            $query: '#{$query}#{$bool} ';
-        }
-
-        $query: '#{$query} #{query($condition)}';
+    @if $i > 1 {
+      $query: '#{$query}#{$bool} ';
     }
 
-    @media #{$query} {
-         @content;
-    }
+    $query: '#{$query} #{query($condition)}';
+  }
+
+  @media #{$query} {
+    @content;
+  }
 }
 
 /// 
@@ -311,15 +311,15 @@ $_charon-media-map: (
 ///
 
 @mixin density($density) {
-    @media
-    screen and (-webkit-min-device-pixel-ratio: $density),
-    screen and (min--moz-device-pixel-ratio: $density),
-    screen and (-o-min-device-pixel-ratio: $density/1),
-    screen and (min-device-pixel-ratio: $density),
-    screen and (min-resolution: #{$density * 96} + dpi),
-    screen and (min-resolution: #{$density} + dppx) {
-        @content;
-    }
+  @media
+  screen and (-webkit-min-device-pixel-ratio: $density),
+  screen and (min--moz-device-pixel-ratio: $density),
+  screen and (-o-min-device-pixel-ratio: $density/1),
+  screen and (min-device-pixel-ratio: $density),
+  screen and (min-resolution: #{$density * 96} + dpi),
+  screen and (min-resolution: #{$density} + dppx) {
+    @content;
+  }
 }
 
 /// 
@@ -343,22 +343,22 @@ $_charon-media-map: (
 ///
 
 @mixin ie($version: 10) {
-    $version: abs($version);
+  $version: abs($version);
 
-    @if $version == 6 {
-        $version: 'screen\9';
-    } @else if $version == 7 {
-        $version: '\0screen\,screen\9';
-    } @else if $version == 8 {
-        $version: '\0screen';
-    } @else if $version == 9 {
-        // Targets IE 8, 9, 10.
-        $version: 'screen\0';
-    } @else if $version == 10 {
-        $version: 'screen and (min-width:0\0)';
-    }
+  @if $version == 6 {
+    $version: 'screen\9';
+  } @else if $version == 7 {
+    $version: '\0screen\,screen\9';
+  } @else if $version == 8 {
+    $version: '\0screen';
+  } @else if $version == 9 {
+    // Targets IE 8, 9, 10.
+    $version: 'screen\0';
+  } @else if $version == 10 {
+    $version: 'screen and (min-width:0\0)';
+  }
 
-    @media #{$version} {
-        @content;
-    }
+  @media #{$version} {
+    @content;
+  }
 }

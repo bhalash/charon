@@ -5,30 +5,30 @@
 ///
 
 $social-sprites: add-spritesheet(social, (
-    path: 'vectors/button-sprites.svg',
-    dimensions: (6, 4),
-    sprites: (
-        beard: (0, 0, #343537),
-        discuss: (1, 0, #b9dfbc),
-        email: (2, 0, #f5756c),
-        facebook: (3, 0, #3B5998),
-        flickr: (4, 0, #ff0084),
-        github: (5, 0, #666666),
-        google: (0, 1, #dd4b39),
-        instagram: (1, 1, #3f729b),
-        linkedin: (2, 1, #0976b4),
-        pinterest: (3, 1, #cc2127),
-        print: (4, 1, #007aaf),
-        reddit: (5, 1, #ff5700),
-        rss: (0, 2, #ff6600),
-        search: (1, 2, #343537),
-        share: (2, 2, #343537),
-        tumblr: (3, 2, #35465c),
-        twitter: (4, 2, #55acee),
-        youtube: (5, 2, #b31217),
-        menu: (0, 3, #343537),
-        close: (1, 3, #343537)
-    )
+  path: 'vectors/button-sprites.svg',
+  dimensions: (6, 4),
+  sprites: (
+    beard: (0, 0, #343537),
+    discuss: (1, 0, #b9dfbc),
+    email: (2, 0, #f5756c),
+    facebook: (3, 0, #3B5998),
+    flickr: (4, 0, #ff0084),
+    github: (5, 0, #666666),
+    google: (0, 1, #dd4b39),
+    instagram: (1, 1, #3f729b),
+    linkedin: (2, 1, #0976b4),
+    pinterest: (3, 1, #cc2127),
+    print: (4, 1, #007aaf),
+    reddit: (5, 1, #ff5700),
+    rss: (0, 2, #ff6600),
+    search: (1, 2, #343537),
+    share: (2, 2, #343537),
+    tumblr: (3, 2, #35465c),
+    twitter: (4, 2, #55acee),
+    youtube: (5, 2, #b31217),
+    menu: (0, 3, #343537),
+    close: (1, 3, #343537)
+  )
 )) !default;
 
 /// 
@@ -39,7 +39,7 @@ $social-sprites: add-spritesheet(social, (
 ///
 
 @function social-color($network) {
-    @return nth(get-sprite(social, $network), 3);
+  @return nth(get-sprite(social, $network), 3);
 }
 
 /// 
@@ -67,42 +67,42 @@ $social-sprites: add-spritesheet(social, (
 ///
 
 @mixin social($size: null, $selector: null, $split: false, $networks: null) {
-    @if not $networks {
-        // If no network was passed, default to all sprite icons.
-        $networks: ();
+  @if not $networks {
+    // If no network was passed, default to all sprite icons.
+    $networks: ();
 
-        @each $key, $value in spritesheet(sprite, social) {
-            $networks: append($networks, $key);
-        }
+    @each $key, $value in spritesheet(sprite, social) {
+      $networks: append($networks, $key);
+    }
+  }
+
+  // Parse selector, if any.
+  $selector: if($selector, ' ' + $selector, $selector);
+
+  &#{$selector} {
+    @if $size {
+      @include square-flex($size);
+    }
+  }
+
+  @each $network in $networks {
+    // Iterate, one class per nework.
+    $colour: social-color($network);
+
+    @if $split {
+      &.#{$network} {
+        background-color: $colour;
+      }
     }
 
-    // Parse selector, if any.
-    $selector: if($selector, ' ' + $selector, $selector);
+    &.#{$network}#{$selector} {
+      background: sprite(social, $network);
 
-    &#{$selector} {
-        @if $size {
-            @include square-flex($size);
-        }
+      @if not $split {
+        background-color: $colour;
+      }
+
+      @content;
     }
-
-    @each $network in $networks {
-        // Iterate, one class per nework.
-        $colour: social-color($network);
-
-        @if $split {
-            &.#{$network} {
-                background-color: $colour;
-            }
-        }
-
-        &.#{$network}#{$selector} {
-            background: sprite(social, $network);
-
-            @if not $split {
-                background-color: $colour;
-            }
-
-            @content;
-        }
-    }
+  }
 }

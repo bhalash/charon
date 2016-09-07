@@ -15,15 +15,15 @@
 ///
 
 @function modular-scale($step, $base-size, $ratio) {
-    @for $i from 1 through $step {
-        @if $step > 0 {
-            $base-size: $base-size * $ratio;
-        } @else {
-            $base-size: $base-size / $ratio;
-        }
+  @for $i from 1 through $step {
+    @if $step > 0 {
+      $base-size: $base-size * $ratio;
+    } @else {
+      $base-size: $base-size / $ratio;
     }
+  }
 
-    @return $base-size;
+  @return $base-size;
 }
 
 /// 
@@ -36,7 +36,7 @@
 ///
 
 @function gstep($step, $base-size) {
-    @return modular-scale($step, $base-size, 1.61803398875);
+  @return modular-scale($step, $base-size, 1.61803398875);
 }
 
 /// 
@@ -49,15 +49,15 @@
 ///
 
 @function sqrt($number) {
-    $temp: 1;
-    $sqrt: 1;
+  $temp: 1;
+  $sqrt: 1;
 
-    @for $i from 1 through 10 {
-        $sqrt: $temp - ($temp * $temp - abs($number)) / (2 * $temp);
-        $temp: $sqrt;
-    }
+  @for $i from 1 through 10 {
+    $sqrt: $temp - ($temp * $temp - abs($number)) / (2 * $temp);
+    $temp: $sqrt;
+  }
 
-    @return $sqrt;
+  @return $sqrt;
 }
 
 /// 
@@ -72,19 +72,19 @@
 ///
 
 @function power($number, $power) {
-    $exponent: 1;
+  $exponent: 1;
 
-    @if $power > 0 {
-        @for $i from 1 through $power {
-            $exponent: $exponent * $number;
-        }
-    } @else if $power < 0 {
-        @for $i from 1 through $power {
-            $exponent: $exponent / $number;
-        }
+  @if $power > 0 {
+    @for $i from 1 through $power {
+      $exponent: $exponent * $number;
     }
+  } @else if $power < 0 {
+    @for $i from 1 through $power {
+      $exponent: $exponent / $number;
+    }
+  }
 
-    @return $exponent;
+  @return $exponent;
 }
 
 /// 
@@ -106,7 +106,7 @@
 ///
 
 @function raise-ten($number, $power) {
-    @return $number * power(10, $power);
+  @return $number * power(10, $power);
 }
 
 /// 
@@ -118,7 +118,7 @@
 ///
 
 @function square($number) {
-    @return $number * $number;
+  @return $number * $number;
 }
 
 /// 
@@ -133,7 +133,7 @@
 ///
 
 @function hex-height($side) {
-    @return $side * sqrt(3);
+  @return $side * sqrt(3);
 }
 
 /// 
@@ -147,7 +147,7 @@
 ///
 
 @function hex-width($side) {
-    @return $side * 2;
+  @return $side * 2;
 }
 
 /// 
@@ -160,7 +160,7 @@
 ///
 
 @function hypotenuse-length($opposite, $adjacent) {
-    @return sqrt(square($opposite) + square($adjacent));
+  @return sqrt(square($opposite) + square($adjacent));
 }
 
 /// 
@@ -178,78 +178,78 @@
 ///
 
 @mixin hexagon($colors, $size--width) {
-    @if unit($size--width) == '%' {
-        // CSS border elements may not use a percentage as its width unit.
-        // Hexagon will be malformed if you use a percentage.
-        // *Anything* else is acceptable.
-        @warn "Percentage #{$ize--width} was used for hexagon width.";
-        @warn "Hexagon will be malformed";
+  @if unit($size--width) == '%' {
+    // CSS border elements may not use a percentage as its width unit.
+    // Hexagon will be malformed if you use a percentage.
+    // *Anything* else is acceptable.
+    @warn "Percentage #{$ize--width} was used for hexagon width.";
+    @warn "Hexagon will be malformed";
+  }
+
+  // Rest, hover, active.
+  $color--rest: nth($colors, 1);
+
+  // Any measurable unit but percentage is okay!
+  $size--width: if(unitless($size--width), to-rem($size--width), $size--width);
+
+  // Sides and height of the hexagon.
+  $size--side: $size--width * 0.5;
+  $size--height: hex-height($size--side);
+
+  $border--height: $size--height * 0.5;
+  $border--width: $size--side * 0.5;
+
+  & {
+    // Constrain the background color inside the padding.
+    background-clip: content-box;
+    display: inline-block;
+    height: $size--height;
+    padding: 0 $size--side * 0.5;
+    position: relative;
+    width: $size--side;
+
+    // Center color.
+    background-color: $color--rest;
+    // :before and :after inherit this.
+    border-color: $color--rest;
+
+    &:before, &:after {
+      border-color: transparent;
+      border-style: solid;
+      content: '';
+      width: 0;
     }
 
-    // Rest, hover, active.
-    $color--rest: nth($colors, 1);
+    @if length($colors) >= 2 {
+      $color--hover: nth($colors, 2);
 
-    // Any measurable unit but percentage is okay!
-    $size--width: if(unitless($size--width), to-rem($size--width), $size--width);
-
-    // Sides and height of the hexagon.
-    $size--side: $size--width * 0.5;
-    $size--height: hex-height($size--side);
-
-    $border--height: $size--height * 0.5;
-    $border--width: $size--side * 0.5;
-
-    & {
-        // Constrain the background color inside the padding.
-        background-clip: content-box;
-        display: inline-block;
-        height: $size--height;
-        padding: 0 $size--side * 0.5;
-        position: relative;
-        width: $size--side;
-
-        // Center color.
-        background-color: $color--rest;
-        // :before and :after inherit this.
-        border-color: $color--rest;
-
-        &:before, &:after {
-            border-color: transparent;
-            border-style: solid;
-            content: '';
-            width: 0;
-        }
-
-        @if length($colors) >= 2 {
-            $color--hover: nth($colors, 2);
-
-            &:hover {
-                background-color: $color--hover;
-                border-color: $color--hover;
-            }
-        }
-
-        @if length($colors) >= 3 {
-            $color--active: nth($colors, 3);
-
-            &:active {
-                background-color: $color--active;
-                border-color: $color--active;
-            }
-        }
-
-        &:before {
-            // Left.
-            border-right-color: inherit;
-            border-width: $border--height $border--width $border--height 0;
-            @include absolute(0 auto 0 0);
-        }
-
-        &:after {
-            // Right.
-            border-left-color: inherit;
-            border-width: $border--height 0 $border--height $border--width;
-            @include absolute(0 0 0 auto);
-        }
+      &:hover {
+        background-color: $color--hover;
+        border-color: $color--hover;
+      }
     }
+
+    @if length($colors) >= 3 {
+      $color--active: nth($colors, 3);
+
+      &:active {
+        background-color: $color--active;
+        border-color: $color--active;
+      }
+    }
+
+    &:before {
+      // Left.
+      border-right-color: inherit;
+      border-width: $border--height $border--width $border--height 0;
+      @include absolute(0 auto 0 0);
+    }
+
+    &:after {
+      // Right.
+      border-left-color: inherit;
+      border-width: $border--height 0 $border--height $border--width;
+      @include absolute(0 0 0 auto);
+    }
+  }
 }

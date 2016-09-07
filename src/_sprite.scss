@@ -17,15 +17,15 @@ $charon-spritesheet: () !default;
 ///
 
 @function clean-keys($keys) {
-    $clean-keys: ();
+  $clean-keys: ();
 
-    @each $key in $keys {
-        @if $key {
-            $clean-keys: append($clean-keys, $key);
-        }
+  @each $key in $keys {
+    @if $key {
+      $clean-keys: append($clean-keys, $key);
     }
+  }
 
-    @return $clean-keys;
+  @return $clean-keys;
 }
 
 /// 
@@ -37,17 +37,17 @@ $charon-spritesheet: () !default;
 ///
 
 @function map-seek($map, $keys: default) {
-    $keys: clean-keys($keys);
+  $keys: clean-keys($keys);
 
-    @each $key in $keys {
-        @if map-has-key($map, $key) {
-            $map: map-get($map, $key);
-        } @else {
-            @warn "Value #{$key} was not found in map";
-        }
+  @each $key in $keys {
+    @if map-has-key($map, $key) {
+      $map: map-get($map, $key);
+    } @else {
+      @warn "Value #{$key} was not found in map";
     }
+  }
 
-    @return $map;
+  @return $map;
 }
 
 /// 
@@ -59,8 +59,8 @@ $charon-spritesheet: () !default;
 ///
 
 @function add-spritesheet($key, $map) {
-    $charon-spritesheet: map-merge($charon-spritesheet, ($key: $map)) !global;
-    @return $charon-spritesheet;
+  $charon-spritesheet: map-merge($charon-spritesheet, ($key: $map)) !global;
+  @return $charon-spritesheet;
 }
 
 /// 
@@ -75,25 +75,25 @@ $charon-spritesheet: () !default;
 ///
 
 @function spritesheet($command, $sheet: null, $arg: null) {
-    $results: ();
+  $results: ();
 
-    @if $command == sprite {
-        $results: map-seek($charon-spritesheet, $sheet sprites $arg);
-    }
+  @if $command == sprite {
+    $results: map-seek($charon-spritesheet, $sheet sprites $arg);
+  }
 
-    @if $command == path {
-        $results: map-seek($charon-spritesheet, $sheet path);
-    }
+  @if $command == path {
+    $results: map-seek($charon-spritesheet, $sheet path);
+  }
 
-    @if $command == count {
-        $results: length(map-seek($charon-spritesheet, $sheet));
-    }
+  @if $command == count {
+    $results: length(map-seek($charon-spritesheet, $sheet));
+  }
 
-    @if $command == dimensions {
-        $results: map-seek($charon-spritesheet, $sheet dimensions);
-    }
+  @if $command == dimensions {
+    $results: map-seek($charon-spritesheet, $sheet dimensions);
+  }
 
-    @return $results;
+  @return $results;
 }
 
 /// 
@@ -104,7 +104,7 @@ $charon-spritesheet: () !default;
 ///
 
 @function count($sheet) {
-    @return spritesheet(count, $sheet);
+  @return spritesheet(count, $sheet);
 }
 
 /// 
@@ -115,7 +115,7 @@ $charon-spritesheet: () !default;
 ///
 
 @function path($sheet) {
-    @return spritesheet(path, $sheet);
+  @return spritesheet(path, $sheet);
 }
 
 /// 
@@ -127,18 +127,18 @@ $charon-spritesheet: () !default;
 ///
 
 @function dimension($sheet, $axis: null) {
-    $dimension: spritesheet(dimensions, $sheet);
+  $dimension: spritesheet(dimensions, $sheet);
 
-    @if $axis {
-        @if $axis == x or $axis == y {
-            $n: if($axis == x, 1, 2);
-            $dimension: nth($dimension, $n);
-        } @else {
-            @error "Imaginary axis '#{$axis}' requested!"
-        }
+  @if $axis {
+    @if $axis == x or $axis == y {
+      $n: if($axis == x, 1, 2);
+      $dimension: nth($dimension, $n);
+    } @else {
+      @error "Imaginary axis '#{$axis}' requested!"
     }
+  }
 
-    @return $dimension;
+  @return $dimension;
 }
 
 /// 
@@ -150,11 +150,11 @@ $charon-spritesheet: () !default;
 ///
 
 @function get-sprite($sheet, $sprite) {
-    @if length($sprite) > 1 {
-        $sprite: nth($sprite, 1);
-    }
+  @if length($sprite) > 1 {
+    $sprite: nth($sprite, 1);
+  }
 
-    @return spritesheet(sprite, $sheet, $sprite);
+  @return spritesheet(sprite, $sheet, $sprite);
 }
 
 /// 
@@ -169,18 +169,18 @@ $charon-spritesheet: () !default;
 
 @function sprite-position($sheet, $sprite) {
 
-    $sprite: get-sprite($sheet, $sprite);
-    $sheet: dimension($sheet);
+  $sprite: get-sprite($sheet, $sprite);
+  $sheet: dimension($sheet);
 
-    $sprite-x: nth($sprite, 1);
-    $sprite-y: nth($sprite, 2);
-    $sheet-x: nth($sheet, 1);
-    $sheet-y: nth($sheet, 2);
+  $sprite-x: nth($sprite, 1);
+  $sprite-y: nth($sprite, 2);
+  $sheet-x: nth($sheet, 1);
+  $sheet-y: nth($sheet, 2);
 
-    $x: percentage($sprite-x / ($sheet-x - 1));
-    $y: percentage($sprite-y / ($sheet-y - 1));
+  $x: percentage($sprite-x / ($sheet-x - 1));
+  $y: percentage($sprite-y / ($sheet-y - 1));
 
-    @return $x $y;
+  @return $x $y;
 }
 
 /// 
@@ -194,12 +194,12 @@ $charon-spritesheet: () !default;
 ///
 
 @function sprite-size($sheet, $sprite) {
-    $sheet: dimension($sheet);
+  $sheet: dimension($sheet);
 
-    $x: percentage(nth($sheet, 1));
-    $y: percentage(nth($sheet, 2));
+  $x: percentage(nth($sheet, 1));
+  $y: percentage(nth($sheet, 2));
 
-    @return $x $y;
+  @return $x $y;
 }
 
 /// 
@@ -211,11 +211,11 @@ $charon-spritesheet: () !default;
 ///
 
 @function sprite($sheet, $sprite) {
-    $position: sprite-position($sheet, $sprite);
-    $size: sprite-size($sheet, $sprite);
-    $path: url(path($sheet));
+  $position: sprite-position($sheet, $sprite);
+  $size: sprite-size($sheet, $sprite);
+  $path: url(path($sheet));
 
-    @return $position/$size no-repeat $path;
+  @return $position/$size no-repeat $path;
 }
 
 /// 
@@ -232,9 +232,9 @@ $charon-spritesheet: () !default;
 ///
 
 @mixin sprite($sheet, $sprite, $selector) {
-    &#{$selector} {
-        background: sprite($sheet, $sprite);
-    }
+  &#{$selector} {
+    background: sprite($sheet, $sprite);
+  }
 
-    @content;
+  @content;
 }
