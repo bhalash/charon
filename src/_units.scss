@@ -201,7 +201,7 @@
 /// 
 /// @since 1.0.0
 /// @access public
-/// @see https://snook.ca/archives/html_and_css/vm-vh-units
+/// @link https://snook.ca/archives/html_and_css/vm-vh-units
 /// @param {*} $number - Candidate number.
 /// @return {bool} - Number is a vh unit, true/false.
 ///
@@ -223,7 +223,7 @@
 /// 
 /// @since 1.0.0
 /// @access public
-/// @see https://snook.ca/archives/html_and_css/vm-vh-units
+/// @link https://snook.ca/archives/html_and_css/vm-vh-units
 /// @param {*} $number - Candidate number.
 /// @return {bool} - Number is a vw unit, true/false.
 ///
@@ -245,7 +245,7 @@
 /// 
 /// @since 1.0.0
 /// @access public
-/// @see https://snook.ca/archives/html_and_css/font-size-with-rem
+/// @link https://snook.ca/archives/html_and_css/font-size-with-rem
 /// @param {*} $number - Candidate number.
 /// @return {bool} - Number is an em unit, true/false.
 ///
@@ -267,7 +267,7 @@
 /// 
 /// @since 1.0.0
 /// @access public
-/// @see https://snook.ca/archives/html_and_css/font-size-with-rem
+/// @link https://snook.ca/archives/html_and_css/font-size-with-rem
 /// @param {*} $number - Candidate number.
 /// @return {bool} - Number is an rem unit, true/false.
 ///

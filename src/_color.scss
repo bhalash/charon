@@ -4,8 +4,10 @@
 /// Default grey (I use gray because "grey" highlights annoyingly) came from a
 /// simple rounded scale. Formula:
 /// 
-/// 255 / 7 = 36.4 = 36
-/// 255 - (36 * {1-7}) = 219, 183, etc.
+/// @example
+/// 
+///   255 / 7 = 36.4 = 36
+///   255 - (36 * {1-7}) = 219, 183, etc.
 /// 
 /// If you keep the structure, you can merge in your own colors as follows:
 /// 
@@ -14,7 +16,7 @@
 ///
 /// @since 1.0.0
 /// @access private
-/// @seek http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+/// @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
 ///
 
 $charon-color-map: (
@@ -85,29 +87,28 @@ $charon-color-map: (
 /// In short, the post advocates a mapped color of colors and tones using a
 /// set schema, and then using this function to return the colors.
 /// 
-///      $_color-base-gray: rgb(229,231,234);
+///    $_color-base-gray: rgb(229,231,234);
 /// 
-///      $colors: (
-///          purple: (
-///              base: rgb(42,40,80),
-///              light: rgb(51,46,140),
-///              dark: rgb(40,38,65)
-///             ),
-///          gray: (
-///              base: $_color-base-gray,
-///              light: lighten($_color-base-gray, 10%),
-///              dark: darken($_color-base-gray, 10%)
-///          )
-///      );
+///    $colors: (
+///        purple: (
+///            base: rgb(42,40,80),
+///            light: rgb(51,46,140),
+///            dark: rgb(40,38,65)
+///           ),
+///        gray: (
+///            base: $_color-base-gray,
+///            light: lighten($_color-base-gray, 10%),
+///            dark: darken($_color-base-gray, 10%)
+///        )
+///    );
 /// 
 /// @since 1.0.0
 /// @access public
+/// @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
 /// @param {string} $color - Color to be used from map.
 /// @param {string} $tone - Default tone to be used.
 /// @param {map} $color - Palette of colors.
 /// @return {string} Color chen from map.
-/// 
-/// @seek http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
 ///
 
 @function color($color, $tone: 'base') {

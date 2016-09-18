@@ -20,8 +20,8 @@
 /// 
 /// @since 1.0.0
 /// @access public
-/// @see http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
-/// @see http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
+/// @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+/// @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
 /// @param {string} $position - Type of position (absolute, fixed, relative, sticky).
 /// @param {map} $positions - Values to be applied (50% 3px 20vg).
 /// @param {map} $offsets - Sides for values (top left bottom right).
@@ -82,10 +82,10 @@
 ///
 /// @since 1.0.0
 /// @access public
-/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
-/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @link https://developer.mozilla.org/en/docs/Web/CSS/margin
 /// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
-/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+/// @param {list=} $offsets - List of offsets (top left bottom right).
 ///
 
 @mixin absolute($positions, $offsets: null) {
@@ -107,10 +107,10 @@
 ///
 /// @since 1.0.0
 /// @access public
-/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
-/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @link https://developer.mozilla.org/en/docs/Web/CSS/margin
 /// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
-/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+/// @param {list=} $offsets - List of offsets (top left bottom right).
 ///
 
 @mixin fixed($positions, $offsets: null) {
@@ -132,10 +132,10 @@
 ///
 /// @since 1.0.0
 /// @access public
-/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
-/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @link https://developer.mozilla.org/en/docs/Web/CSS/margin
 /// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
-/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+/// @param {list=} $offsets - List of offsets (top left bottom right).
 ///
 
 @mixin relative($positions, $offsets: null) {
@@ -157,10 +157,10 @@
 ///
 /// @since 1.0.0
 /// @access public
-/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
-/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @link https://developer.mozilla.org/en/docs/Web/CSS/margin
 /// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
-/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+/// @param {list=} $offsets - List of offsets (top left bottom right).
 ///
 
 @mixin sticky($positions, $offsets: null) {
