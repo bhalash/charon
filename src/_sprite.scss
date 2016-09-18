@@ -2,6 +2,9 @@
 /// Spritesheet
 /// 
 /// Add your own {map} to this with add-spritesheet().
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 $charon-spritesheet: () !default;
@@ -12,6 +15,8 @@ $charon-spritesheet: () !default;
 /// There's a situation where 'null' can be passed to a list, and interpreted
 /// literally, e.g, it isn't a null value, but literally a {string} 'null'.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {list} $keys - List of keys.
 /// @return {list} $keys - Cleaned {list} of keys.
 ///
@@ -31,6 +36,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Recursive Map Get
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {map} $map - Map to search.
 /// @param {list} $keys - Terms to search for wtihin the map.
 /// @param {map} $map - Recursively-fetched results.
@@ -53,6 +60,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Add Spritesheet to Spritesheet Map
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $key - Associative key for added map.
 /// @param {map} $map - Spritesheet map.
 /// @return {map} $charon-spritesheet - Complete {map} of sprites.
@@ -68,6 +77,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Return requested information about the spritesheet.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $command - Action to perform on spritesheet.
 /// @param {string} $sheet - Sheet on which to perform action.
 /// @param {map} $args - Any other args (size axis or sprite).
@@ -99,6 +110,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Return Count of Sprites
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @return {number} - Count of sprites in sheet.
 ///
@@ -110,6 +123,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Return Spritesheet Path
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @return {string} - Path to spritesheet.
 ///
@@ -121,6 +136,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Return Spritesheet Dimensions
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @param {string} $axis - Optional axis to return.
 /// @return {number} $dimension - Spritesheet dimension(s).
@@ -144,6 +161,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Get Sprite from Spritesheet
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @param {string} $sprite - Sprite to fetch.
 /// @return {map} Sprite information.
@@ -162,6 +181,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Return X/Y CSS position of sprite as a percentage.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @param {string} $sprite - Sprite to fetch.
 /// @return {map} $x $y - Percentage position of sprite.
@@ -184,10 +205,10 @@ $charon-spritesheet: () !default;
 }
 
 /// 
-/// Get Sprite Size
-/// 
 /// Return W/H CSS size of sprite as a percentage.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @param {string} $sprite - Sprite to fetch.
 /// @return {map} $x $y - Percentage size of sprite.
@@ -205,6 +226,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Sprite Background Property
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @param {string} $sprite - Sprite to fetch.
 /// @return {map} - CSS background value for sprite.
@@ -227,6 +250,8 @@ $charon-spritesheet: () !default;
 /// 
 /// Square is good. All hail the squre.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $sheet - Target spritesheet.
 /// @param {string} $sprite - Sprite to fetch.
 ///

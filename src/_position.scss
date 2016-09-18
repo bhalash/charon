@@ -4,16 +4,18 @@
 /// I wanted a slightly different operation for my position mixin: To be able to
 /// use in a manner identical to margin or padding side shorthand:
 /// 
-///      margin: 10px 20px 5px;
-///      @include absolute(10px 20px 5px);
+/// @example scss
 /// 
-/// This will generate:
+///    margin: 10px 20px 5px;
+///    @include absolute(10px 20px 5px);
 /// 
-///      position: absolute;
-///      top: 10px;
-///      left: 20px;
-///      right: 20px;
-///      bottom: 5px;
+/// @example scss Output content.
+/// 
+///    position: absolute;
+///    top: 10px;
+///    left: 20px;
+///    right: 20px;
+///    bottom: 5px;
 /// 
 /// If values are unitless and greater than zero, it will assume they decimal
 /// values and generate rem dimensions.
@@ -95,7 +97,7 @@
 ///
 /// Fix the position of an element on screen.
 /// 
-/// @example
+/// @example scss
 ///   
 ///   .foo {
 ///     @include fixed(50% auto 10px auto);
@@ -120,7 +122,7 @@
 ///
 /// Relatively position an element.
 /// 
-/// @example
+/// @example scss
 ///   
 ///   .foo {
 ///     @include relative(50% auto 10px auto);
@@ -145,7 +147,7 @@
 ///
 /// Stickily position an element.
 /// 
-/// @example
+/// @example scss
 ///   
 ///   .foo {
 ///     @include sticky(50% auto 10px auto);

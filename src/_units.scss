@@ -16,15 +16,15 @@
 ///
 /// Validate value as a number.
 ///
-/// @example
-///         
-///     .foo {
-///         @if is-number(1509) {
-///             content: 'Is number!';
-///         @else {
-///             content: 'Not number!';
-///         }
+/// @example scss
+///     
+///   .foo {
+///     @if is-number(1509) {
+///       content: 'Is number!';
+///     @else {
+///       content: 'Not number!';
 ///     }
+///   }
 ///
 /// @since 1.0.0
 /// @access public
@@ -40,15 +40,15 @@
 /// Validate value keyword is one of 'auto, initial, inherit, 0' default/reset
 /// values.
 ///
-/// @example
-///         
-///     .foo {
-///         @if is-default-word(auto) {
-///             content: 'Is default word!';
-///         @else {
-///             content: 'Not default word!';
-///         }
+/// @example scss
+///     
+///   .foo {
+///     @if is-default-word(auto) {
+///       content: 'Is default word!';
+///     @else {
+///       content: 'Not default word!';
 ///     }
+///   }
 ///
 /// @since 1.0.0
 /// @access public
@@ -63,15 +63,15 @@
 ///
 /// Validate value as being a number of a given type.
 ///
-/// @example
-///         
-///     .foo {
-///         @if is-unit-type(1509px, 'px') {
-///             content: 'Is number of pixel!';
-///         @else {
-///             content: 'Not number of pixel!';
-///         }
+/// @example scss
+///     
+///   .foo {
+///     @if is-unit-type(1509px, 'px') {
+///       content: 'Is number of pixel!';
+///     @else {
+///       content: 'Not number of pixel!';
 ///     }
+///   }
 ///
 /// @since 1.0.0
 /// @access public
@@ -86,7 +86,7 @@
 ///
 /// Is the passed number an rem unit value?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-valid-unit($bar) {
@@ -107,7 +107,7 @@
 ///
 /// Is the passed value a list?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-list($bar) {
@@ -128,7 +128,7 @@
 ///
 /// Is the passed number a unitless decimal?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-decimal($bar) {
@@ -149,7 +149,7 @@
 ///
 /// Is the passed number a percentage?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-percent($bar) {
@@ -170,7 +170,7 @@
 ///
 /// Is the passed number a px unit?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-px($bar) {
@@ -191,7 +191,7 @@
 ///
 /// Is the passed number an vh unit?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-vh($bar) {
@@ -213,7 +213,7 @@
 ///
 /// Is the passed number an vw unit?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-vw($bar) {
@@ -235,7 +235,7 @@
 ///
 /// Is the passed number an em unit value?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-em($bar) {
@@ -257,7 +257,7 @@
 ///
 /// Is the passed number an rem unit value?
 /// 
-/// @example
+/// @example scss
 /// 
 ///   @mixin foo($bar) {
 ///     @if is-rem($bar) {

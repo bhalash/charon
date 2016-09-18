@@ -15,16 +15,18 @@
 /// 
 /// Weight, stretch and style are all optional.
 /// 
-///      @include font-face((
-///          family: 'font-name',
-///          path: '/path/to/folder/',
-///          filename: 'FontName',
-///          formats: ('ttf', 'woff', 'eot'),
-///          // Optional attributes for the font face:
-///          weight: 'normal',
-///          style: 'normal',
-///          stretch: 'condensed'
-///      ));
+/// @example scss
+/// 
+///   @include font-face((
+///       family: 'font-name',
+///       path: '/path/to/folder/',
+///       filename: 'FontName',
+///       formats: ('ttf', 'woff', 'eot'),
+///       // Optional attributes for the font face:
+///       weight: 'normal',
+///       style: 'normal',
+///       stretch: 'condensed'
+///   ));
 /// 
 /// @since 1.0.0
 /// @access public
