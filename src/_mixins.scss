@@ -22,6 +22,7 @@
 ///     padding-bottom: 75%;
 ///     width: 100%;
 /// 
+/// @since 1.0.0
 /// @access public
 /// @link http://stackoverflow.com/a/13625843/1433400
 /// @param {map} $size - Horizontal width and height ratio.
@@ -39,6 +40,8 @@
 /// 
 /// Automatically vendor prefixes to CSS properties. You should use autoprefixer!
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $attribute - CSS attribute to be prefixed.
 /// @param {string} $value - CSS value.
 /// @param {map} $prefixes - Map of prefixes to be applied.
@@ -55,6 +58,8 @@
 /// 
 /// Automatically vendor prefixes to CSS values. You should use autoprefixer!
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $attribute - CSS attribute.
 /// @param {string} $value - CSS value to be prefixed.
 /// @param {map} $prefixes - Map of prefixes to be applied.
@@ -70,6 +75,9 @@
 
 /// 
 ///  Freeze <div> Content
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 @mixin freeze {
@@ -82,13 +90,18 @@
 /// Placeholder Styles
 /// 
 /// Generate styles for input placeholders in Internet Explorer, Firefox and
-/// Webkit browsers. Use as follows:
+/// Webkit browsers.
 /// 
-///      input {
-///          @include placeholder-style {
-///              foo: bar;
-///          }
-///      }
+/// @example
+///
+///   input.foo {
+///     @include placeholder-style {
+///       color: red;
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 @mixin placeholder-style {
@@ -116,9 +129,11 @@
 }
 
 /// 
-/// Background Coloured Mask
+/// Background colored mask. Useful for when you have to layer text above a
+/// background image.
 /// 
-/// Useful for when you have to layer text above a background image.
+/// @since 1.0.0
+/// @access public
 ///
 
 %background-mask {
@@ -128,14 +143,12 @@
     // Specific workaround for Mobile Safari: without this #interior content
     // will scroll behind the header.
     -webkit-backface-visibility: hidden;
-
     // Child content must be raised owing to the background gradient.
     z-index: 2;
   }
 
   &:after {
     content: ' ';
-
     @include absolute(0);
   }
 }
@@ -147,6 +160,9 @@
 /// @param {number} $green - Green value.
 /// @param {number} $blue - Blue value.
 /// @param {number} $alpha - Alpha value.
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 @mixin solid-mask($red: 255, $green: 255, $blue: 255, $alpha: 1) {
@@ -159,6 +175,9 @@
 
 /// 
 /// Column Count
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 @mixin column-count($count: 3, $gap: null, $rule: null) {
@@ -175,6 +194,9 @@
 
 /// 
 /// Modal Popover
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 @mixin pop-modal {
@@ -192,6 +214,8 @@
 /// 
 /// Gradient Background Mask
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {map} $start - Gradient start color and opacity.
 /// @param {map} $end - Gradient end color and opacity.
 ///
@@ -207,6 +231,8 @@
 /// 
 /// CSS Counter
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $counter - Name of the counter.
 /// @param {string} $element - Target element.
 /// @param {string} $before - String preceding counter;
@@ -230,6 +256,7 @@
 /// instances were I might need to use a clearing element (such as splitting
 /// floating elements vertically).
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {string} $overflow - Type of overflow, auto/hidden.
 /// @param {bool} $important - Mark overflow type as important.
@@ -254,6 +281,8 @@
 /// the default value. There are occasions, tied to scope, where you may have to
 /// force this with !important.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {bool} $important - Mark clear as important.
 ///
 
@@ -272,14 +301,15 @@
 /// Two safe defaults are assumes for flex-direction and flex, but otherwise I
 /// leave browser defaults be.
 /// 
+/// @since 1.0.0
 /// @access public
+/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+/// @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
+/// @link http://flexiejs.com/
 /// @param {string} $direction - Direction of flexbox: Column or row.
 /// @param {string} $justify-content - Alignment of content along main axis.
 /// @param {string} $wrap - Whether or not to wrap content.
 /// @param {string} $align-items - Alignment of content along secondary axis.
-/// @link https://css-tricks.com/snippets/css/a-guide-to-flexbox/
-/// @link http://zomigi.com/blog/flexbox-syntax-for-ie-10/
-/// @link http://flexiejs.com/
 ///
 
 @mixin flex-parent($direction: row, $justify: null, $wrap: null, $align: null) {
@@ -302,6 +332,7 @@
 /// 
 /// Flexbox Child
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {list} $flex - Default flex arguments.
 /// @param {string} $align-self - Self-alignment position.
