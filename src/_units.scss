@@ -1,7 +1,7 @@
 /// 
 /// Strip units from number.
 /// 
-/// @since 4.0.9
+/// @since 1.0.0
 /// @access public
 /// @link https://css-tricks.com/snippets/sass/strip-unit-function/
 /// @link https://github.com/sass/sass/issues/533
@@ -26,7 +26,7 @@
 ///         }
 ///     }
 ///
-/// @since 4.0.9
+/// @since 1.0.0
 /// @access public
 /// @param {*} $value - Candidate value.
 /// @return {bool} - Unit is a number, true/false.

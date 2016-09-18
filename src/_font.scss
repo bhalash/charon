@@ -1,35 +1,4 @@
 /// 
-/// Expand @font-face Format
-/// 
-/// @param {string} $format - @font-face format.
-/// @return {string} $format - Expanded @font-face format.
-///
-
-@function font-family-format($format) {
-  @if $format == 'eot' {
-    $format: 'embedded-opentype';
-  } @else if $format == 'ttf' {
-    $format: 'truetype';
-  }
-
-  @return $format;
-}
-
-/// 
-/// Parse @font-face Asset URL String
-/// 
-/// @param {string} $path - Path to asset.
-/// @param {string} $exension - Asset extension.
-/// @return {string} $src - Parsed asset URL.
-///
-
-@function font-family-src($path, $extension) {
-  $format: font-family-format($extension);
-  $src: 'url(#{$path}#{$extension}) format(#{$format})';
-  @return $src;
-}
-
-/// 
 /// CSS @font-face Declaration
 /// 
 /// There are a bunch of Sass/Scss @font-face mixins available on the Internet,
@@ -51,16 +20,16 @@
 ///          path: '/path/to/folder/',
 ///          filename: 'FontName',
 ///          formats: ('ttf', 'woff', 'eot'),
-/// 
 ///          // Optional attributes for the font face:
 ///          weight: 'normal',
 ///          style: 'normal',
 ///          stretch: 'condensed'
 ///      ));
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {map} $font - Map of typeface information.
 ///
-
 
 @mixin font($font) {
   $family: map-get($font, family);
@@ -77,7 +46,7 @@
         $src: $src + ', ';
       }
 
-      $src: '#{$src}#{font-family-src($path, nth($formats, $i))}';
+      $src: '#{$src}#{_font-src($path, nth($formats, $i))}';
     }
 
     font-family: map-get($font, family);
@@ -94,10 +63,44 @@
     }
 
     @if map-has-key($font, stretch) {
-      // Not supported anywhere. Ware ye.
       font-stretch: map-get($font, stretch);
     }
 
     @content;
   }
+}
+
+/// 
+/// Expand @font-face Format
+//
+/// @since 1.0.0
+/// @access private
+/// @param {string} $format - @font-face format.
+/// @return {string} $format - Expanded @font-face format.
+///
+
+@function _font-format($format) {
+  @if $format == 'eot' {
+    $format: 'embedded-opentype';
+  } @else if $format == 'ttf' {
+    $format: 'truetype';
+  }
+
+  @return $format;
+}
+
+/// 
+/// Parse @font-face Asset URL String
+/// 
+/// @since 1.0.0
+/// @access private
+/// @param {string} $path - Path to asset.
+/// @param {string} $exension - Asset extension.
+/// @return {string} $src - Parsed asset URL.
+///
+
+@function _font-src($path, $extension) {
+  $format: _font-format($extension);
+  $src: 'url(#{$path}#{$extension}) format(#{$format})';
+  @return $src;
 }
