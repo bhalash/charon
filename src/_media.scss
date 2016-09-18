@@ -4,6 +4,7 @@
 /// Internal list of @media keywords used to compose queries from shorthand
 /// queries.
 /// 
+/// @since 1.0.0
 /// @access private
 /// @link https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
 ///
@@ -36,6 +37,7 @@ $_charon-media-terms: (
 /// 
 /// Parse Number Range for Presets
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $min - Range minimum size.
 /// @param {number} $max - Range maximum size.
@@ -49,19 +51,22 @@ $_charon-media-terms: (
 
 /// 
 /// Internal map of media queries presets
+///
+/// @since 1.0.0
 /// @access private
 ///
 
 $_charon-media-map: (
-example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
-watch: size-range(218px, 281px),
-smartphone: size-range(320px, 667px),
-tablet: size-range(600px, 1280px)
+  example: 'only screen and (max-width: 300px) and (min-height: 100vh)',
+  watch: size-range(218px, 281px),
+  smartphone: size-range(320px, 667px),
+  tablet: size-range(600px, 1280px)
 );
 
 /// 
 /// Add to Template Presets
 /// 
+/// @since 1.0.0
 /// @access private
 /// @param {map} $map - Map of presets to add.
 /// @return {map} $_charon-media-map - Library media preset.
@@ -76,6 +81,8 @@ tablet: size-range(600px, 1280px)
 /// Test if a given property is a preset-is the key present in the internal map
 /// of stored media queries?
 /// 
+/// @since 1.0.0
+/// @access private
 /// @param {string} $condition - Property to test.
 /// @return {bool} Property is a preset, true/false.
 ///
@@ -87,6 +94,8 @@ tablet: size-range(600px, 1280px)
 /// 
 /// Get preset from the internal map of media queries.
 /// 
+/// @since 1.0.0
+/// @access private
 /// @param {string} $property - Property to fetch.
 /// @param {string} - Preset property.
 ///
@@ -98,6 +107,8 @@ tablet: size-range(600px, 1280px)
 /// 
 /// Test if a given property is a pithy shorthand media query.
 /// 
+/// @since 1.0.0
+/// @access private
 /// @param {string} $property - Property to test.
 /// @return {bool} - Property is shorthand/true false.
 ///
@@ -113,6 +124,7 @@ tablet: size-range(600px, 1280px)
 /// 'landscape' => 'only screen and (orientation: landscape)'
 /// 'progressive' => 'only tv and (scan: progressive)'
 /// 
+/// @since 1.0.0
 /// @access private
 /// @param {string} $property - Property to test.
 /// @return {string} $shorthand - Expanded media shorthand term.
@@ -141,6 +153,8 @@ tablet: size-range(600px, 1280px)
 /// 
 /// Test if a property is prefixed.
 /// 
+/// @since 1.0.0
+/// @access private
 /// @param {string} $property - Property to test for prefixedness.
 /// @return {bool} - Property is prefixed, true/false.
 ///
@@ -153,6 +167,7 @@ tablet: size-range(600px, 1280px)
 /// Split up an entered shorthand media query into relevant fragments to be 
 /// glued into a browser-acceptable media query.
 ///
+/// @since 1.0.0
 /// @access private
 /// @param {list} $condition - Media condition to split.
 /// @return {map} $split - Split up condition.
@@ -218,6 +233,7 @@ tablet: size-range(600px, 1280px)
 ///     not screen width min 200px
 ///     not screen min width 200px
 /// 
+/// @since 1.0.0
 /// @access private
 /// @param {map} $condition - Media query condition to be parsed.
 /// @return {string} $condition - Parsed condition appended to query.
@@ -258,6 +274,7 @@ tablet: size-range(600px, 1280px)
 /// 2. Existing shorthand rules.
 /// 3. All other arbitrary queries.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {list} $condition - Query conditions(s);
 /// @return {string} $condition - Parsed media query.
@@ -278,6 +295,7 @@ tablet: size-range(600px, 1280px)
 /// 
 /// Main entry point for the library. Conditions are passed to query() to parse.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {list} $queries - Query conditions.
 ///
@@ -305,6 +323,7 @@ tablet: size-range(600px, 1280px)
 /// 
 /// Retina Pixel Density Screen
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $density - Pixel density.
 /// @link https://css-tricks.com/snippets/css/retina-display-media-query/
@@ -338,6 +357,7 @@ tablet: size-range(600px, 1280px)
 /// Wait...what? It's a bad idea to mix conditional IE CSS and regular CSS. It's
 /// here if you need it, but ask yourself first: should I really do this?
 ///
+/// @since 1.0.0
 /// @access public
 /// @param {number} $version - Internet Explorer version to target (in range 6-10).
 ///
