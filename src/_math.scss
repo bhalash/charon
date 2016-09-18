@@ -1,47 +1,4 @@
 /// 
-/// Modular Scale Values
-/// 
-/// Either increase (increment > 0) or decrease (increment <= 0) $base-size by
-/// $ratio through the given {number} of $increment units.
-/// 
-/// @since 1.0.0
-/// @access public
-/// @link https://www.bhalash.com/archives/13544805638
-/// @link http://www.modularscale.com/
-/// @link http://sassmeister.com/gist/22918b6519a2f15354d0
-/// @param {number} $step - Ratio step to return.
-/// @param {number} $base-size - Base size of unit to raise.
-/// @param {number} $ratio - Ratio of increment/decrement.
-/// @return {number} $size - Increment/decremented size.
-///
-
-@function modular-scale($step, $base-size, $ratio) {
-  @for $i from 1 through $step {
-    @if $step > 0 {
-      $base-size: $base-size * $ratio;
-    } @else {
-      $base-size: $base-size / $ratio;
-    }
-  }
-
-  @return $base-size;
-}
-
-/// 
-/// Golden Ratio Modular Scale Step
-/// 
-/// @since 1.0.0
-/// @access public
-/// @param {number} $step - Ratio step to return.
-/// @param {number} $base-size - Base size of unit to raise.
-/// @return {number} $step - Incremented per the GR.
-///
-
-@function gstep($step, $base-size) {
-  @return modular-scale($step, $base-size, 1.61803398875);
-}
-
-/// 
 /// Sqaure Root
 /// 
 /// @since 1.0.0
