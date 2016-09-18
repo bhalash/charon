@@ -12,7 +12,9 @@
 /// $my-theme-colors: (..);
 /// $default-colors: map-merge($default-colors, $my-theme-colors);
 ///
-/// @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+/// @since 1.0.0
+/// @access private
+/// @seek http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
 ///
 
 $charon-color-map: (
@@ -39,6 +41,8 @@ $charon-color-map: (
 /// 
 /// Add Color Palettes
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {map} $map - Map of colors to add.
 /// @return {map} $charon-color-map - New color.
 ///
@@ -51,6 +55,8 @@ $charon-color-map: (
 /// 
 /// Output Colors in BEM Style
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $property - Property to use.
 /// @param {list} $colors - List of colours to output.
 /// @param {list} $tones - List of tones of the color to use.
@@ -94,12 +100,14 @@ $charon-color-map: (
 ///          )
 ///      );
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $color - Color to be used from map.
 /// @param {string} $tone - Default tone to be used.
 /// @param {map} $color - Palette of colors.
 /// @return {string} Color chen from map.
 /// 
-/// @link http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
+/// @seek http://erskinedesign.com/blog/friendlier-color-names-sass-maps/
 ///
 
 @function color($color, $tone: 'base') {
@@ -109,6 +117,8 @@ $charon-color-map: (
 /// 
 /// Invert RGBA
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {number} $red - Red value.
 /// @param {number} $green - Green value.
 /// @param {number} $blue - Blue value.
