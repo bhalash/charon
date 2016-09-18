@@ -146,6 +146,6 @@
 /// @return {number} $step - Increment step per the golden ratio.
 ///
 
-@function modular-scale-golden($step, $base-size) {
+@function golden-scale($step, $base-size) {
   @return modular-scale($step, $base-size, 1.61803398875);
 }
