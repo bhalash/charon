@@ -18,44 +18,46 @@
 /// If values are unitless and greater than zero, it will assume they decimal
 /// values and generate rem dimensions.
 /// 
-/// @link http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
-/// @link http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
-/// @param {string} $position - Type of position (absolute, fixed, relative).
-/// @param {map} $values - Values to be applied.
-/// @param {map} $offsets - Sides for values (top, right, etc.).
+/// @since 1.0.0
+/// @access public
+/// @see http://hugogiraudel.com/2014/05/19/new-offsets-sass-mixin/
+/// @see http://hugogiraudel.com/2013/08/05/offsets-sass-mixin/
+/// @param {string} $position - Type of position (absolute, fixed, relative, sticky).
+/// @param {map} $positions - Values to be applied (50% 3px 20vg).
+/// @param {map} $offsets - Sides for values (top left bottom right).
 ///
 
-@mixin position($position, $values, $offsets: null) {
+@mixin position($position, $positions, $offsets: null) {
   position: $position;
 
   @if not $offsets {
     // 1. Default offsets list.
     $offsets: top right bottom left;
 
-    @if length($values) == 1 {
+    @if length($positions) == 1 {
       @for $i from 1 to 4 {
-        // 1 or 4 values. If only one side input, duplicate it for the other sides.
-        $values: append($values, nth($values, 1));
+        // 1 or 4 positions. If only one side input, duplicate it for the other sides.
+        $positions: append($positions, nth($positions, 1));
       }
-    } @else if length($values) == 2 {
-      // 2 values. Duplicate each value if two items provided.
+    } @else if length($positions) == 2 {
+      // 2 positions. Duplicate each value if two items provided.
       $offsets: top left bottom right;
-      $values: append($values, nth($values, 1));
-      $values: append($values, nth($values, 2));
-    } @else if length($values) == 3 {
-      // 3 values. Add extra side if three values provided.
+      $positions: append($positions, nth($positions, 1));
+      $positions: append($positions, nth($positions, 2));
+    } @else if length($positions) == 3 {
+      // 3 positions. Add extra side if three positions provided.
       $offsets: top left bottom right;
-      $values: append($values, nth($values, 2));
+      $positions: append($positions, nth($positions, 2));
     }
   } @else {
-    @if length($values) != length($offsets) {
-      @error 'The number of offset properties and offset values must be equal.';
+    @if length($positions) != length($offsets) {
+      @error 'The number of offset properties and offset positions must be equal.';
     }
   }
 
   @each $offset in $offsets {
     $side: index($offsets, $offset);
-    $value: nth($values, $side);
+    $value: nth($positions, $side);
 
     @if not is-valid-unit($value) {
       @error "#{$side} is not a valid unit for this mixin.";
@@ -65,36 +67,111 @@
   }
 }
 
+///
+/// Absolutely position an element.
 /// 
-/// Position Shorthand Mixins
-/// 
-/// @link https://developer.mozilla.org/en-US/docs/Web/CSS/position
-/// @param {map} $values - Values to be applied.
-/// @param {map} $offsets - Sides for values (top, right, etc.).
+/// @example
+///   
+///   .foo {
+///     @include absolute(50% auto 10px auto);
+///   }
+///   
+///   .bar {
+///     @include absolute(50% 20%, left top);
+///   }
+///
+/// @since 1.0.0
+/// @access public
+/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
+/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
 ///
 
-@mixin absolute($values, $offsets: null) {
-  @include position(absolute, $values, $offsets);
+@mixin absolute($positions, $offsets: null) {
+  @include position(absolute, $positions, $offsets);
 }
 
-@mixin fixed($values, $offsets: null) {
-  @include position(fixed, $values, $offsets);
+///
+/// Fix the position of an element on screen.
+/// 
+/// @example
+///   
+///   .foo {
+///     @include fixed(50% auto 10px auto);
+///   }
+///   
+///   .bar {
+///     @include fixed(50% 20%, left top);
+///   }
+///
+/// @since 1.0.0
+/// @access public
+/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
+/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+///
+
+@mixin fixed($positions, $offsets: null) {
+  @include position(fixed, $positions, $offsets);
 }
 
-@mixin relative($values, $offsets: null) {
-  @include position(relative, $values, $offsets);
+///
+/// Relatively position an element.
+/// 
+/// @example
+///   
+///   .foo {
+///     @include relative(50% auto 10px auto);
+///   }
+///   
+///   .bar {
+///     @include relative(50% 20%, left top);
+///   }
+///
+/// @since 1.0.0
+/// @access public
+/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
+/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+///
+
+@mixin relative($positions, $offsets: null) {
+  @include position(relative, $positions, $offsets);
 }
 
-@mixin relative($values, $offsets: null) {
-  @include position(relative, $values, $offsets);
-}
+///
+/// Stickily position an element.
+/// 
+/// @example
+///   
+///   .foo {
+///     @include sticky(50% auto 10px auto);
+///   }
+///   
+///   .bar {
+///     @include sticky(50% 20%, left top);
+///   }
+///
+/// @since 1.0.0
+/// @access public
+/// @see https://developer.mozilla.org/en-US/docs/Web/CSS/position
+/// @see https://developer.mozilla.org/en/docs/Web/CSS/margin
+/// @param {list} $positions - List of units for offsets (50% 25% auto 10px).
+/// @param {list=} [$offsets=null] - List of offsets (top left bottom right).
+///
 
-@mixin sticky($values, $offsets: null) {
-  @include position(sticky, $values, $offsets);
+@mixin sticky($positions, $offsets: null) {
+  @include position(sticky, $positions, $offsets);
 }
 
 /// 
-/// Absolutely Center Element
+/// Absolutely position an element in the center.
+/// 
+/// @since 1.0.0
+/// @access public
 ///
 
 @mixin absolute-center {
@@ -103,8 +180,10 @@
 }
 
 /// 
-/// Vertical Center
+/// Vertically center a block element using top and bottom padding.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {number} $amount - Amount of top and bottom padding.
 ///
 

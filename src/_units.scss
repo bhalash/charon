@@ -36,7 +36,6 @@
   @return type-of($value) == 'number';
 }
 
-
 ///
 /// Validate value keyword is one of 'auto, initial, inherit, 0' default/reset
 /// values.
@@ -51,7 +50,7 @@
 ///         }
 ///     }
 ///
-/// @since 4.0.9
+/// @since 1.0.0
 /// @access public
 /// @param {*} $value - Candidate value.
 /// @return {bool} - Unit is a 'default' keyword, true/false.
@@ -74,47 +73,204 @@
 ///         }
 ///     }
 ///
-/// @since 4.0.9
+/// @since 1.0.0
 /// @access public
 /// @param {*} $value - Candidate value.
-/// @return {bool} - Unit is a numberof given type, true/false.
+/// @return {bool} - Unit is a number of given type, true/false.
 ///
 
 @function is-unit-type($number, $type) {
   @return is-number($number) and unit($number) == $type;
 }
 
+///
+/// Is the passed number an rem unit value?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-valid-unit($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @param {*} $value - Candidate value.
+/// @return {bool} - Unit is a number of given type, true/false.
+///
+
 @function is-valid-unit($value) {
   @return (is-number($value) or (not is-number($value) and is-default-word($value)));
 }
 
-@function is-list($list) {
-  @return type-of($list) == 'list';
+///
+/// Is the passed value a list?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-list($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @param {*} $value - Candidate value.
+/// @return {bool} - Unit is a list, true/false.
+///
+
+@function is-list($value) {
+  @return type-of($value) == 'list';
 }
+
+///
+/// Is the passed number a unitless decimal?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-decimal($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @param {*} $number - Candidate value.
+/// @return {bool} - Unit is a unitless decimal, true/false.
+///
 
 @function is-decimal($number) {
   @return is-number($number) and unitless($number);
 }
 
+///
+/// Is the passed number a percentage?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-percent($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @param {*} $number - Candidate number.
+/// @return {bool} - Number is an percentage, true/false.
+///
+
 @function is-percent($number) {
   @return is-number($number) and is-unit-type($number, '%');
 }
+
+///
+/// Is the passed number a px unit?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-px($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @param {*} $number - Candidate number.
+/// @return {bool} - Number is a px unit, true/false.
+///
 
 @function is-px($number) {
   @return is-number($number) and is-unit-type($number, 'px');
 }
 
+///
+/// Is the passed number an vh unit?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-vh($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @see https://snook.ca/archives/html_and_css/vm-vh-units
+/// @param {*} $number - Candidate number.
+/// @return {bool} - Number is a vh unit, true/false.
+///
+
 @function is-vh($number) {
   @return is-number($number) and is-unit-type($number, 'vh');
 }
 
-@function is-vw($number) {
-  @return is-number($number) and is-unit-type($number, 'vw');
+///
+/// Is the passed number an vw unit?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-vw($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @see https://snook.ca/archives/html_and_css/vm-vh-units
+/// @param {*} $number - Candidate number.
+/// @return {bool} - Number is a vw unit, true/false.
+///
+
+@function is-vh($number) {
+  @return is-number($number) and is-unit-type($number, 'vh');
 }
+
+///
+/// Is the passed number an em unit value?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-em($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @see https://snook.ca/archives/html_and_css/font-size-with-rem
+/// @param {*} $number - Candidate number.
+/// @return {bool} - Number is an em unit, true/false.
+///
 
 @function is-em($number) {
   @return is-number($number) and is-unit-type($number, 'em');
 }
+
+///
+/// Is the passed number an rem unit value?
+/// 
+/// @example
+/// 
+///   @mixin foo($bar) {
+///     @if is-rem($bar) {
+///       ... 
+///     }
+///   }
+/// 
+/// @since 1.0.0
+/// @access public
+/// @see https://snook.ca/archives/html_and_css/font-size-with-rem
+/// @param {*} $number - Candidate number.
+/// @return {bool} - Number is an rem unit, true/false.
+///
 
 @function is-rem($number) {
   @return is-number($number) and is-unit-type($number, 'rem');

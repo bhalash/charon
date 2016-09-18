@@ -1,6 +1,8 @@
 /// 
 /// Default Vector Stylesheet
 /// 
+/// @since 1.0.0
+/// @access private
 /// Gaps separate rows. Currently 6 columns by 4 rows in size.
 ///
 
@@ -34,6 +36,8 @@ $social-sprites: add-spritesheet(social, (
 /// 
 /// Get Social Network Colour
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {string} $network - Social network.
 /// @return {string} - Network colour.
 ///
@@ -60,6 +64,8 @@ $social-sprites: add-spritesheet(social, (
 /// If $selector for the background image exists, it is attached to selector,
 /// elsewise to the parent.
 /// 
+/// @since 1.0.0
+/// @access public
 /// @param {map} $size - Sizes for square-flex().
 /// @param {string} $selector - Optional selector.
 /// @param {bool} $split - Seperate icon colour from icon.
