@@ -4,6 +4,7 @@
 /// Either increase (increment > 0) or decrease (increment <= 0) $base-size by
 /// $ratio through the given {number} of $increment units.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @link https://www.bhalash.com/archives/13544805638
 /// @link http://www.modularscale.com/
@@ -29,6 +30,7 @@
 /// 
 /// Golden Ratio Modular Scale Step
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $step - Ratio step to return.
 /// @param {number} $base-size - Base size of unit to raise.
@@ -42,6 +44,7 @@
 /// 
 /// Sqaure Root
 /// 
+/// @since 1.0.0
 /// @access public
 /// @link http://www.antimath.info/css/sass-sqrt-function/
 /// @param {number} $number
@@ -65,6 +68,7 @@
 /// 
 /// Raise a {number} to a given power.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $number - Number to riase.
 /// @param nubmer $power - Power to which it should be raised.
@@ -99,6 +103,7 @@
 /// Sass only rounds to 5 digits of percision, so don't try to use the
 /// gravitational constant as a font size. :)
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $number - Number to riase.
 /// @param nubmer $power - Power to which it should be raised.
@@ -112,6 +117,7 @@
 /// 
 /// Square Number
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $number
 /// @return {number} $number - Number squared.
@@ -127,6 +133,7 @@
 /// Return the height of a hexagon from the length of one side. This is not
 /// entirely precise because of Sass' rounding.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $side - Hexagon side.
 /// @return {number} $number - Approximate height of the hexagon.
@@ -141,6 +148,7 @@
 /// 
 /// Return the width of a hexagon from the length of one side.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $side - Hexagon side.
 /// @return {number} $number - Approximate width of the hexagon.
@@ -153,6 +161,7 @@
 /// 
 /// Length of Hypotenuse of Pythagorean Triangle
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {number} $opposite - Opposite side of triangle.
 /// @param {number} $adjacent - Adjacent side of a triangle.
@@ -171,6 +180,7 @@
 /// 
 /// This should work great back to ~IE9.
 /// 
+/// @since 1.0.0
 /// @access public
 /// @param {map} $colors - Colors to be used. Rest, hover and active.
 /// @param {number} $width - Width of the hexagon.
