@@ -182,14 +182,14 @@
 }
 
 /// 
-/// Vertically center a block element using top and bottom padding.
+/// Vertically center a block element using top and bottom margin.
 /// 
 /// @since 1.0.0
 /// @access public
-/// @param {number} $amount - Amount of top and bottom padding.
+/// @param {number} $amount - Amount of top and bottom margin.
 ///
 
 @mixin vertical-center($amount) {
-  padding-bottom: $amount;
-  padding-top: $amount;
+  margin-bottom: $amount;
+  margin-top: $amount;
 }
